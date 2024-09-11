@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useContext } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
@@ -9,7 +9,16 @@ const NavBar = () => {
   const ctx = useContext(ApplicationContext);
   const loginHandler = (e) => {
     e.preventDefault();
-    alert("login");
+    fetch("http://localhost:3000/api/login", {
+      method: "post",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   };
   const loginForm = (
     <Form onSubmit={loginHandler}>
