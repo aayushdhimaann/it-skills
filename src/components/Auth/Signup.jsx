@@ -11,15 +11,15 @@ const Signup = () => {
   };
   return (
     <Form onSubmit={signupHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3">
         <Form.Label>Enter email address</Form.Label>
         <Form.Control type="email" placeholder="Enter email" />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3">
         <Form.Label>Enter password</Form.Label>
         <Form.Control type="password" placeholder="Password" />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3">
         <Form.Label>Confirm password</Form.Label>
         <Form.Control type="password" placeholder="Password" />
       </Form.Group>
