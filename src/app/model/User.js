@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define the User Schema
 const userSchema = new Schema({
-  name: {
+  username: {
     type: String,
     required: true, // Ensures that the name field is always provided
     trim: true // Removes leading and trailing spaces
