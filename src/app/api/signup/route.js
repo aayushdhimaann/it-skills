@@ -12,7 +12,7 @@ export async function POST(request) {
       return NextResponse.json({
         status: 500,
         success: false,
-        message: "User exists with this email",
+        message: "Your email is already registered with us please do login or reset password!",
       });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
