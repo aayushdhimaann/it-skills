@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import ApplicationContextProvider from "@/context/ApplicationContextProvider";
 import MyModal from "@/components/UI/MyModal";
 import AuthProvider from "@/context/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,7 +31,8 @@ export default function RootLayout({ children }) {
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <NavBar />
-            {children}
+            <main>{children}</main>
+            <Toaster />
             <MyModal />
           </body>
         </ApplicationContextProvider>

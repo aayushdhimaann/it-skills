@@ -1,3 +1,7 @@
-import NextAuth from "next-auth/next";
-import { authOptions } from "./options";
-const handler = NextAuth(authOptions);
+import NextAuth from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+
+// Exporting POST handler for NextAuth
+export async function POST(req, res) {
+  return NextAuth(authOptions)(req, res);
+}
