@@ -10,7 +10,7 @@ export async function POST(request) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json({
-        status: 500,
+        status: 400,
         success: false,
         message: "Your email is already registered with us please do login or reset password!",
       });
@@ -41,7 +41,7 @@ export async function POST(request) {
     }
   } catch (error) {
     return NextResponse.json({
-      status: 500,
+      status: 400,  
       success: false,
       message: "Error registering user",
     });

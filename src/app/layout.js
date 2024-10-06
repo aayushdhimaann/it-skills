@@ -1,9 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import NavBar from "@/components/UI/NavBar";
-import "bootstrap/dist/css/bootstrap.css";
-import ApplicationContextProvider from "@/context/ApplicationContextProvider";
-import MyModal from "@/components/UI/MyModal";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 const geistSans = localFont({
@@ -26,16 +23,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthProvider>
-        <ApplicationContextProvider>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <NavBar />
             <main>{children}</main>
             <Toaster />
-            <MyModal />
           </body>
-        </ApplicationContextProvider>
       </AuthProvider>
     </html>
   );
