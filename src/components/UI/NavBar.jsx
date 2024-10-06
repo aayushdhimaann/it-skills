@@ -23,12 +23,12 @@ const NavBar = () => {
   const router = useRouter();
   const session = useSession();
   return (
-    <Menubar className="flex justify-between items-center p-4">
+    <Menubar className="flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none">
       {/* Left section for Home */}
       <MenubarMenu>
         <Link
           href={"/"}
-          className={`${pathname == "/" ? "underline" : "text-black"}`}
+          className={`${pathname == "/" ? "underline" : "text-white"}`}
         >
           Home
         </Link>
@@ -38,10 +38,26 @@ const NavBar = () => {
       <div className="flex items-center space-x-4">
         <MenubarMenu>
           <Link
+            href={"/courses"}
+            className={`${pathname == "/courses" ? "underline" : "text-white"}`}
+          >
+            Courses
+          </Link>
+        </MenubarMenu>
+        <MenubarMenu>
+          <Link
             href={"/contact"}
-            className={`${pathname == "/contact" ? "underline" : "text-black"}`}
+            className={`${pathname == "/contact" ? "underline" : "text-white"}`}
           >
             Contact
+          </Link>
+        </MenubarMenu>
+        <MenubarMenu>
+          <Link
+            href={"/about"}
+            className={`${pathname == "/about" ? "underline" : "text-white"}`}
+          >
+            About Us
           </Link>
         </MenubarMenu>
         {pathname == "/sign-in" ||
@@ -66,7 +82,7 @@ const NavBar = () => {
                   </Button>
                 ) : (
                   <DialogTrigger asChild>
-                    <Button className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg">
+                    <Button className="bg-transparent border-none shadow-none text-white hover:bg-black hover:shadow-lg">
                       Login
                     </Button>
                   </DialogTrigger>
@@ -85,7 +101,7 @@ const NavBar = () => {
                 onOpenChange={setSignupDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <Button className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg">
+                  <Button className="bg-transparent border-none shadow-none text-white hover:bg-black hover:shadow-lg">
                     Signup
                   </Button>
                 </DialogTrigger>
