@@ -17,8 +17,9 @@ export const authOptions = {
         try {
           const user = await User.findOne({
             // $or is used to with multiple edge cases like with username or with email
-            $or: [{ email: credentials.identifier }],
+            email: credentials.email,
           });
+
           if (!user) {
             throw new Error("No user exists with this email of password");
           }

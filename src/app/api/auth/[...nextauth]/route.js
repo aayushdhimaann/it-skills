@@ -5,3 +5,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 export async function POST(req, res) {
   return NextAuth(authOptions)(req, res);
 }
+export async function GET(req, res) {
+  return NextAuth(authOptions)(req, res);
+}

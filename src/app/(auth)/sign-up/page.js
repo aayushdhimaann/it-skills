@@ -14,24 +14,15 @@ import {
 } from "@/components/UI/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/UI/button";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { signupSchema } from "@/app/schemas/signupSchema";
+import { Loader2 } from "lucide-react";
 
 const page = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const signupSchema = z.object({
-    username: z.string().min(1, "Name is required"),
-    email: z
-      .string()
-      .email("Email must be a valid email")
-      .min(1, "Email is required"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .min(1, "Password is required"),
-  });
   const form = useForm({
     // validation
     resolver: zodResolver(signupSchema),
@@ -74,7 +65,7 @@ const page = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-grey-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-3">
         <div className="text-center">
           <h3 className="text-4xl tracking-tight lg:text-3xl mb-6">Sign Up</h3>
         </div>
@@ -129,11 +120,25 @@ const page = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading}>
-              Submit
+            <Button type="submit" disabled={isLoading} variant="default">
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait....
+                </>
+              ) : (
+                "Sign up"
+              )}
             </Button>
           </form>
         </Form>
+        <div>
+          Already Registered?{" "}
+          <Link href="/sign-in" className="text-blue-500 underline">
+            Click here
+          </Link>{" "}
+          to login!
+        </div>
       </div>
     </div>
   );

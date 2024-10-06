@@ -3,16 +3,31 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/app/model/User";
 import bcrypt from "bcryptjs";
 import { sendEmail } from "@/helpers/sendEmail";
+import { signupSchema } from "@/app/schemas/signupSchema";
 export async function POST(request) {
   await dbConnect();
   try {
-    const { username, email, password } = await request.json();
+    const body = await request.json();
+    const parsedData = signupSchema.safeParse(body);
+
+    // Check if the validation failed
+    if (!parsedData.success) {
+      return NextResponse.json({
+        status: 400,
+        success: false,
+        message: "Invalid input data",
+        errors: parsedData.error.errors, // Return validation errors
+      });
+    }
+
+    const { username, email, password } = parsedData.data;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json({
         status: 400,
         success: false,
-        message: "Your email is already registered with us please do login or reset password!",
+        message:
+          "Your email is already registered with us please do login or reset password!",
       });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,7 +56,7 @@ export async function POST(request) {
     }
   } catch (error) {
     return NextResponse.json({
-      status: 400,  
+      status: 400,
       success: false,
       message: "Error registering user",
     });

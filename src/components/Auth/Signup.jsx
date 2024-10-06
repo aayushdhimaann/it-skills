@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
@@ -14,25 +14,15 @@ import {
 } from "@/components/UI/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/UI/button";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { signupSchema } from "@/app/schemas/signupSchema";
 
 const Signup = ({ onClose }) => {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const signupSchema = z.object({
-    username: z.string().min(1, "Name is required"),
-    email: z
-      .string()
-      .email("Email must be a valid email")
-      .min(1, "Email is required"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .min(1, "Password is required"),
-  });
+
   const form = useForm({
     // validation
     resolver: zodResolver(signupSchema),

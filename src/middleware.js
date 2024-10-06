@@ -8,8 +8,11 @@ export async function middleware(request) {
   if (!token && !publicPaths.includes(url.pathname)) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
-  if (token && (url.pathname.startsWith("/sign-in") || url.pathname.startsWith("/sign-up"))) {
-    return NextResponse.redirect(new URL("/home", request.url));
+  if (
+    token &&
+    (url.pathname.startsWith("/sign-in") || url.pathname.startsWith("/sign-up"))
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
   if (url.pathname === "/login") {
     return NextResponse.redirect(new URL("/sign-in", request.url));
@@ -19,5 +22,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/contact", "/about", "/home", "/dashboard", "/profile","/login"],
+  matcher: ["/", "/contact", "/about", "/sign-up", "/sign-in", "/login"],
 };

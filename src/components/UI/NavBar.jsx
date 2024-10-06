@@ -8,58 +8,116 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 const NavBar = () => {
   const [isSignupDialogOpen, setSignupDialogOpen] = useState(false);
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
-
+  const pathname = usePathname();
+  const router = useRouter();
+  const session = useSession();
   return (
     <Menubar className="flex justify-between items-center p-4">
       {/* Left section for Home */}
       <MenubarMenu>
-        <Link href={"/"}>Home</Link>
+        <Link
+          href={"/"}
+          className={`${pathname == "/" ? "underline" : "text-black"}`}
+        >
+          Home
+        </Link>
       </MenubarMenu>
 
       {/* Right section for Login and Signup */}
-      <div className="flex space-x-4">
+      <div className="flex items-center space-x-4">
         <MenubarMenu>
-          <Dialog open={isLoginDialogOpen} onOpenChange={setLoginDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-transparent border-none shadow-none text-black hover:bg-transparent hover:border-none hover:shadow-none">Login</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Login</DialogTitle>
-                <DialogDescription>
-                  Make changes to your profile here. Click save when you're done.
-                </DialogDescription>
-              </DialogHeader>
-              <Login />
-            </DialogContent>
-          </Dialog>
+          <Link
+            href={"/contact"}
+            className={`${pathname == "/contact" ? "underline" : "text-black"}`}
+          >
+            Contact
+          </Link>
         </MenubarMenu>
-        <MenubarMenu>
-          <Dialog open={isSignupDialogOpen} onOpenChange={setSignupDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-transparent border-none shadow-none text-black hover:bg-transparent hover:border-none hover:shadow-none">Signup</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>SignUp</DialogTitle>
-                <DialogDescription>
-                  Signup to get started.
-                </DialogDescription>
-              </DialogHeader>
-              <Signup onClose={() => setSignupDialogOpen(false)} /> {/* Pass onClose function */}
-            </DialogContent>
-          </Dialog>
-        </MenubarMenu>
+        {pathname == "/sign-in" ||
+        pathname == "/sign-up" ||
+        session.data !== null ? (
+          ""
+        ) : (
+          <>
+            <MenubarMenu>
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setLoginDialogOpen}
+              >
+                {pathname == "/sign-up" ? (
+                  <Button
+                    className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg"
+                    onClick={() => {
+                      router.replace("/sign-in");
+                    }}
+                  >
+                    Login
+                  </Button>
+                ) : (
+                  <DialogTrigger asChild>
+                    <Button className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg">
+                      Login
+                    </Button>
+                  </DialogTrigger>
+                )}
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Login</DialogTitle>
+                  </DialogHeader>
+                  <Login onClose={() => setLoginDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
+            </MenubarMenu>
+            <MenubarMenu>
+              <Dialog
+                open={isSignupDialogOpen}
+                onOpenChange={setSignupDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg">
+                    Signup
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>SignUp</DialogTitle>
+                    <DialogDescription>
+                      Signup to get started.
+                    </DialogDescription>
+                  </DialogHeader>
+                  {/* Pass onClose function */}
+                  <Signup onClose={() => setSignupDialogOpen(false)} />{" "}
+                </DialogContent>
+              </Dialog>
+            </MenubarMenu>
+          </>
+        )}
+        {session.data && (
+          <>
+            <MenubarMenu>
+              <Button
+                className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg"
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                }}
+              >
+                Logout
+              </Button>
+            </MenubarMenu>
+            <MenubarMenu>Hi, {session.data.user._username}</MenubarMenu>
+          </>
+        )}
       </div>
     </Menubar>
   );

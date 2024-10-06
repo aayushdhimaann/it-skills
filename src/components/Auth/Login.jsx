@@ -1,17 +1,131 @@
-const Login = () => {
-  const loginHandler = (e) => {
-    e.preventDefault();
-    fetch("http://localhost:3000/api/login", {
-      method: "post",
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
+"use client";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/UI/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/UI/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { signInSchema } from "@/app/schemas/signInSchema";
+import { Loader2 } from "lucide-react";
+
+const Login = ({ onClose }) => {
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useForm({
+    // validation
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true);
+      const response = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+      if (response.status == 200) {
+        toast({
+          title: "Success",
+          description: "User Logged in successfully",
+          variant: "success",
+        });
+        onClose();
+      } else {
+        toast({
+          title: "Error",
+          description: "Error in Login",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Error in Login",
+        variant: "destructive",
+      });
+      console.log(error + " error in login");
+    } finally {
+      setIsLoading(false);
+    }
   };
-  return <h1>login</h1>;
+
+  return (
+    <div className="flex justify-center items-center bg-grey-100">
+      <div className="w-full max-w-md p-2 space-y-2">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            method="post"
+            className="space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="email@example.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="********" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isLoading} variant="default">
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait....
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
+          </form>
+        </Form>
+        <div className="text-center">
+          <Link href="/sign-up" className="text-blue-500 underline">
+            Create new account
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
+
 export default Login;
