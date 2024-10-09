@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import {
   Form,
@@ -18,11 +20,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signupSchema } from "@/app/schemas/signupSchema";
 import { Loader2 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/UI/select";
 
 const page = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [roles, setRoles] = useState([]);
   const form = useForm({
     // validation
     resolver: zodResolver(signupSchema),
@@ -30,6 +40,7 @@ const page = () => {
       username: "",
       email: "",
       password: "",
+      role: "",
     },
   });
 
@@ -62,6 +73,19 @@ const page = () => {
       setIsLoading(false);
     }
   };
+
+  // getting roles
+
+  const getRoles = async () => {
+    const response = await axios.get("/api/get-roles");
+    if (response.status == 200) {
+      setRoles(response.data.roles);
+    }
+  };
+
+  useEffect(() => {
+    getRoles();
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-grey-100">
@@ -116,6 +140,46 @@ const page = () => {
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Dropdown for Role Selection */}
+            <Alert variant="info">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Info</AlertTitle>
+              <AlertDescription>
+                If you select the Admin role, an email will be sent to the Admin
+                with a verification code. You will need to retrieve that code
+                for account verification.{" "}
+              </AlertDescription>
+            </Alert>
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center space-x-4">
+                    <FormLabel>Select Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {roles.map((role) => (
+                            <SelectItem key={role._id} value={role._id}>
+                              {role.roleTitle}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

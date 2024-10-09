@@ -4,6 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   const session = useSession();
+  console.log(session);
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}

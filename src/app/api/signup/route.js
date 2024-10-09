@@ -20,7 +20,7 @@ export async function POST(request) {
       });
     }
 
-    const { username, email, password } = parsedData.data;
+    const { username, email, password,role } = parsedData.data;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json({
@@ -35,6 +35,7 @@ export async function POST(request) {
         username,
         email,
         password: hashedPassword,
+        role
       });
 
       await newUser.save();

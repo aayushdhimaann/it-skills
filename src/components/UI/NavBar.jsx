@@ -87,7 +87,7 @@ const NavBar = () => {
                     </Button>
                   </DialogTrigger>
                 )}
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px]">
                   <DialogHeader>
                     <DialogTitle>Login</DialogTitle>
                   </DialogHeader>
@@ -105,7 +105,7 @@ const NavBar = () => {
                     Signup
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px]">
                   <DialogHeader>
                     <DialogTitle>SignUp</DialogTitle>
                     <DialogDescription>
@@ -123,7 +123,7 @@ const NavBar = () => {
           <>
             <MenubarMenu>
               <Button
-                className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg"
+                className="bg-transparent border-none shadow-none text-white hover:bg-gray-100 hover:shadow-lg hover:text-black p-2"
                 onClick={() => {
                   signOut({ callbackUrl: "/" });
                 }}
@@ -131,7 +131,7 @@ const NavBar = () => {
                 Logout
               </Button>
             </MenubarMenu>
-            <MenubarMenu>Hi, {session.data.user._username}</MenubarMenu>
+            <MenubarMenu>| Hi, {session.data.user._username}</MenubarMenu>
           </>
         )}
       </div>

@@ -30,6 +30,7 @@ export const authOptions = {
           if (!isPasswordCorrect) {
             throw new Error("Incorrect email of password");
           } else {
+            console.log(user);
             return user;
           }
         } catch (error) {
@@ -44,6 +45,7 @@ export const authOptions = {
         session.user._id = token?._id;
         session.user._email = token?._email;
         session.user._username = token?._username;
+        session.user._role = token?._role;
       }
       return session;
     },
@@ -52,6 +54,7 @@ export const authOptions = {
         token._id = user?._id.toString();
         token._email = user?.email;
         token._username = user?.username;
+        token._role = user?.role;
       }
       return token;
     },
@@ -61,6 +64,7 @@ export const authOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 2 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -4,7 +4,7 @@ export { default } from "next-auth/middleware";
 export async function middleware(request) {
   const token = await getToken({ req: request });
   const url = request.nextUrl;
-  const publicPaths = ["/", "/contact", "/about", "/sign-in"];
+  const publicPaths = ["/", "/contact", "/about", "/sign-in",'/sign-up'];
   if (!token && !publicPaths.includes(url.pathname)) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }

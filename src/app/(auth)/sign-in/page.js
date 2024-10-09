@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { signInSchema } from "@/app/schemas/signInSchema";
+import { Loader2 } from "lucide-react";
 
 const page = () => {
   const { toast } = useToast();

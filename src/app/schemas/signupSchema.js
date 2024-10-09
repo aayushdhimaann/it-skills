@@ -10,4 +10,5 @@ export const signupSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters long")
     .min(1, "Password is required"),
+    role: z.string().min(1, "Role is required"),
 });
