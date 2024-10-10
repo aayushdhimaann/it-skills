@@ -1,6 +1,6 @@
 import NavBar from "@/components/UI/NavBar";
 
-export default function SignInLayout({ children }) {
+export default function ContactLayout({ children }) {
   return (
     <>
       <NavBar />

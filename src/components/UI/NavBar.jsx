@@ -125,7 +125,7 @@ const NavBar = () => {
               <Button
                 className="bg-transparent border-none shadow-none text-white hover:bg-gray-100 hover:shadow-lg hover:text-black p-2"
                 onClick={() => {
-                  signOut({ callbackUrl: "/" });
+                  signOut({ callbackUrl: "/sign-in" });
                 }}
               >
                 Logout

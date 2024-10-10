@@ -30,7 +30,6 @@ export const authOptions = {
           if (!isPasswordCorrect) {
             throw new Error("Incorrect email of password");
           } else {
-            console.log(user);
             return user;
           }
         } catch (error) {

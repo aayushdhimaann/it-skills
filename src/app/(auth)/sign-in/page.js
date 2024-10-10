@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/UI/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { signInSchema } from "@/app/schemas/signInSchema";
 import { Loader2 } from "lucide-react";
 
@@ -46,7 +46,15 @@ const page = () => {
           description: "User Logged in successfully",
           variant: "success",
         });
-        router.replace("/");
+        const session = await getSession();
+        if (
+          session.user._role === "6706bc9fff27bd499083aac2" ||
+          session.user._role === "6706bd8dff27bd499083aac3"
+        ) {
+          router.replace("/admin/dashboard");
+        } else {
+          router.replace("/");
+        }
       } else {
         toast({
           title: "Error",
