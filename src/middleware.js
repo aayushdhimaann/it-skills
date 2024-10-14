@@ -12,15 +12,28 @@ export async function middleware(request) {
   }
 
   // Redirect to home if authenticated user tries to access sign-in or sign-up
-  if (token && (url.pathname.startsWith("/sign-in") || url.pathname.startsWith("/sign-up"))) {
+  if (
+    token &&
+    (url.pathname.startsWith("/sign-in") || url.pathname.startsWith("/sign-up"))
+  ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Admin route protection logic
   if (token) {
-    const isAdmin = token._role === "6706bc9fff27bd499083aac2" || token._role === "6706bd8dff27bd499083aac3";
+    const isAdmin =
+      token._role === "6706bc9fff27bd499083aac2" ||
+      token._role === "6706bd8dff27bd499083aac3";
     if (!isAdmin && url.pathname.startsWith("/admin")) {
       return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+  if (token) {
+    const isAdmin =
+      token._role === "6706bc9fff27bd499083aac2" ||
+      token._role === "6706bd8dff27bd499083aac3";
+    if (isAdmin && url.pathname == "/admin") {
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
 
