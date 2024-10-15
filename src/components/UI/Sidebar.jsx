@@ -66,7 +66,7 @@ const Sidebar = ({ onClose }) => {
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
                     onClick={() =>
-                      handleNavigation("/admin/student/add-new-student")
+                      handleNavigation("/admin/student/add-new")
                     }
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Student */}
@@ -77,7 +77,7 @@ const Sidebar = ({ onClose }) => {
                   <Button
                     className="flex items-center justify-start w-full p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
                     onClick={() =>
-                      handleNavigation("/admin/student/view-all-students")
+                      handleNavigation("/admin/student/view-all")
                     }
                   >
                     <Users className="mr-2" />{" "}
