@@ -1,4 +1,5 @@
 "use client";
+import ThreeDModel from "@/components/3D/ThreeDModel";
 import NavBar from "@/components/UI/NavBar";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -9,9 +10,10 @@ export default function Home() {
   return (
     <div>
       <NavBar />
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 min-h-screen z-10">
+        {/* <ThreeDModel/> */}
         {/* Hero Section */}
-        <section className="bg-gray-800 text-white py-20 min-h-screen flex items-center">
+        <section className="bg-gray-800 text-white py-20 min-h-screen flex items-center z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold">
               Learn Coding. Build Your Future.

@@ -33,6 +33,10 @@ const Page = () => {
       date_of_admission: "",
       course_name: "",
       course_duration: "",
+      student_name: "",
+      father_name: "",
+      father_occupation: "",
+      date_of_birth: "",
     },
   });
 
@@ -40,6 +44,7 @@ const Page = () => {
   const onSubmit = async (data) => {
     setIsLoading(true); // Set loading state
     console.log("Form Data:", data);
+    form.reset();
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate async action
     } catch (error) {
@@ -115,6 +120,7 @@ const Page = () => {
                             field.onChange(selectedDate); // Set value directly in the form state
                           }}
                           initialFocus
+                          toDate={new Date()}
                         />
                       </PopoverContent>
                     </Popover>
@@ -157,6 +163,108 @@ const Page = () => {
                       {...field}
                       className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Student Name Field */}
+            <FormField
+              control={form.control}
+              name="student_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Student Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Student Name"
+                      {...field}
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Father Name Field */}
+            <FormField
+              control={form.control}
+              name="father_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Father's Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Father's Name"
+                      {...field}
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Father Occupation Field */}
+            <FormField
+              control={form.control}
+              name="father_occupation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Father's Occupation</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Father's Occupation"
+                      {...field}
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Date of Birth Field */}
+            <FormField
+              control={form.control}
+              name="date_of_birth"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Date of Birth</FormLabel>
+                  <FormControl>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal bg-gray-800 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white", // Added hover styles
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 bg-gray-800 text-white">
+                        <Calendar
+                          mode="single"
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          } // Convert to Date object
+                          onSelect={(selectedDate) => {
+                            field.onChange(selectedDate); // Set value directly in the form state
+                          }}
+                          initialFocus
+                          toDate={new Date()}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
