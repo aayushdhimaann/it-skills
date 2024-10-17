@@ -87,7 +87,7 @@ const NavBar = () => {
                     </Button>
                   </DialogTrigger>
                 )}
-                <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
                     <DialogTitle>Login</DialogTitle>
                   </DialogHeader>
@@ -105,7 +105,7 @@ const NavBar = () => {
                     Signup
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
                     <DialogTitle>SignUp</DialogTitle>
                     <DialogDescription>
