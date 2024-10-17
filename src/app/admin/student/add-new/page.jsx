@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, MinusCircle, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,20 +37,27 @@ const Page = () => {
       father_name: "",
       father_occupation: "",
       date_of_birth: "",
+      education: [{ institution: "", degree: "", year: "" }], // Default education entry
     },
+  });
+
+  const { control, handleSubmit, reset } = form;
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "education", // Name of the field array
   });
 
   // Handle form submission
   const onSubmit = async (data) => {
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
     console.log("Form Data:", data);
-    form.reset();
+    reset();
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate async action
     } catch (error) {
       console.error("Form submission failed:", error);
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
     }
   };
 
@@ -62,13 +69,13 @@ const Page = () => {
         </h1>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
             method="post"
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {/* Branch Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="branch"
               render={({ field }) => (
                 <FormItem>
@@ -77,7 +84,7 @@ const Page = () => {
                     <Input
                       placeholder="Enter Branch"
                       {...field}
-                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -87,7 +94,7 @@ const Page = () => {
 
             {/* Date of Admission Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="date_of_admission"
               render={({ field }) => (
                 <FormItem>
@@ -132,17 +139,16 @@ const Page = () => {
 
             {/* Course Name Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="course_name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Course Name</FormLabel>
                   <FormControl>
                     <Input
-                      type="text"
                       placeholder="Enter Course Name"
                       {...field}
-                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -152,7 +158,7 @@ const Page = () => {
 
             {/* Course Duration Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="course_duration"
               render={({ field }) => (
                 <FormItem>
@@ -161,7 +167,7 @@ const Page = () => {
                     <Input
                       placeholder="Enter Course Duration"
                       {...field}
-                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -171,7 +177,7 @@ const Page = () => {
 
             {/* Student Name Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="student_name"
               render={({ field }) => (
                 <FormItem>
@@ -180,7 +186,7 @@ const Page = () => {
                     <Input
                       placeholder="Enter Student Name"
                       {...field}
-                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -190,7 +196,7 @@ const Page = () => {
 
             {/* Father Name Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="father_name"
               render={({ field }) => (
                 <FormItem>
@@ -199,7 +205,7 @@ const Page = () => {
                     <Input
                       placeholder="Enter Father's Name"
                       {...field}
-                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                      className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -209,7 +215,7 @@ const Page = () => {
 
             {/* Father Occupation Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="father_occupation"
               render={({ field }) => (
                 <FormItem>
@@ -228,7 +234,7 @@ const Page = () => {
 
             {/* Date of Birth Field */}
             <FormField
-              control={form.control}
+              control={control}
               name="date_of_birth"
               render={({ field }) => (
                 <FormItem>
@@ -270,6 +276,90 @@ const Page = () => {
                 </FormItem>
               )}
             />
+
+            {/* Education Section */}
+            <div className="md:col-span-2">
+              <h2 className="text-2xl font-bold mb-4">Education</h2>
+              {fields.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="mb-4 border p-4 rounded-lg bg-gray-800 grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
+                  <FormField
+                    control={control}
+                    name={`education.${index}.institution`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Institution</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Institution Name"
+                            {...field}
+                            className="bg-gray-700 text-white placeholder-gray-400"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name={`education.${index}.degree`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Degree</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Degree"
+                            {...field}
+                            className="bg-gray-700 text-white placeholder-gray-400"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name={`education.${index}.year`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Year of Graduation</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="Enter Year"
+                            {...field}
+                            className="bg-gray-700 text-white placeholder-gray-400"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {fields.length !== 1 && index !== 0 && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => remove(index)}
+                      className="mt-4"
+                    >
+                      <MinusCircle />
+                    </Button>
+                  )}
+                </div>
+              ))}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                  append({ institution: "", degree: "", year: "" })
+                }
+                className="w-auto py-3 border bg-gray-900 border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+              >
+                <Plus className="w-4" /> Education
+              </Button>
+            </div>
 
             {/* Submit Button (Full Width) */}
             <div className="md:col-span-2 flex justify-center">
