@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, MinusCircle, Plus, UploadCloudIcon } from "lucide-react";
+import {
+  Image,
+  Loader2,
+  MinusCircle,
+  Plus,
+  UploadCloudIcon,
+} from "lucide-react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,10 +29,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/UI/textarea";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
+import GlobalTooltip from "@/components/UI/GlobalTooltip";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/UI/dialog";
 
 const Page = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageLoader, setImageLoader] = useState(false);
+  const { toast } = useToast();
 
   // Form initialization
   const form = useForm({
@@ -79,12 +94,56 @@ const Page = () => {
     }
   };
 
+  const handleImageUpload = async () => {
+    if (!imageFile) {
+      toast({
+        title: "Error",
+        description: "Please Select Image!",
+        variant: "destructive",
+      });
+      return;
+    }
+    setImageLoader(true);
+    const formData = new FormData();
+    formData.append("photo", imageFile);
+    console.log(formData);
+    try {
+      const response = await axios.post("/api/upload", formData);
+      console.log("Uploaded file:", response.data);
+      alert("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Image upload failed. Please try again.");
+    } finally {
+      setImageLoader(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white flex justify-center">
       <div className="w-full max-w-4xl sm:p-5 p-4">
         <h1 className="text-3xl font-bold mb-8 text-center xxs:mt-10">
           Add New Student
         </h1>
+        <Dialog open={isPreviewModalOpen} onOpenChange={setIsPreviewModalOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Image Preview:</DialogTitle>
+              <DialogDescription>
+                This is showing you the preview of selected image.
+              </DialogDescription>
+            </DialogHeader>
+            {previewUrl && (
+              <div className="mt-4">
+                <img
+                  src={previewUrl}
+                  alt="Image Preview"
+                  className="w-auto h-auto object-cover rounded-lg mt-2"
+                />
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -554,6 +613,7 @@ const Page = () => {
                 )}
               />
 
+              {/* profile photo */}
               <FormField
                 control={control}
                 name="photo"
@@ -566,64 +626,54 @@ const Page = () => {
                         <Input
                           type="file"
                           {...field}
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            setImageFile(file);
+                            if (file) {
+                              const imageUrl = URL.createObjectURL(file);
+                              setPreviewUrl(imageUrl);
+                            } else {
+                              setPreviewUrl(null);
+                            }
+                          }}
                           className="bg-gray-800 text-white placeholder-gray-400 cursor-pointer w-full sm:w-64 md:w-96 max-w-full" // Responsive width
                         />
 
                         {/* Upload button */}
-                        <Button
-                          type="submit"
-                          disabled={isLoading}
-                          variant="default"
-                          className="w-auto py-3 border border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
-                        >
-                          {isLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            </>
-                          ) : (
-                            <>
-                              <UploadCloudIcon />
-                            </>
+                        <GlobalTooltip content="Upload Image">
+                          <Button
+                            type="button"
+                            disabled={imageLoader}
+                            variant="default"
+                            className="w-auto py-3 border border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                            onClick={handleImageUpload}
+                          >
+                            {imageLoader ? (
+                              <>
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                              </>
+                            ) : (
+                              <>
+                                <UploadCloudIcon />
+                              </>
+                            )}
+                          </Button>
+                        </GlobalTooltip>
+                        <GlobalTooltip content="Preview Image">
+                          {previewUrl && (
+                            <Button
+                              variant="default"
+                              className="w-auto py-1 border border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                              type="button"
+                              onClick={() => {
+                                setIsPreviewModalOpen(true);
+                              }}
+                            >
+                              <Image />
+                            </Button>
                           )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="photo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Student Signature</FormLabel>
-                    <FormControl>
-                      {/* Wrapper div with flexbox for alignment */}
-                      <div className="flex items-center space-x-2">
-                        <Input
-                          type="file"
-                          {...field}
-                          className="bg-gray-800 text-white placeholder-gray-400 cursor-pointer w-full sm:w-64 md:w-96 max-w-full" // Responsive width
-                        />
-
-                        {/* Upload button */}
-                        <Button
-                          type="submit"
-                          disabled={isLoading}
-                          variant="default"
-                          className="w-auto py-3 border border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
-                        >
-                          {isLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            </>
-                          ) : (
-                            <>
-                              <UploadCloudIcon />
-                            </>
-                          )}
-                        </Button>
+                        </GlobalTooltip>
                       </div>
                     </FormControl>
                     <FormMessage />
