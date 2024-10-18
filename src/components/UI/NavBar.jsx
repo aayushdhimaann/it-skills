@@ -64,6 +64,17 @@ const NavBar = () => {
             style={{ margin: "0px" }}
           >
             <div className=" flex h-full w-64 flex-col justify-top gap-10  items-center pt-7 backdrop-blur-xl">
+              <MenubarMenu>
+                <Link
+                  href={"/"}
+                  className={
+                    `${pathname == "/" ? "underline" : "text-white"}` +
+                    " flex items-center"
+                  }
+                >
+                  Home
+                </Link>
+              </MenubarMenu>
               <NavElement />
             </div>
           </div>
