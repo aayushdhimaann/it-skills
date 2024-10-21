@@ -17,6 +17,8 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import NavElement from "./NavElement";
+import HomeSidebar from "./HomeSidebar";
+import { SidebarProvider, SidebarTrigger } from "./sidebar";
 
 const NavBar = () => {
   const [isSignupDialogOpen, setSignupDialogOpen] = useState(false);
@@ -27,18 +29,6 @@ const NavBar = () => {
   const session = useSession();
   return (
     <Menubar className="fixed w-full flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none ">
-      {!isSidebarOpen ? (
-        <FiMenu
-          className="text-2xl cursor-pointer 500px:block hidden "
-          onClick={() => setSidebarOpen(!isSidebarOpen)} // Toggle sidebar on click
-        />
-      ) : (
-        <FiArrowLeft
-          className="text-2xl cursor-pointer  500px:block hidden "
-          onClick={() => setSidebarOpen(!isSidebarOpen)} // Toggle sidebar on click
-        />
-      )}
-
       <div className="500px:hidden flex-grow flex justify-around ">
         <MenubarMenu>
           <Link
@@ -57,8 +47,8 @@ const NavBar = () => {
           <NavElement />
         </div>
       </div>
-      {isSidebarOpen && (
-        <div className="500px:block hidden">
+
+      {/* {isSidebarOpen && (
           <div
             className={`fixed top-10 left-0 h-full w-64  text-white transform transition-transform duration-300 ease-in-out shadow-lg z-10 `}
             style={{ margin: "0px" }}
@@ -79,8 +69,7 @@ const NavBar = () => {
               <NavElement />
             </div>
           </div>
-        </div>
-      )}
+      )} */}
     </Menubar>
   );
 };
