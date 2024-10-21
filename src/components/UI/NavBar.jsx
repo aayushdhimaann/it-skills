@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/UI/button"; // Adjust import according to your actual ShadCN component path
+import { Button } from "@/components/ui/button"; // Adjust import according to your actual ShadCN component path
 import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
 import Link from "next/link";
@@ -75,6 +75,7 @@ const NavBar = () => {
                   Home
                 </Link>
               </MenubarMenu>
+
               <NavElement />
             </div>
           </div>

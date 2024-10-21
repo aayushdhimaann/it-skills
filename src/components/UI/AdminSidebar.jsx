@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "./button";
-import { PlusCircle, BookOpen, Users, User } from "lucide-react"; // Icons for the sidebar
+import { PlusCircle, BookOpen, Users, User } from "lucide-react"; // Icons for the AdminSidebar
 import {
   Drawer,
   DrawerTrigger,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/drawer"; // Import your drawer components
 import { useRouter } from "next/navigation";
 
-const Sidebar = ({ onClose }) => {
+const AdminSidebar = ({ onClose }) => {
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(null); // State to manage which drawer is open
 
@@ -27,7 +27,7 @@ const Sidebar = ({ onClose }) => {
 
   return (
     <div className="min-w-full p-6 min-h-screen text-white">
-      {/* Sidebar Header */}
+      {/* AdminSidebar Header */}
       <div className="mb-8">
         <h2 className="text-xl font-bold">Quick Actions</h2>
         <p className="text-gray-400 text-sm">
@@ -65,9 +65,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for Add Student */}
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/add-new")
-                    }
+                    onClick={() => handleNavigation("/admin/student/add-new")}
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Student */}
                     <span>Add Student</span>
@@ -76,9 +74,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for View All Students */}
                   <Button
                     className="flex items-center justify-start w-full p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/view-all")
-                    }
+                    onClick={() => handleNavigation("/admin/student/view-all")}
                   >
                     <Users className="mr-2" />{" "}
                     {/* Icon for View All Students */}
@@ -187,4 +183,4 @@ const Sidebar = ({ onClose }) => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

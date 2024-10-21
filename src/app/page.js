@@ -1,6 +1,6 @@
 "use client";
 import ThreeDModel from "@/components/3D/ThreeDModel";
-import NavBar from "@/components/UI/NavBar";
+import NavBar from "@/components/ui/NavBar";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 

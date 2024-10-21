@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/UI/form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/UI/button";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { getSession, signIn } from "next-auth/react";
@@ -75,7 +75,7 @@ const page = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-grey-100">
+    <div className="flex justify-center items-center min-h-screen bg-grey-100 ">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-3">
         <div className="text-center">
           <h3 className="text-4xl tracking-tight lg:text-3xl mb-6">Login</h3>
