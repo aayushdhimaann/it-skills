@@ -28,7 +28,7 @@ const NavBar = () => {
   const router = useRouter();
   const session = useSession();
   return (
-    <Menubar className="fixed w-full flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none ">
+    <Menubar className="fixed w-full flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none z-50">
       <div className="500px:hidden flex-grow flex justify-around ">
         <MenubarMenu>
           <Link

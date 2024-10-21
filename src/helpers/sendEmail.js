@@ -29,7 +29,6 @@ export async function sendEmail(email, username) {
 }
 */
 export async function sendEmail(email, username) {
-  console.log(email);
 
   try {
     const htmlContent = WelcomeEmail(username);

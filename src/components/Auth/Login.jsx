@@ -57,7 +57,7 @@ const Login = ({ onClose }) => {
       } else {
         toast({
           title: "Error",
-          description: "Error in Login",
+          description: response.error,
           variant: "destructive",
         });
       }

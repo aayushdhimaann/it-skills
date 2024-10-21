@@ -23,6 +23,10 @@ export const authOptions = {
           if (!user) {
             throw new Error("No user exists with this email of password");
           }
+          console.log(user)
+          if (!user.isVerified) {
+            throw new Error("Please verify your account");
+          }
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
@@ -33,7 +37,7 @@ export const authOptions = {
             return user;
           }
         } catch (error) {
-          throw new Error("Error while signing user");
+          throw new Error(error);
         }
       },
     }),

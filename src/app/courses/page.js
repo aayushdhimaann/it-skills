@@ -4,9 +4,9 @@ const page = () => {
   return (
     <div>
       {/* Courses Section */}
-      <section id="courses" className="py-20">
+      <section id="courses" className="py-20 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h3 className="text-3xl font-bold text-center text-gray-800">
+          <h3 className="text-3xl font-bold text-center">
             Our Courses
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">

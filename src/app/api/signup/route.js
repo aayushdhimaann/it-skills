@@ -37,35 +37,34 @@ export async function POST(request) {
     }
 
     // Create a new user
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // const newUser = new User({
-    //   username,
-    //   email,
-    //   password: hashedPassword,
-    //   role,
-    // });
-    // await newUser.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+      isVerified: false,
+    });
+    await newUser.save();
 
     // Fetch super admin from the database
     const superAdmin = await User.findOne({
       role: "6706bc9fff27bd499083aac2",
     });
 
-    if (!superAdmin) {
-      return NextResponse.json({
-        status: 404,
-        success: false,
-        message: "Super admin not found",
-      });
-    }
-    console.log("sending email");
+    // if (!superAdmin) {
+    // return NextResponse.json({
+    //     status: 404,
+    //     success: false,
+    //     message: "Super admin not found",
+    //   });
+    // }
 
     // Send verification email to super admin
     const emailResponse = await sendEmail(
       superAdmin.email,
       superAdmin.username
     );
-    console.log(emailResponse);
 
     if (!emailResponse.success) {
       return NextResponse.json({

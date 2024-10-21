@@ -1,22 +1,17 @@
 "use client";
-import ThreeDModel from "@/components/3D/ThreeDModel";
-import HomeSidebar from "@/components/ui/HomeSidebar";
-import NavBar from "@/components/ui/NavBar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
-import { ModeToggle } from "@/components/ui/theme-toggle";
 import Link from "next/link";
 import MainBar from "@/components/MainBar";
 export default function Home() {
   const session = useSession();
-  // console.log(session);
+  console.log(session);
   return (
     <div>
       <MainBar />
-      <div className="bg-gray-50 min-h-screen z-10">
+      <div className="min-h-screen z-10">
         {/* <ThreeDModel/> */}
         {/* Hero Section */}
-        <section className="bg-gray-800 text-white py-20 min-h-screen flex items-center z-10">
+        <section className="py-20 min-h-screen flex items-center z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold">
               Learn Coding. Build Your Future.

@@ -76,7 +76,7 @@ const page = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-grey-100 ">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-3">
+      <div className="w-full max-w-md p-8 space-y-8 mt-12 border rounded-lg shadow-md m-3">
         <div className="text-center">
           <h3 className="text-4xl tracking-tight lg:text-3xl mb-6">Login</h3>
         </div>

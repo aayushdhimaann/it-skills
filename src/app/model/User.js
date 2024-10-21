@@ -23,6 +23,10 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Role", // Reference to the Role model
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now, // Automatically sets the current date when a document is created

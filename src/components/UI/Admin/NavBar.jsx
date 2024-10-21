@@ -7,7 +7,7 @@ import {
   SheetFooter,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Sidebar from "@/components/UI/Sidebar";
+import Sidebar from "@/components/UI/Admin/Sidebar";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
