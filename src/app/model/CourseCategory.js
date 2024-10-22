@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Define the Role Schema
-const roleSchema = new Schema({
-  roleTitle: {
+// Define the CourseCategory Schema
+const courseCategorySchema = new Schema({
+  title: {
     type: String,
     required: true,
     trim: true,
@@ -20,11 +20,13 @@ const roleSchema = new Schema({
 });
 
 // Update the `updatedAt` field before saving the document
-roleSchema.pre("save", function (next) {
+courseCategorySchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-// Create and export the Role model
-const Role = mongoose.models.Role || mongoose.model("Role", roleSchema);
-module.exports = Role;
+// Create and export the CourseCategory model
+const CourseCategory =
+  mongoose.models.CourseCategory ||
+  mongoose.model("CourseCategory", courseCategorySchema);
+module.exports = CourseCategory;

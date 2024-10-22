@@ -1,13 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Define the Role Schema
-const roleSchema = new Schema({
-  roleTitle: {
+// Define the course Schema
+const courseSchema = new Schema({
+  name: {
     type: String,
     required: true,
     trim: true,
     unique: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: "CourseCategory",
   },
   createdAt: {
     type: Date,
@@ -20,11 +28,10 @@ const roleSchema = new Schema({
 });
 
 // Update the `updatedAt` field before saving the document
-roleSchema.pre("save", function (next) {
+courseSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
-
-// Create and export the Role model
-const Role = mongoose.models.Role || mongoose.model("Role", roleSchema);
-module.exports = Role;
+// create and export course model
+const Course = mongoose.models.Course || mongoose.model("Course", courseSchema);
+module.exports = Course;
