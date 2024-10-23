@@ -109,14 +109,45 @@ const Page = () => {
       });
       return;
     }
+
+    // Validate file size (2MB = 2 * 1024 * 1024 bytes)
+    const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
+    if (imageFile.size > maxSizeInBytes) {
+      toast({
+        title: "Error",
+        description: "File size exceeds 2MB. Please upload a smaller image.",
+        variant: "destructive",
+      });
+      return;
+    }
     setImageLoader(true);
     const formData = new FormData();
     formData.append("photo", imageFile);
-    console.log(formData);
+    console.log(formData.get("photo"));
     try {
-      const response = await axios.post("/api/upload", formData);
-      console.log("Uploaded file:", response.data);
-      alert("Image uploaded successfully!");
+      const response = await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          // Add additional headers if needed, like Authorization
+        },
+      });
+
+      console.log("Uploaded file:", response);
+      if (response.status === 200) {
+        toast({
+          title: "Success",
+          description: "Your image uploaded successfully",
+          variant: "success",
+        });
+        return;
+      } else {
+        toast({
+          title: "Error",
+          description: "Some error occured",
+          variant: "destructive",
+        });
+        return;
+      }
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Image upload failed. Please try again.");
@@ -682,6 +713,8 @@ const Page = () => {
                         </GlobalTooltip>
                       </div>
                     </FormControl>
+                    {/* Add max size text below the input */}
+                    <p className="text-sm text-gray-400 mt-1">Max size: 2MB</p>
                     <FormMessage />
                   </FormItem>
                 )}
