@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/app/model/User";
+import jwt from "jsonwebtoken";
 
 export const authOptions = {
   providers: [
@@ -23,7 +24,6 @@ export const authOptions = {
           if (!user) {
             throw new Error("No user exists with this email of password");
           }
-          console.log(user)
           if (!user.isVerified) {
             throw new Error("Please verify your account");
           }
@@ -49,15 +49,27 @@ export const authOptions = {
         session.user._email = token?._email;
         session.user._username = token?._username;
         session.user._role = token?._role;
+        session.user._accessToken = token?.accessToken;
       }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
+        const jwtToken = jwt.sign(
+          {
+            _id: user._id.toString(),
+            email: user.email,
+            username: user.username,
+            role: user.role,
+          },
+          process.env.NEXTAUTH_SECRET, // Signing secret
+          { expiresIn: "2h" } // Token expiration time
+        );
         token._id = user?._id.toString();
         token._email = user?.email;
         token._username = user?.username;
         token._role = user?.role;
+        token.accessToken = jwtToken;
       }
       return token;
     },

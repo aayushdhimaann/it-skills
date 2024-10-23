@@ -75,7 +75,7 @@ function NavElement() {
                   </Button>
                 </DialogTrigger>
               )}
-              <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px] 500px:w-[80%]  ">
+              <DialogContent className="sm:max-w-[425px] 500px:w-[80%]  ">
                 <DialogHeader>
                   <DialogTitle>Login</DialogTitle>
                 </DialogHeader>
@@ -93,7 +93,7 @@ function NavElement() {
                   Signup
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-h-screen overflow-y-scroll sm:max-w-[425px]">
+              <DialogContent className="my-5 sm:max-w-[425px]">
                 <DialogHeader>
                   <DialogTitle>SignUp</DialogTitle>
                   <DialogDescription>Signup to get started.</DialogDescription>

@@ -14,17 +14,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { Textarea } from "@/components/UI/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import addCourseSchema from "@/app/schemas/addCourseSchema";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
   const [courseCategories, setCourseCategories] = useState([]);
   const { toast } = useToast();
-
+  const { data: session, status } = useSession();
+  const token = session?.user._accessToken;
   // Form initialization with Zod validation
   const form = useForm({
     resolver: zodResolver(addCourseSchema),
@@ -41,7 +43,11 @@ const Page = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/course/add-new", data);
+      const response = await axios.post("/api/course/add-new", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       // console.log(response);
       if (response.status == 201) {
         toast({
@@ -54,14 +60,14 @@ const Page = () => {
         toast({
           title: "Error",
           description: "Something went wrong!",
-          variant:"error"
+          variant: "error",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
         description: error.message,
-        variant:"error"
+        variant: "error",
       });
     } finally {
       setIsLoading(false);
@@ -70,7 +76,11 @@ const Page = () => {
 
   // fetching course categories
   const getCourseCategories = async () => {
-    const response = await axios.get("/api/course/category/get-all");
+    const response = await axios.get("/api/course/category/get-all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (response.status === 200) {
       setCourseCategories(response.data.courseCategories);
     } else {
@@ -79,8 +89,10 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getCourseCategories();
-  }, []);
+    if (status == "authenticated") {
+      getCourseCategories();
+    }
+  }, [status]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex justify-center">

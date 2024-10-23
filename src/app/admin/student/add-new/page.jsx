@@ -28,17 +28,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Textarea } from "@/components/UI/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import GlobalTooltip from "@/components/UI/GlobalTooltip";
+import GlobalTooltip from "@/components/ui/GlobalTooltip";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/UI/dialog";
+} from "@/components/ui/dialog";
 
 const Page = () => {
   // Loading state
