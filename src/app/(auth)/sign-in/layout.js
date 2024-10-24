@@ -1,4 +1,4 @@
-import NavBar from "@/components/UI/NavBar";
+import NavBar from "@/components/ui/NavBar";
 
 export default function SignInLayout({ children }) {
   return (
