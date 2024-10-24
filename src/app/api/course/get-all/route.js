@@ -1,17 +1,16 @@
 import Course from "@/app/model/Course";
 import dbConnect from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
+// dont remove this import
+import CourseCategory from "@/app/model/CourseCategory";
 
 export async function GET() {
   try {
     await dbConnect();
-    const courses = await Course.find().populate('categoryId');
+    const courses = await Course.find().populate("categoryId");
 
     if (courses) {
-      return NextResponse.json(
-        { success: true, courses },
-        { status: 200 }
-      );
+      return NextResponse.json({ success: true, courses }, { status: 200 });
     } else {
       return NextResponse.json(
         { success: false, message: "No courses found" },
