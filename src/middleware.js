@@ -70,6 +70,7 @@ export const config = {
     "/sign-in",
     "/login",
     "/admin/:path*", // Match all routes that start with /admin
-    "/api/course/:path*", // Match all API routes
+    "/api/course/add-new", // Match all API routes
+    "/api/course/category/add-new", // Match all API routes
   ],
 };
