@@ -105,18 +105,22 @@ function NavElement() {
           </MenubarMenu>
         </>
       )}
+      {(session.data?.user?._role === "6706bc9fff27bd499083aac2" ||
+        session.data?.user?._role === "6706bd8dff27bd499083aac3") && (
+        <MenubarMenu>
+          <Link
+            href={"/admin/dashboard"}
+            className={`${
+              pathname == "/admin/dashboard" ? "underline" : "text-white"
+            }`}
+          >
+            Admin
+          </Link>
+        </MenubarMenu>
+      )}
       {session.data && (
         <>
-          <MenubarMenu>
-            <Link
-              href={"/admin/dashboard"}
-              className={`${
-                pathname == "/admin/dashboard" ? "underline" : "text-white"
-              }`}
-            >
-              Admin
-            </Link>
-          </MenubarMenu>
+          {console.log(session.data.user)}
           <MenubarMenu>
             <Button
               className="bg-transparent border-none shadow-none text-white hover:bg-gray-100 hover:shadow-lg hover:text-black p-2"
