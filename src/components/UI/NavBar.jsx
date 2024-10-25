@@ -19,6 +19,7 @@ import { signOut, useSession } from "next-auth/react";
 import NavElement from "./NavElement";
 import HomeSidebar from "./HomeSidebar";
 import { SidebarProvider, SidebarTrigger } from "./sidebar";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NavBar = () => {
   const [isSignupDialogOpen, setSignupDialogOpen] = useState(false);
@@ -40,6 +41,9 @@ const NavBar = () => {
           >
             Home
           </Link>
+        </MenubarMenu>
+        <MenubarMenu>
+          <ThemeToggle />
         </MenubarMenu>
 
         {/* Right section for Login and Signup */}

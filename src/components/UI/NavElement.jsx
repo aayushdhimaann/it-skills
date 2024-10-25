@@ -20,7 +20,7 @@ import React from "react";
 
 function NavElement() {
   const [isSignupDialogOpen, setSignupDialogOpen] = useState(false);
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
