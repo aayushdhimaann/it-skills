@@ -21,6 +21,7 @@ export async function POST(request) {
         errors: parsedData.error.errors, // Return validation errors
       });
     }
+    console.log(parsedData);
 
     const { username, email, password, role } = parsedData.data;
 
@@ -61,9 +62,14 @@ export async function POST(request) {
     // }
 
     // Send verification email to super admin
+    let txtRole = "";
+    if (role === "6706bd8dff27bd499083aac3") txtRole = "Admin";
+    else txtRole = "Student";
     const emailResponse = await sendEmail(
       superAdmin.email,
-      superAdmin.username
+      superAdmin.username,
+      username,
+      txtRole
     );
 
     if (!emailResponse.success) {

@@ -118,3 +118,31 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+button {
+  font-size: 1rem;
+  color: #0078d4;
+  background-color: #ffffff;
+  border: 1px solid #c7c7c7;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: box-shadow 0.2s ease;
+}
+
+button:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-lg {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-xl:hover {
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
