@@ -28,10 +28,9 @@ export async function sendEmail(email, username) {
   }
 }
 */
-export async function sendEmail(email, username) {
-
+export async function sendEmail(email, username, newusername, role) {
   try {
-    const htmlContent = WelcomeEmail(username);
+    const htmlContent = WelcomeEmail(username, newusername, role);
 
     await transporter.sendMail({
       ...mailOption,
