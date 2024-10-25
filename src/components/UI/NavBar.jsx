@@ -30,6 +30,22 @@ const NavBar = () => {
   const session = useSession();
   return (
     <Menubar className="fixed w-full flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none z-50">
+      <MenubarMenu>
+        <div
+          style={{
+            position: "absolute",
+            top: "45px",
+            right: "10px",
+            fontSize: "30px",
+            borderRadius: "10px",
+            border: "2px solid white",
+            zIndex: "100",
+          }}
+          className="hover:bg-black bg-black"
+        >
+          <ThemeToggle />
+        </div>
+      </MenubarMenu>
       <div className="500px:hidden flex-grow flex justify-around ">
         <MenubarMenu>
           <Link
@@ -41,9 +57,6 @@ const NavBar = () => {
           >
             Home
           </Link>
-        </MenubarMenu>
-        <MenubarMenu>
-          <ThemeToggle />
         </MenubarMenu>
 
         {/* Right section for Login and Signup */}
