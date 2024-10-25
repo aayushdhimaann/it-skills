@@ -80,7 +80,7 @@ const Page = () => {
     },
   });
 
-  const { control, handleSubmit, reset } = form;
+  const { control, handleSubmit, reset, setValue } = form;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "education_details", // Name of the field array
@@ -123,7 +123,6 @@ const Page = () => {
     setImageLoader(true);
     const formData = new FormData();
     formData.append("photo", imageFile);
-    console.log(formData.get("photo"));
     try {
       const response = await axios.post("/api/upload", formData, {
         headers: {
@@ -139,18 +138,21 @@ const Page = () => {
           description: "Your image uploaded successfully",
           variant: "success",
         });
-        return;
+        // setting image url to use hook form
+        setValue("photo", response.data.fileUrl);
       } else {
         toast({
           title: "Error",
           description: "Some error occured",
           variant: "destructive",
         });
-        return;
       }
     } catch (error) {
-      console.error("Upload failed:", error);
-      alert("Image upload failed. Please try again.");
+      toast({
+        title: "Error",
+        description: "Photo Upload failed " + error.message,
+        variant: "destructive",
+      });
     } finally {
       setImageLoader(false);
     }
@@ -653,7 +655,7 @@ const Page = () => {
               {/* profile photo */}
               <FormField
                 control={control}
-                name="photo"
+                name="file"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Profile Photo</FormLabel>

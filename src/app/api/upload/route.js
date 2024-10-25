@@ -20,11 +20,8 @@ export async function POST(request) {
       );
     }
 
-    console.log("File received:   -->", file);
-
     // Create a unique filename
     const fileName = `${uuidv4()}_${file.name}`;
-    console.log("filename is : " + fileName);
 
     // Create a Firebase Storage file reference
     const firebaseFile = bucket.file(fileName);
@@ -52,10 +49,9 @@ export async function POST(request) {
       stream.on("error", reject);
     });
 
+    await firebaseFile.makePublic();
     // Get the public URL of the uploaded file
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-
-    console.log("File uploaded successfully:", publicUrl);
 
     // Send a success response with the file URL
     return NextResponse.json({
