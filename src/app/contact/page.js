@@ -6,7 +6,7 @@ export default function Contact() {
       {/* Contact Section */}
       <section id="contact" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* <h3 className="text-3xl font-bold">Contact Us</h3> */}
+          <h3 className="text-3xl font-bold">Contact Us</h3>
           <p className="mt-4 text-lg">
             Get in touch with us for more information about our courses and
             enrollment.
