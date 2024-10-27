@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const page = () => {
+const Signup = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -208,4 +208,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Signup;

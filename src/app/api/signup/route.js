@@ -4,6 +4,7 @@ import User from "@/app/model/User";
 import bcrypt from "bcryptjs";
 import { sendEmail } from "@/helpers/sendEmail";
 import { signupSchema } from "@/app/schemas/signupSchema";
+import WelcomeEmail from "@/components/email/WelcomeEmail";
 
 export async function POST(request) {
   await dbConnect();
@@ -53,23 +54,16 @@ export async function POST(request) {
       role: "6706bc9fff27bd499083aac2",
     });
 
-    // if (!superAdmin) {
-    // return NextResponse.json({
-    //     status: 404,
-    //     success: false,
-    //     message: "Super admin not found",
-    //   });
-    // }
-
     // Send verification email to super admin
     let txtRole = "";
     if (role === "6706bd8dff27bd499083aac3") txtRole = "Admin";
     else txtRole = "Student";
+    const htmlContent = WelcomeEmail(username, txtRole);
+    const subject = "New User Registered";
     const emailResponse = await sendEmail(
       superAdmin.email,
-      superAdmin.username,
-      username,
-      txtRole
+      subject,
+      htmlContent
     );
 
     if (!emailResponse.success) {
