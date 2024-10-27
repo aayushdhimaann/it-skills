@@ -39,6 +39,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { zodResolver } from "@hookform/resolvers/zod";
+import addStudentSchema from "@/app/schemas/addStudentSchema";
+import MotionButton from "@/components/motion/MotionButton";
+import { useSession } from "next-auth/react";
+// import { Check, ChevronsUpDown } from "lucide-react";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+// } from "@/components/ui/command";
 
 const Page = () => {
   // Loading state
@@ -48,9 +61,14 @@ const Page = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imageLoader, setImageLoader] = useState(false);
   const { toast } = useToast();
+  const [photo, setPhoto] = useState("");
+
+  const { data: session } = useSession();
+  const token = session?.user._accessToken;
 
   // Form initialization
   const form = useForm({
+    // resolver: zodResolver(addStudentSchema),
     defaultValues: {
       branch: "",
       date_of_admission: "",
@@ -76,11 +94,11 @@ const Page = () => {
       course_fee: "",
       course_duration: "",
       certi_date: "",
-      photo: "",
+      deposited_fee: "",
     },
   });
 
-  const { control, handleSubmit, reset, setValue } = form;
+  const { control, handleSubmit, reset } = form;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "education_details", // Name of the field array
@@ -88,13 +106,49 @@ const Page = () => {
 
   // Handle form submission
   const onSubmit = async (data) => {
+    if (photo == "") {
+      toast({
+        title: "Error",
+        description: "Please Upload Image",
+        variant: "destructive",
+      });
+      return;
+    }
     setIsLoading(true);
-    console.log("Form Data:", data);
-    reset();
+    // reset();
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate async action
+      const response = await axios.post(
+        "/api/student/add-new",
+        { ...data, photo },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(response);
+      if (response.status == 200) {
+        toast({
+          title: "Success",
+          description: response.data.message,
+          variant: "success",
+        });
+        setPhoto("");
+        setPreviewUrl(null);
+        reset();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong!",
+          variant: "error",
+        });
+      }
     } catch (error) {
-      console.error("Form submission failed:", error);
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -131,15 +185,13 @@ const Page = () => {
         },
       });
 
-      console.log("Uploaded file:", response);
       if (response.status === 200) {
         toast({
           title: "Success",
           description: "Your image uploaded successfully",
           variant: "success",
         });
-        // setting image url to use hook form
-        setValue("photo", response.data.fileUrl);
+        setPhoto(response.data.fileUrl);
       } else {
         toast({
           title: "Error",
@@ -159,7 +211,7 @@ const Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center">
+    <div className="min-h-screen flex justify-center">
       <div className="w-full max-w-4xl sm:p-5 p-4">
         <h1 className="text-3xl font-bold mb-8 text-center xxs:mt-10">
           Add New Student
@@ -184,8 +236,8 @@ const Page = () => {
           </DialogContent>
         </Dialog>
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: -300, x: -1000 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
         >
@@ -206,7 +258,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Branch"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                       />
                     </FormControl>
                     <FormMessage />
@@ -227,7 +279,7 @@ const Page = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full justify-start text-left font-normal bg-gray-800 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white", // Added hover styles
+                              "w-full justify-start text-left font-normal   transition-colors duration-200 ease-in-out hover:hover:", // Added hover styles
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -239,7 +291,7 @@ const Page = () => {
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-gray-800 text-white">
+                        <PopoverContent className="w-auto p-0  ">
                           <Calendar
                             mode="single"
                             selected={
@@ -260,6 +312,65 @@ const Page = () => {
               />
 
               {/* Course Name Field */}
+              {/* for future use */}
+              {/* <FormField
+                control={control}
+                name="course_name"
+                render={({ field }) => (
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-[200px] justify-between"
+                      >
+                        {courseName
+                          ? frameworks.find(
+                              (framework) => framework.value === courseName
+                            )?.label
+                          : "Select course name"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Select course name" />
+                        <CommandList>
+                          <CommandEmpty>No Course found.</CommandEmpty>
+                          <CommandGroup>
+                            {frameworks.map((framework) => (
+                              <CommandItem
+                                key={framework.value}
+                                value={framework.value}
+                                onSelect={(currentValue) => {
+                                  field.onChange(currentValue);
+                                  setCourseName(
+                                    currentValue === courseName
+                                      ? ""
+                                      : currentValue
+                                  );
+                                  setOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    courseName === framework.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {framework.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                )}
+              /> */}
               <FormField
                 control={control}
                 name="course_name"
@@ -270,7 +381,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Course Name"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                       />
                     </FormControl>
                     <FormMessage />
@@ -289,7 +400,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Course Duration"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                       />
                     </FormControl>
                     <FormMessage />
@@ -308,7 +419,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Student Name"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                       />
                     </FormControl>
                     <FormMessage />
@@ -327,7 +438,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Father's Name"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                       />
                     </FormControl>
                     <FormMessage />
@@ -346,7 +457,7 @@ const Page = () => {
                       <Input
                         placeholder="Enter Father's Occupation"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white" // Added hover styles
+                        className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:" // Added hover styles
                       />
                     </FormControl>
                     <FormMessage />
@@ -367,7 +478,7 @@ const Page = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full justify-start text-left font-normal bg-gray-800 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white", // Added hover styles
+                              "w-full justify-start text-left font-normal   transition-colors duration-200 ease-in-out hover:hover:", // Added hover styles
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -379,7 +490,7 @@ const Page = () => {
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-gray-800 text-white">
+                        <PopoverContent className="w-auto p-0  ">
                           <Calendar
                             mode="single"
                             selected={
@@ -409,7 +520,7 @@ const Page = () => {
                     animate={{ opacity: 1, y: 0 }}
                     // exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="mb-4 border p-4 rounded-lg bg-gray-800 grid grid-cols-1 md:grid-cols-2 gap-6 relative box-border"
+                    className="mb-4 border p-4 rounded-lg  grid grid-cols-1 md:grid-cols-2 gap-6 relative box-border"
                   >
                     <FormField
                       control={control}
@@ -421,7 +532,7 @@ const Page = () => {
                             <Input
                               placeholder="Enter Education Name"
                               {...field}
-                              className="bg-gray-700 text-white placeholder-gray-400"
+                              className=" placeholder-gray-400"
                             />
                           </FormControl>
                           <FormMessage />
@@ -438,7 +549,7 @@ const Page = () => {
                             <Input
                               placeholder="Enter Board/University"
                               {...field}
-                              className="bg-gray-700 text-white placeholder-gray-400"
+                              className=" placeholder-gray-400"
                             />
                           </FormControl>
                           <FormMessage />
@@ -455,7 +566,7 @@ const Page = () => {
                             <div className="relative">
                               <select
                                 {...field}
-                                className="bg-gray-700 text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
+                                className="border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
                                 onChange={(e) => field.onChange(e.target.value)} // Capture value
                               >
                                 <option value="">Select Year</option>
@@ -501,7 +612,7 @@ const Page = () => {
                             <div className="relative">
                               <select
                                 {...field}
-                                className="bg-gray-700 text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
+                                className=" placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
                                 onChange={(e) => field.onChange(e.target.value)} // Capture value
                               >
                                 <option value="">Select Division</option>
@@ -543,7 +654,7 @@ const Page = () => {
                               type="text"
                               placeholder="Enter Percentage"
                               {...field}
-                              className="bg-gray-700 text-white placeholder-gray-400"
+                              className=" placeholder-gray-400"
                             />
                           </FormControl>
                           <FormMessage />
@@ -569,7 +680,7 @@ const Page = () => {
                   onClick={() =>
                     append({ institution: "", degree: "", year: "" })
                   }
-                  className="w-auto py-3 border bg-gray-900 border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                  className="w-auto py-3 border  border-white  transition-colors duration-200 ease-in-out hover:hover:"
                 >
                   <Plus className="w-4" /> Education
                 </Button>
@@ -586,7 +697,7 @@ const Page = () => {
                       <Textarea
                         placeholder="Enter Address"
                         {...field}
-                        className="bg-gray-800 w-full text-white placeholder-gray-400"
+                        className=" w-full  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -606,7 +717,7 @@ const Page = () => {
                         type="number"
                         placeholder="Enter Primary Phone Number"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -624,7 +735,7 @@ const Page = () => {
                         type="number"
                         placeholder="Enter Alternate Phone Number"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -644,7 +755,7 @@ const Page = () => {
                         type="email"
                         placeholder="Enter Email Address"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -676,7 +787,7 @@ const Page = () => {
                               setPreviewUrl(null);
                             }
                           }}
-                          className="bg-gray-800 text-white placeholder-gray-400 cursor-pointer w-full sm:w-64 md:w-96 max-w-full" // Responsive width
+                          className="  placeholder-gray-400 cursor-pointer w-full sm:w-64 md:w-96 max-w-full" // Responsive width
                         />
 
                         {/* Upload button */}
@@ -685,7 +796,7 @@ const Page = () => {
                             type="button"
                             disabled={imageLoader}
                             variant="default"
-                            className="w-auto py-3 border bg-gray-900 border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                            className="w-auto py-3 border border-white  transition-colors duration-200 ease-in-out hover:hover:"
                             onClick={handleImageUpload}
                           >
                             {imageLoader ? (
@@ -703,7 +814,7 @@ const Page = () => {
                           {previewUrl && (
                             <Button
                               variant="default"
-                              className="w-auto py-1 border bg-gray-900 border-white text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                              className="w-auto py-1 border  border-white  transition-colors duration-200 ease-in-out hover:hover:"
                               type="button"
                               onClick={() => {
                                 setIsPreviewModalOpen(true);
@@ -739,7 +850,7 @@ const Page = () => {
                         type="number"
                         placeholder="Enter Total Course Fee"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -759,7 +870,7 @@ const Page = () => {
                         type="number"
                         placeholder="Enter Admission Fee (Deposited)"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />
@@ -777,8 +888,9 @@ const Page = () => {
                     <FormControl>
                       <Input
                         type="text"
+                        placeholder="Course Duration"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400"
+                        className="  placeholder-gray-400"
                         readOnly
                       />
                     </FormControl>
@@ -800,7 +912,7 @@ const Page = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full justify-start text-left font-normal bg-gray-800 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white", // Added hover styles
+                              "w-full justify-start text-left font-normal   transition-colors duration-200 ease-in-out hover:hover:", // Added hover styles
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -812,7 +924,7 @@ const Page = () => {
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-gray-800 text-white">
+                        <PopoverContent className="w-auto p-0  ">
                           <Calendar
                             mode="single"
                             selected={
@@ -822,7 +934,6 @@ const Page = () => {
                               field.onChange(selectedDate); // Set value directly in the form state
                             }}
                             initialFocus
-                            toDate={new Date()}
                           />
                         </PopoverContent>
                       </Popover>
@@ -834,21 +945,23 @@ const Page = () => {
 
               {/* Submit Button (Full Width) */}
               <div className="md:col-span-2 flex justify-center">
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  variant="default"
-                  className="w-auto py-3 border border-white bg-gray-900 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit"
-                  )}
-                </Button>
+                <MotionButton>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    variant="default"
+                    className="w-auto py-3 border border-white   transition-colors duration-200 ease-in-out hover:hover:"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
+                  </Button>
+                </MotionButton>
               </div>
             </form>
           </Form>
