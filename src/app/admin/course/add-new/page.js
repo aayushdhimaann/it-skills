@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import addCourseSchema from "@/app/schemas/addCourseSchema";
 import { useSession } from "next-auth/react";
 
-const Page = () => {
+const AddNewCourse = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
   const [courseCategories, setCourseCategories] = useState([]);
@@ -101,8 +101,8 @@ const Page = () => {
           Add New Course
         </h1>
         <motion.div
-          initial={{ opacity: 0, x: -1000 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: -300, x: -1000 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.3 }}
         >
@@ -219,4 +219,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AddNewCourse;

@@ -1,36 +1,21 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/app/model/User";
-import bcrypt from "bcryptjs";
 import { sendEmail } from "@/helpers/sendEmail";
-import { signupSchema } from "@/app/schemas/signupSchema";
-import { sendContactQuery } from "@/helpers/sendContactQuery";
+import ContactMail from "@/components/email/ContactMail";
 export async function POST(request) {
-  await dbConnect();
   try {
+    await dbConnect();
     const body = await request.json();
-    console.log(body);
     const { username, number, bio } = body;
+    // fetching superadmin
     const superAdmin = await User.findOne({
       role: "6706bc9fff27bd499083aac2",
     });
-    if (!superAdmin) {
-      return NextResponse.json({
-        status: 404,
-        success: false,
-        message: "Super admin not found",
-      });
-    }
-    const emailResponse = await sendContactQuery(username, number, bio);
-
-    if (!emailResponse.success) {
-      return NextResponse.json({
-        status: 500,
-        success: false,
-        message: emailResponse.message,
-      });
-    }
-
+    // sending email
+    const subject = "New Query";
+    const mailContent = ContactMail(username, number, bio);
+    await sendEmail(superAdmin.email, subject, mailContent);
     return NextResponse.json({
       status: 200,
       success: true,

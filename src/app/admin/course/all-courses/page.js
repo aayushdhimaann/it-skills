@@ -47,7 +47,7 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
-const Page = () => {
+const ViewCourse = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [courseCategories, setCourseCategories] = useState([]);
@@ -443,4 +443,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ViewCourse;
