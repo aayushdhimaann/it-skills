@@ -433,7 +433,7 @@ const AddNewStudent = () => {
                 name="father_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Father's Name</FormLabel>
+                    <FormLabel>Father&apos;s Name</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter Father's Name"
@@ -452,7 +452,7 @@ const AddNewStudent = () => {
                 name="father_occupation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Father's Occupation</FormLabel>
+                    <FormLabel>Father&apos;s Occupation</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter Father's Occupation"
