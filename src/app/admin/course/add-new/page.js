@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import addCourseSchema from "@/app/schemas/addCourseSchema";
 import { useSession } from "next-auth/react";
 
-const Page = () => {
+const AddNewCourse = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
   const [courseCategories, setCourseCategories] = useState([]);
@@ -219,4 +219,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AddNewCourse;

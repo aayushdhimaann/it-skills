@@ -53,7 +53,7 @@ import { useSession } from "next-auth/react";
 //   CommandList,
 // } from "@/components/ui/command";
 
-const Page = () => {
+const AddNewStudent = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
@@ -971,4 +971,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AddNewStudent;
