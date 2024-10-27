@@ -6,6 +6,8 @@ import axios from "axios";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+
 import {
   Form,
   FormControl,
@@ -139,6 +141,9 @@ const Signup = () => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
+                    <Eye />
+                    <Input type="text" placeholder="********" {...field} />
+                    <EyeOff />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
