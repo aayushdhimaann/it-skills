@@ -33,6 +33,7 @@ import {
 const Signup = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const [eye, setEye] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [roles, setRoles] = useState([]);
   const form = useForm({
@@ -140,10 +141,22 @@ const Signup = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
-                    <Eye />
-                    <Input type="text" placeholder="********" {...field} />
-                    <EyeOff />
+                    <div>
+                      <div className=" relative">
+                        <Input
+                          type={eye ? "text" : "password"}
+                          placeholder="********"
+                          {...field}
+                          className="pr-10"
+                        />
+                        <div
+                          className="absolute top-2 right-2 cursor-pointer"
+                          onClick={() => setEye((prevEye) => !prevEye)}
+                        >
+                          {eye ? <EyeOff /> : <Eye />}
+                        </div>
+                      </div>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

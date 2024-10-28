@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -22,6 +23,7 @@ import { Loader2 } from "lucide-react";
 const Signin = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const [eye, setEye] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     // validation
@@ -111,7 +113,22 @@ const Signin = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <div>
+                      <div className=" relative">
+                        <Input
+                          type={eye ? "text" : "password"}
+                          placeholder="********"
+                          {...field}
+                          className="pr-10"
+                        />
+                        <div
+                          className="absolute top-2 right-2 cursor-pointer"
+                          onClick={() => setEye((prevEye) => !prevEye)}
+                        >
+                          {eye ? <EyeOff /> : <Eye />}
+                        </div>
+                      </div>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
