@@ -95,7 +95,7 @@ const AddNewCourse = () => {
   }, [status]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center">
+    <div className="min-h-screen flex justify-center">
       <div className="w-full max-w-4xl sm:p-5 p-4">
         <h1 className="text-3xl font-bold mb-8 text-center xxs:mt-10">
           Add New Course
@@ -123,7 +123,7 @@ const AddNewCourse = () => {
                       <Input
                         placeholder="Enter Course Name"
                         {...field}
-                        className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                        className=" text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,7 +142,7 @@ const AddNewCourse = () => {
                       <div className="relative">
                         <select
                           {...field}
-                          className="bg-gray-800 text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
+                          className=" text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
                           onChange={(e) => field.onChange(e.target.value)}
                         >
                           <option value="">Select Category</option>
@@ -185,7 +185,7 @@ const AddNewCourse = () => {
                       <Textarea
                         placeholder="Enter Description"
                         {...field}
-                        className="bg-gray-800 w-full text-white placeholder-gray-400"
+                        className=" w-full text-white placeholder-gray-400"
                       />
                     </FormControl>
                     <FormMessage />

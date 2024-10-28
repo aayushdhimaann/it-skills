@@ -161,7 +161,7 @@ const Signup = ({ onClose }) => {
             />
 
             {/* Dropdown for Role Selection */}
-            <Alert variant="info">
+            {/* <Alert variant="info">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Info</AlertTitle>
               <AlertDescription>
@@ -169,7 +169,7 @@ const Signup = ({ onClose }) => {
                 with a verification code. You will need to retrieve that code
                 for account verification.{" "}
               </AlertDescription>
-            </Alert>
+            </Alert> */}
             <FormField
               control={form.control}
               name="role"
