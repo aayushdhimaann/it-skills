@@ -60,7 +60,7 @@ const Page = () => {
                 variant="outline"
                 role="combobox"
                 aria-expanded={openCategory}
-                className="w-[250px] justify-between rounded-lg border border-gray-300 shadow-sm hover:bg-gray-100"
+                className="w-[250px] justify-between rounded-lg border shadow-sm"
               >
                 <span>
                   {selectedCategory
@@ -71,7 +71,7 @@ const Page = () => {
                 <ChevronsUpDown className="ml-2 h-4 w-4 text-gray-500" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[250px] p-0 rounded-lg shadow-lg border border-gray-200">
+            <PopoverContent className="w-[250px] p-0 rounded-lg shadow-lg border">
               <Command>
                 <CommandInput placeholder="Search category..." />
                 <CommandList>
@@ -120,7 +120,7 @@ const Page = () => {
                 variant="outline"
                 role="combobox"
                 aria-expanded={openCourse}
-                className="w-[250px] justify-between rounded-lg border border-gray-300 shadow-sm hover:bg-gray-100"
+                className="w-[250px] justify-between rounded-lg border shadow-sm"
               >
                 <span>
                   {selectedCourse
@@ -131,7 +131,7 @@ const Page = () => {
                 <ChevronsUpDown className="ml-2 h-4 w-4 text-gray-500" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[250px] p-0 rounded-lg shadow-lg border border-gray-200">
+            <PopoverContent className="w-[250px] p-0 rounded-lg shadow-lg border">
               <Command>
                 <CommandInput placeholder="Search course..." />
                 <CommandList>
@@ -221,7 +221,7 @@ const Page = () => {
               .map((course) => (
                 <div
                   key={course._id}
-                  className=" rounded-lg shadow-md border border-gray-300 overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg p-6"
+                  className=" rounded-lg shadow-md border overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg p-6"
                 >
                   <h4 className="text-2xl font-semibold  mb-2">
                     {course.name}
