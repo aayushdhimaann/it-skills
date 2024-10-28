@@ -30,22 +30,6 @@ const NavBar = () => {
   const session = useSession();
   return (
     <Menubar className="fixed w-full flex justify-between items-center px-0 sm:px-6 lg:px-10 rounded-none bg-gray-800 text-white border-none z-50">
-      <MenubarMenu>
-        <div
-          style={{
-            position: "absolute",
-            top: "45px",
-            right: "10px",
-            fontSize: "30px",
-            borderRadius: "10px",
-            border: "2px solid white",
-            zIndex: "100",
-          }}
-          className="hover:bg-black bg-black"
-        >
-          <ThemeToggle />
-        </div>
-      </MenubarMenu>
       <div className="500px:hidden flex-grow flex justify-around ">
         <MenubarMenu>
           <Link
@@ -64,29 +48,11 @@ const NavBar = () => {
           <NavElement />
         </div>
       </div>
-
-      {/* {isSidebarOpen && (
-          <div
-            className={`fixed top-10 left-0 h-full w-64  text-white transform transition-transform duration-300 ease-in-out shadow-lg z-10 `}
-            style={{ margin: "0px" }}
-          >
-            <div className=" flex h-full w-64 flex-col justify-top gap-10  items-center pt-7 backdrop-blur-xl">
-              <MenubarMenu>
-                <Link
-                  href={"/"}
-                  className={
-                    `${pathname == "/" ? "underline" : "text-white"}` +
-                    " flex items-center"
-                  }
-                >
-                  Home
-                </Link>
-              </MenubarMenu>
-
-              <NavElement />
-            </div>
-          </div>
-      )} */}
+      <MenubarMenu>
+        <div className=" 500px:absolute  right-2  pr-3  flex justify-center items-center box-border rounded-2xl hover:bg-slate-500 bg-slate-700 ">
+          <ThemeToggle /> Theme
+        </div>
+      </MenubarMenu>
     </Menubar>
   );
 };

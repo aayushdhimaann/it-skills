@@ -8,7 +8,7 @@ function MainBar() {
   return (
     <div>
       <NavBar />
-      <div className="500px:block hidden z-100 absolute">
+      <div className="500px:block hidden fixed top-0 z-50">
         <SidebarProvider>
           <div className="flex justify-around h-6 w-40 mt-2 z-50">
             <SidebarTrigger className="text-white text-lg hover:bg-gray-700 hover:text-white p-2 rounded" />

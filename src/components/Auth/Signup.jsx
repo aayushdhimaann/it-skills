@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Select,
@@ -30,6 +31,7 @@ import { signupSchema } from "@/app/schemas/signupSchema";
 const Signup = ({ onClose }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const [eye, setEye] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [roles, setRoles] = useState([]);
 
@@ -136,7 +138,22 @@ const Signup = ({ onClose }) => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <div>
+                      <div className=" relative">
+                        <Input
+                          type={eye ? "text" : "password"}
+                          placeholder="********"
+                          {...field}
+                          className="pr-10"
+                        />
+                        <div
+                          className="absolute top-2 right-2 cursor-pointer"
+                          onClick={() => setEye((prevEye) => !prevEye)}
+                        >
+                          {eye ? <EyeOff /> : <Eye />}
+                        </div>
+                      </div>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
