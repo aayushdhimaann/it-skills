@@ -86,8 +86,8 @@ const ContactUs = () => {
 
   return (
     <div>
-      <div className="flex justify-center mt-10 items-start min-h-screen  ">
-        <Card className="rounded-l-2xl rounded-r-none bg-white shadow-lg p-6 bg-slate-800 text-slate-400 930px:hidden">
+      <div className="flex justify-center mt-10 items-start min-h-screen">
+        <Card className="rounded-l-2xl rounded-r-none shadow-lg p-6 text-slate-400 930px:hidden">
           <CardHeader className="text-left mb-6">
             <CardTitle className="text-2xl font-semibold flex items-center">
               <MapPin className="mr-2 text-slate-400" />
@@ -102,7 +102,7 @@ const ContactUs = () => {
           <CardContent className="text-left mb-6">
             <CardTitle className="text-2xl font-semibold flex items-center">
               <Phone className="mr-2 text-slate-400" />
-              CONTACTS
+              CONTACT US
             </CardTitle>
             <br />
             <p className="text-slate-400 flex items-center mt-2">
@@ -126,7 +126,7 @@ const ContactUs = () => {
           <CardFooter className="text-left"></CardFooter>
         </Card>
 
-        <div className="w-full max-w-md p-8 space-y-8 border  rounded-r-2xl shadow-md 930px:border-l-gray-900 border-4">
+        <div className="w-full max-w-md p-8 rounded-r-2xl shadow-md border">
           <div className="text-center">
             <h3 className="text-4xl tracking-tight lg:text-3xl mb-6">
               Contact Us
@@ -175,7 +175,7 @@ const ContactUs = () => {
                 name="bio"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descritpion</FormLabel>
+                    <FormLabel>Discription</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="write your query here ..."

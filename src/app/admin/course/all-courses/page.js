@@ -228,10 +228,10 @@ const ViewCourse = () => {
   }, [status]);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center">
       <div className="container mx-auto p-4 lg:px-10">
         <Dialog open={isEditDialogOpen} onOpenChange={setEditDialogOpen}>
-          <DialogContent className="sm:max-w-[425px] 500px:w-[80%]  ">
+          <DialogContent className="sm:max-w-[425px] 500px:w-[80%] my-5">
             <DialogHeader>
               <DialogTitle>Edit</DialogTitle>
             </DialogHeader>
@@ -252,7 +252,7 @@ const ViewCourse = () => {
                         <Input
                           placeholder="Enter Course Name"
                           {...field}
-                          className="bg-gray-800 text-white placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                          className="placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:"
                         />
                       </FormControl>
                       <FormMessage />
@@ -271,7 +271,7 @@ const ViewCourse = () => {
                         <div className="relative">
                           <select
                             {...field}
-                            className="bg-gray-800 text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
+                            className="placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover: cursor-pointer"
                             onChange={(e) => field.onChange(e.target.value)}
                           >
                             <option value="">Select Category</option>
@@ -314,7 +314,7 @@ const ViewCourse = () => {
                         <Textarea
                           placeholder="Enter Description"
                           {...field}
-                          className="bg-gray-800 w-full h-48 text-white placeholder-gray-400"
+                          className=" w-full h-48  placeholder-gray-400"
                         />
                       </FormControl>
                       <FormMessage />
@@ -328,7 +328,7 @@ const ViewCourse = () => {
                     type="submit"
                     disabled={isLoading}
                     variant="default"
-                    className="w-auto py-3 border border-white bg-gray-900 text-white transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:text-white"
+                    className="w-auto py-3 border border-white transition-colors duration-200 ease-in-out hover:bg-gray-900 hover:text-white"
                   >
                     {isLoading ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -342,18 +342,15 @@ const ViewCourse = () => {
           </DialogContent>
         </Dialog>
         <div className="flex justify-between items-center">
-          <Select
-            className="bg-gray-800 text-white"
-            onValueChange={handleCategoryChange}
-          >
-            <SelectTrigger className="w-auto lg:w-[180px] bg-gray-700 border border-gray-600 text-white">
+          <Select className=" " onValueChange={handleCategoryChange}>
+            <SelectTrigger className="w-auto lg:w-[180px] bg-gray-700 border border-gray-600 ">
               <SelectValue placeholder="Select a Category" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 border border-gray-600">
+            <SelectContent className=" border border-gray-600">
               {/* Clear Selection Option */}
               <SelectItem
                 value="clear"
-                className="text-white hover:bg-gray-700 cursor-pointer"
+                className=" hover:bg-gray-700 cursor-pointer"
               >
                 Select a Category
               </SelectItem>
@@ -361,7 +358,7 @@ const ViewCourse = () => {
                 <SelectItem
                   key={category._id}
                   value={category._id}
-                  className="text-white hover:bg-gray-700 flex items-center cursor-pointer"
+                  className=" hover:bg-gray-700 flex items-center cursor-pointer"
                 >
                   {category.title}
                 </SelectItem>
@@ -379,10 +376,7 @@ const ViewCourse = () => {
             {course
               .filter((item) => item.categoryId === selectedCategory)
               .map((item, index) => (
-                <Card
-                  key={index}
-                  className="bg-gray-800 text-white shadow-lg relative"
-                >
+                <Card key={index} className="shadow-lg relative">
                   <CardContent className="flex items-start p-4">
                     <div className="flex-1">
                       <p className="text-lg font-medium">{item.name}</p>
