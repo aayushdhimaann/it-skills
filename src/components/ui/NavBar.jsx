@@ -29,7 +29,7 @@ const NavBar = () => {
         </div>
       </div>
       <MenubarMenu>
-        <div className=" 500px:absolute flex justify-center items-center box-border rounded-2xl hover:bg-slate-500 bg-slate-700 ">
+        <div className=" 500px:absolute flex justify-center items-center box-border rounded-2xl hover:bg-slate-500 bg-slate-700 right-3">
           <ThemeToggle />
         </div>
       </MenubarMenu>
