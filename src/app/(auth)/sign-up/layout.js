@@ -1,6 +1,8 @@
 import MainBar from "@/components/MainBar";
-import NavBar from "@/components/ui/NavBar";
-
+export const metadata = {
+  title: "ITSKILLS - SIGN UP",
+  description: "",
+};
 export default function SignUpLayout({ children }) {
   return (
     <>
