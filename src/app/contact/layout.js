@@ -1,6 +1,8 @@
 import MainBar from "@/components/MainBar";
-import NavBar from "@/components/ui/NavBar";
-
+export const metadata = {
+  title: "ITSKILLS - CONTACT",
+  description: "",
+};
 export default function ContactLayout({ children }) {
   return (
     <>
