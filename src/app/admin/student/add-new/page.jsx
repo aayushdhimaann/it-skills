@@ -68,7 +68,7 @@ const AddNewStudent = () => {
 
   // Form initialization
   const form = useForm({
-    // resolver: zodResolver(addStudentSchema),
+    resolver: zodResolver(addStudentSchema),
     defaultValues: {
       branch: "",
       date_of_admission: "",
@@ -236,9 +236,8 @@ const AddNewStudent = () => {
           </DialogContent>
         </Dialog>
         <motion.div
-          initial={{ opacity: 0, y: -300, x: -1000 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0,  x: -1000 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
         >
           <Form {...form}>
@@ -566,7 +565,7 @@ const AddNewStudent = () => {
                             <div className="relative">
                               <select
                                 {...field}
-                                className="border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
+                                className="border bg-transparent rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
                                 onChange={(e) => field.onChange(e.target.value)} // Capture value
                               >
                                 <option value="">Select Year</option>
@@ -612,7 +611,7 @@ const AddNewStudent = () => {
                             <div className="relative">
                               <select
                                 {...field}
-                                className=" placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
+                                className="bg-transparent placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out"
                                 onChange={(e) => field.onChange(e.target.value)} // Capture value
                               >
                                 <option value="">Select Division</option>
