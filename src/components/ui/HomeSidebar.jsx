@@ -19,33 +19,18 @@ import { usePathname, useRouter } from "next/navigation";
 function HomeSidebar() {
   const pathname = usePathname();
   return (
-    <div>
-      <Sidebar variant="floating" className="dark">
+    <div className="z-50">
+      <Sidebar className="bg-bgtheme2">
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
-            <SidebarGroupContent className="dark">
+            <SidebarGroupLabel>
+              <h1 className="text-2xl text-bgtheme1">ITSKILLS</h1>
+            </SidebarGroupLabel>
+            <SidebarGroupContent className="bg-bgtheme2">
               <SidebarMenu>
                 <Menubar>
-                  <div
-                    className={`fixed top-10 left-0 h-full w-64  text-white transform transition-transform duration-300 ease-in-out shadow-lg z-10 `}
-                    style={{ margin: "0px" }}
-                  >
-                    <div className=" flex h-full w-64 flex-col justify-top gap-10  items-center pt-7 backdrop-blur-xl">
-                      <MenubarMenu>
-                        <Link
-                          href={"/"}
-                          className={
-                            `${pathname == "/" ? "underline" : "text-white"}` +
-                            " flex items-center"
-                          }
-                        >
-                          Home
-                        </Link>
-                      </MenubarMenu>
-
-                      <NavElement />
-                    </div>
+                  <div className="  h-auto  flex flex-col justify-between text-2xl border-none">
+                    <NavElement />
                   </div>
                 </Menubar>
               </SidebarMenu>

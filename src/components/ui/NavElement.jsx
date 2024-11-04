@@ -27,113 +27,163 @@ function NavElement() {
   const session = useSession();
   return (
     <>
-      <MenubarMenu>
-        <Link
-          href={"/courses"}
-          className={`${pathname == "/courses" ? "underline" : "text-white"}`}
-        >
-          Courses
-        </Link>
-      </MenubarMenu>
-      <MenubarMenu>
-        <Link
-          href={"/contact"}
-          className={`${pathname == "/contact" ? "underline" : "text-white"}`}
-        >
-          Contact
-        </Link>
-      </MenubarMenu>
-      <MenubarMenu>
-        <Link
-          href={"/about"}
-          className={`${pathname == "/about" ? "underline" : "text-white"}`}
-        >
-          About Us
-        </Link>
-      </MenubarMenu>
-      {pathname == "/sign-in" ||
-      pathname == "/sign-up" ||
-      session.data !== null ? (
-        ""
-      ) : (
-        <>
-          <MenubarMenu>
-            <Dialog open={isLoginDialogOpen} onOpenChange={setLoginDialogOpen}>
-              {pathname == "/sign-up" ? (
-                <Button
-                  className="bg-transparent border-none shadow-none text-black hover:bg-gray-100 hover:shadow-lg"
-                  onClick={() => {
-                    router.replace("/sign-in");
-                  }}
-                >
-                  Login
-                </Button>
-              ) : (
-                <DialogTrigger asChild>
-                  <Button className="bg-transparent border-none shadow-none text-white hover:bg-black hover:shadow-lg">
-                    Login
-                  </Button>
-                </DialogTrigger>
-              )}
-              <DialogContent className="sm:max-w-[425px] 500px:w-[80%]  ">
-                <DialogHeader>
-                  <DialogTitle>Login</DialogTitle>
-                </DialogHeader>
-                <Login onClose={() => setLoginDialogOpen(false)} />
-              </DialogContent>
-            </Dialog>
-          </MenubarMenu>
-          <MenubarMenu>
-            <Dialog
-              open={isSignupDialogOpen}
-              onOpenChange={setSignupDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button className="bg-transparent border-none shadow-none text-white hover:bg-black hover:shadow-lg">
-                  Signup
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="my-5 sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>SignUp</DialogTitle>
-                  <DialogDescription>Signup to get started.</DialogDescription>
-                </DialogHeader>
-                {/* Pass onClose function */}
-                <Signup onClose={() => setSignupDialogOpen(false)} />{" "}
-              </DialogContent>
-            </Dialog>
-          </MenubarMenu>
-        </>
-      )}
-      {(session.data?.user?._role === "6706bc9fff27bd499083aac2" ||
-        session.data?.user?._role === "6706bd8dff27bd499083aac3") && (
+      <div className=" w-full 830mpx:flex 830px:mb-10">
         <MenubarMenu>
           <Link
-            href={"/admin/dashboard"}
-            className={`${
-              pathname == "/admin/dashboard" ? "underline" : "text-white"
-            }`}
+            href={"/"}
+            className={
+              `${pathname == "/" ? "border-b-4 text-bgtheme1" : "text-white"}` +
+              " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all   830px:pt-12  830px:border-bgtheme2 border-bgtheme1 "
+            }
           >
-            Admin
+            Home
           </Link>
         </MenubarMenu>
-      )}
-      {session.data && (
-        <>
-          {console.log(session.data.user)}
-          <MenubarMenu>
-            <Button
-              className="bg-transparent border-none shadow-none text-white hover:bg-gray-100 hover:shadow-lg hover:text-black p-2"
-              onClick={() => {
-                signOut({ callbackUrl: "/sign-in" });
-              }}
-            >
-              Logout
-            </Button>
-          </MenubarMenu>
-          <MenubarMenu>| Hi, {session.data.user._username}</MenubarMenu>
-        </>
-      )}
+        <MenubarMenu>
+          <Link
+            href={"/courses"}
+            className={
+              `${
+                pathname == "/courses"
+                  ? "border-b-4 text-bgtheme1"
+                  : "text-white"
+              }` +
+              " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2"
+            }
+          >
+            Courses
+          </Link>
+        </MenubarMenu>
+        <MenubarMenu>
+          <Link
+            href={"/contact"}
+            className={
+              `${
+                pathname == "/contact"
+                  ? "border-b-4 text-bgtheme1"
+                  : "text-white"
+              }` +
+              " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2 "
+            }
+          >
+            Contact
+          </Link>
+        </MenubarMenu>
+        <MenubarMenu>
+          <Link
+            href={"/about"}
+            className={
+              `${
+                pathname == "/about" ? "border-b-4 text-bgtheme1" : "text-white"
+              }` +
+              " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2 "
+            }
+          >
+            About
+          </Link>
+        </MenubarMenu>
+      </div>
+      <div className="w-5/6 flex 830mpx:justify-end  gap-4  830px:border-t-4  830px:border-bgtheme1  830px:flex-col 830px:items-start 830px:mt-3 830px:self-center 830px:pt-6">
+        {pathname == "/sign-in" ||
+        pathname == "/sign-up" ||
+        session.data !== null ? (
+          ""
+        ) : (
+          <>
+            <MenubarMenu>
+              <Dialog
+                open={isLoginDialogOpen}
+                onOpenChange={setLoginDialogOpen}
+              >
+                {pathname == "/sign-up" ? (
+                  <Button
+                    className="bg-transparent border-none shadow-none text-black hover:bg-gray-10 transition-all "
+                    onClick={() => {
+                      router.replace("/sign-in");
+                    }}
+                  >
+                    Login
+                  </Button>
+                ) : (
+                  <DialogTrigger asChild>
+                    <Button className="shadow-none 830px:bg-transparent text-xl text-bgtheme1 830mpx:border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2">
+                      Login
+                    </Button>
+                  </DialogTrigger>
+                )}
+                <DialogContent className="sm:max-w-[425px] 500px:w-[80%]  ">
+                  <DialogHeader>
+                    <DialogTitle>Login</DialogTitle>
+                  </DialogHeader>
+                  <Login onClose={() => setLoginDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
+            </MenubarMenu>
+            <MenubarMenu>
+              <Dialog
+                open={isSignupDialogOpen}
+                onOpenChange={setSignupDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button className="shadow-none  text-xl text-bgtheme1 830px:bg-transparent 830mpx:border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2">
+                    Signup
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="my-5 sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>SignUp</DialogTitle>
+                    <DialogDescription>
+                      Signup to get started.
+                    </DialogDescription>
+                  </DialogHeader>
+                  {/* Pass onClose function */}
+                  <Signup onClose={() => setSignupDialogOpen(false)} />{" "}
+                </DialogContent>
+              </Dialog>
+            </MenubarMenu>
+          </>
+        )}
+        <div className=" text-xl flex gap-1 830mpx:items-center px-3 830px:flex-col 830px:w-full 830px:text-2xl 830px:h-48 830px:justify-between 830px:items-center">
+          {(session.data?.user?._role === "6706bc9fff27bd499083aac2" ||
+            session.data?.user?._role === "6706bd8dff27bd499083aac3") && (
+            <MenubarMenu>
+              <Link
+                href={"/admin/dashboard"}
+                className={
+                  `${
+                    pathname == "/admin/dashboard"
+                      ? "border-b-4 text-bgtheme1"
+                      : "text-white"
+                  }` +
+                  " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2 "
+                }
+              >
+                Admin
+              </Link>
+            </MenubarMenu>
+          )}
+          {session.data && (
+            <>
+              {console.log(session.data.user)}
+              <MenubarMenu>
+                <div className="text-bgtheme1 830mpx:border-l-2 border-bgtheme1 px-3 830px:hidden">
+                  Hi, {session.data.user._username}
+                </div>
+              </MenubarMenu>
+              <MenubarMenu>
+                <Button
+                  className=" shadow-none  text-xl text-bgtheme1 border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2"
+                  onClick={() => {
+                    signOut({ callbackUrl: "/sign-in" });
+                  }}
+                >
+                  Logout
+                </Button>
+              </MenubarMenu>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 }

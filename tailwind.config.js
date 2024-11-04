@@ -11,6 +11,8 @@ module.exports = {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        bgtheme1: "#6ecbf5",
+        bgtheme2: "#001f3f",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -66,6 +68,12 @@ module.exports = {
         },
         "600px": {
           max: "600px",
+        },
+        "830px": {
+          max: "830px",
+        },
+        "830mpx": {
+          min: "830px",
         },
         "930px": {
           max: "930px",
