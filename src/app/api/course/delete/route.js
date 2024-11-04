@@ -3,6 +3,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { id } = await req.json();
+  if (!id) {
+    return NextResponse.json(
+      { message: "Please provide course id" },
+      { status: 400 }
+    );
+  }
   try {
     const deleted = await Course.findByIdAndDelete(id); // Use findByIdAndDelete for more direct deletion by ID
     if (deleted) {

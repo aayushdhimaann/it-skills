@@ -9,14 +9,14 @@ export async function POST(req) {
     const { title } = body;
     if (!title || title == "") {
       return NextResponse.json(
-        { success: false, message: "Title is required" },
+        { success: false, message: "Course category name is required" },
         { status: 400 }
       );
     }
     const existingCategory = await CourseCategory.findOne({ title });
     if (existingCategory) {
       return NextResponse.json(
-        { success: false, message: "Title already exists" },
+        { success: false, message: "Course Category already exists" },
         { status: 409 }
       ); // Conflict status code
     }
@@ -25,7 +25,11 @@ export async function POST(req) {
     });
     const savedCategory = await newCategory.save();
     return NextResponse.json(
-      { success: true, data: savedCategory },
+      {
+        success: true,
+        data: savedCategory,
+        message: "Course category added successfully!",
+      },
       { status: 201 }
     );
   } catch (error) {

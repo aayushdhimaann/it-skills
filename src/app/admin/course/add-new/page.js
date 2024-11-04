@@ -60,14 +60,14 @@ const AddNewCourse = () => {
         toast({
           title: "Error",
           description: "Something went wrong!",
-          variant: "error",
+          variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
         description: error.message,
-        variant: "error",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -101,9 +101,8 @@ const AddNewCourse = () => {
           Add New Course
         </h1>
         <motion.div
-          initial={{ opacity: 0, y: -300, x: -1000 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
+          initial={{ opacity: 0, x: -1000 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
         >
           <Form {...form}>
@@ -142,7 +141,7 @@ const AddNewCourse = () => {
                       <div className="relative">
                         <select
                           {...field}
-                          className=" text-white placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
+                          className=" text-white bg-transparent placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
                           onChange={(e) => field.onChange(e.target.value)}
                         >
                           <option value="">Select Category</option>

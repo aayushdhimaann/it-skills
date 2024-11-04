@@ -13,6 +13,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer"; // Import your drawer components
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Sidebar = ({ onClose }) => {
   const router = useRouter();
@@ -65,9 +66,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for Add Student */}
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/add-new")
-                    }
+                    onClick={() => handleNavigation("/admin/student/add-new")}
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Student */}
                     <span>Add Student</span>
@@ -76,9 +75,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for View All Students */}
                   <Button
                     className="flex items-center justify-start w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/view-all")
-                    }
+                    onClick={() => handleNavigation("/admin/student/view-all")}
                   >
                     <Users className="mr-2" />{" "}
                     {/* Icon for View All Students */}
@@ -128,9 +125,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for Add Course */}
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/course/add-new")
-                    }
+                    onClick={() => handleNavigation("/admin/course/add-new")}
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Course */}
                     <span>Add Course</span>
@@ -178,8 +173,14 @@ const Sidebar = ({ onClose }) => {
             S
           </div>
           <div>
-            <p className="font-semibold text-sm">Settings</p>
-            <p className="text-xs text-gray-400">Manage system preferences</p>
+            <p
+              className="font-semibold text-sm cursor-pointer"
+              onClick={() => {
+                handleNavigation("/admin/setting");
+              }}
+            >
+              Settings
+            </p>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import {
   Form,
   FormControl,
@@ -42,6 +43,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -235,114 +237,122 @@ const ViewCourse = () => {
             <DialogHeader>
               <DialogTitle>Edit</DialogTitle>
             </DialogHeader>
-            <Form {...form}>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                method="post"
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                {/* course name Field */}
-                <FormField
-                  control={control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Course Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Course Name"
-                          {...field}
-                          className="placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* course category */}
-                <FormField
-                  control={control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Select Category</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <select
+            <DialogDescription>
+              <Form {...form}>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  method="post"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
+                  {/* course name Field */}
+                  <FormField
+                    control={control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Course Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter Course Name"
                             {...field}
-                            className="placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover: cursor-pointer"
-                            onChange={(e) => field.onChange(e.target.value)}
-                          >
-                            <option value="">Select Category</option>
-                            {courseCategories.map((category) => (
-                              <option key={category._id} value={category._id}>
-                                {category.title}
-                              </option>
-                            ))}
-                          </select>
-                          <div className="absolute top-0 right-0 mt-3 mr-3 pointer-events-none">
-                            <svg
-                              className="h-5 w-5 text-gray-400"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 10l5 5 5-5"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* course description */}
-                <FormField
-                  control={control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Enter Description"
-                          {...field}
-                          className=" w-full h-48  placeholder-gray-400"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Submit Button (Full Width) */}
-                <div className="md:col-span-2 flex justify-center">
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    variant="default"
-                    className="w-auto py-3 border border-white transition-colors duration-200 ease-in-out hover:bg-gray-900 hover:text-white"
-                  >
-                    {isLoading ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      "Update"
+                            className="placeholder-gray-400 transition-colors duration-200 ease-in-out hover:bg-gray-700 hover:"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </Button>
-                </div>
-              </form>
-            </Form>
+                  />
+
+                  {/* course category */}
+                  <FormField
+                    control={control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Category</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <select
+                              {...field}
+                              className="placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover: cursor-pointer"
+                              onChange={(e) => field.onChange(e.target.value)}
+                            >
+                              <option value="">Select Category</option>
+                              {courseCategories.map((category) => (
+                                <option key={category._id} value={category._id}>
+                                  {category.title}
+                                </option>
+                              ))}
+                            </select>
+                            <div className="absolute top-0 right-0 mt-3 mr-3 pointer-events-none">
+                              <svg
+                                className="h-5 w-5 text-gray-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M7 10l5 5 5-5"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* course description */}
+                  <FormField
+                    control={control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem className="md:col-span-2">
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Enter Description"
+                            {...field}
+                            className=" w-full h-48  placeholder-gray-400"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Submit Button (Full Width) */}
+                  <div className="md:col-span-2 flex justify-center">
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      variant="default"
+                      className="w-auto py-3 border border-white transition-colors duration-200 ease-in-out hover:bg-gray-900 hover:text-white"
+                    >
+                      {isLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        "Update"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </DialogDescription>
           </DialogContent>
         </Dialog>
-        <div className="flex justify-between items-center">
-          <Select className=" " onValueChange={handleCategoryChange}>
+        <motion.div
+          className="flex justify-between items-center"
+          initial={{ opacity: 0, x: -1000 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Select onValueChange={handleCategoryChange}>
             <SelectTrigger className="w-auto lg:w-[180px] bg-gray-700 border border-gray-600 ">
               <SelectValue placeholder="Select a Category" />
             </SelectTrigger>
@@ -368,7 +378,7 @@ const ViewCourse = () => {
           <Link href="/admin/course/add-new" className="hover:underline">
             Add New Course
           </Link>
-        </div>
+        </motion.div>
 
         {/* Show items only if a category is selected */}
         {selectedCategory && selectedCategory !== "clear" && (
