@@ -13,6 +13,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer"; // Import your drawer components
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Sidebar = ({ onClose }) => {
   const router = useRouter();
@@ -172,8 +173,14 @@ const Sidebar = ({ onClose }) => {
             S
           </div>
           <div>
-            <p className="font-semibold text-sm">Settings</p>
-            <p className="text-xs text-gray-400">Manage system preferences</p>
+            <p
+              className="font-semibold text-sm cursor-pointer"
+              onClick={() => {
+                handleNavigation("/admin/setting");
+              }}
+            >
+              Settings
+            </p>
           </div>
         </div>
       </div>

@@ -74,5 +74,6 @@ export const config = {
     "/api/course/category/add-new",
     "/api/course/update",
     "/api/student/view-all",
+    "/api/course/category/update",
   ],
 };
