@@ -46,7 +46,7 @@ const Sidebar = ({ onClose }) => {
             }
           >
             <DrawerTrigger>
-              <Button className="flex items-center justify-start w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
+              <Button className="flex items-center justify-start w-full p-3   transition-colors duration-200 ">
                 <User className="mr-2" /> {/* Icon for Student */}
                 <span>Student</span>
               </Button>
@@ -65,9 +65,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for Add Student */}
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/add-new")
-                    }
+                    onClick={() => handleNavigation("/admin/student/add-new")}
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Student */}
                     <span>Add Student</span>
@@ -76,9 +74,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for View All Students */}
                   <Button
                     className="flex items-center justify-start w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/student/view-all")
-                    }
+                    onClick={() => handleNavigation("/admin/student/view-all")}
                   >
                     <Users className="mr-2" />{" "}
                     {/* Icon for View All Students */}
@@ -109,7 +105,7 @@ const Sidebar = ({ onClose }) => {
             }
           >
             <DrawerTrigger>
-              <Button className="flex items-center justify-start w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
+              <Button className="flex items-center justify-start w-full p-3 ">
                 <BookOpen className="mr-2" /> {/* Icon for Course */}
                 <span>Course</span>
               </Button>
@@ -128,9 +124,7 @@ const Sidebar = ({ onClose }) => {
                   {/* Card for Add Course */}
                   <Button
                     className="flex items-center justify-start p-3 w-full rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200"
-                    onClick={() =>
-                      handleNavigation("/admin/course/add-new")
-                    }
+                    onClick={() => handleNavigation("/admin/course/add-new")}
                   >
                     <PlusCircle className="mr-2" /> {/* Icon for Add Course */}
                     <span>Add Course</span>
@@ -164,7 +158,7 @@ const Sidebar = ({ onClose }) => {
 
         {/* Manage Enrollments */}
         <li className="group">
-          <Button className="flex items-center justify-start w-full p-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
+          <Button className="flex items-center justify-start w-full p-3 ">
             <Users className="mr-2" /> {/* Icon for Manage Enrollments */}
             <span>Manage Enrollments</span>
           </Button>

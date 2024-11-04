@@ -18,9 +18,7 @@ export async function POST(req) {
 
     // Check if the course was found and updated
     if (!updatedCourse) {
-      return NextResponse.json(
-        { message: "Course not found", success: false },
-      );
+      return NextResponse.json({ message: "Course not found", success: false });
     }
 
     // Return a success response with the updated course
@@ -31,7 +29,11 @@ export async function POST(req) {
   } catch (error) {
     console.error("Error updating course:", error);
     return NextResponse.json(
-      { message: "Error updating course", success: false, error: error.message },
+      {
+        message: "Error updating course",
+        success: false,
+        error: error.message,
+      },
       { status: 500 } // Internal Server Error
     );
   }

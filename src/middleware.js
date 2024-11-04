@@ -73,5 +73,6 @@ export const config = {
     "/api/course/add-new",
     "/api/course/category/add-new",
     "/api/course/update",
+    "/api/student/view-all",
   ],
 };
