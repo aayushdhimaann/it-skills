@@ -54,79 +54,73 @@ const ViewAllStudent = () => {
     }
   }, [status]);
   return (
-    <>
-      {students.length === 0 ? (
-        <Loading />
-      ) : (
-        <div className="min-h-screen p-2">
-          <div className=" h-12 w-full flex justify-between items-center p-3">
-            <h1>View All Students</h1>
-            <Link href="/admin/student/add-new" className="hover:underline">
-              Add New Student
-            </Link>
-          </div>
+    <div className="min-h-screen p-2">
+      <div className=" h-12 w-full flex justify-between items-center p-3">
+        <h1>View All Students</h1>
+        <Link href="/admin/student/add-new" className="hover:underline">
+          Add New Student
+        </Link>
+      </div>
 
-          <div className="mx-3 border rounded-lg">
-            <Table>
-              <TableHeader>
-                <TableRow className="hover:bg-bgtheme2 group hover:text-bgtheme1">
-                  {tableFields.map((heading, ind) => (
-                    <TableHead className="group-hover:text-bgtheme1" key={ind}>
-                      {heading}
-                    </TableHead>
-                  ))}
+      <div className="mx-3 border rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-bgtheme2 group hover:text-bgtheme1">
+              {tableFields.map((heading, ind) => (
+                <TableHead className="group-hover:text-bgtheme1" key={ind}>
+                  {heading}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {students.map((student, i) => {
+              return (
+                <TableRow
+                  key={student._id}
+                  className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
+                >
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell className="group-hover:text-bgtheme1">
+                    <Image
+                      src={student.photo}
+                      alt="student image"
+                      height={220}
+                      width={100}
+                    />
+                  </TableCell>
+                  <TableCell>{student.student_name}</TableCell>
+                  <TableCell>{student.father_name}</TableCell>
+                  <TableCell>{student.email}</TableCell>
+                  <TableCell>{student.phone}</TableCell>
+                  <TableCell>{student.phone_alt}</TableCell>
+                  <TableCell>{student.address}</TableCell>
+                  <TableCell>{student.branch}</TableCell>
+                  <TableCell>{student.course_name}</TableCell>
+                  <TableCell>
+                    {new Date(student.date_of_birth).toLocaleString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(student.date_of_admission).toLocaleString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {students.map((student, i) => {
-                  return (
-                    <TableRow
-                      key={student._id}
-                      className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
-                    >
-                      <TableCell>{i + 1}</TableCell>
-                      <TableCell className="group-hover:text-bgtheme1">
-                        <Image
-                          src={student.photo}
-                          alt="student image"
-                          height={220}
-                          width={100}
-                        />
-                      </TableCell>
-                      <TableCell>{student.student_name}</TableCell>
-                      <TableCell>{student.father_name}</TableCell>
-                      <TableCell>{student.email}</TableCell>
-                      <TableCell>{student.phone}</TableCell>
-                      <TableCell>{student.phone_alt}</TableCell>
-                      <TableCell>{student.address}</TableCell>
-                      <TableCell>{student.branch}</TableCell>
-                      <TableCell>{student.course_name}</TableCell>
-                      <TableCell>
-                        {new Date(student.date_of_birth).toLocaleString("en-GB", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(student.date_of_admission).toLocaleString(
-                          "en-GB",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      )}{" "}
-    </>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
   );
 };
 
