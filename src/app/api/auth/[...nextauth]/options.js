@@ -22,7 +22,7 @@ export const authOptions = {
           });
 
           if (!user) {
-            throw new Error("No user exists with this email of password");
+            throw new Error("No user exists with this email or password");
           }
           if (!user.isVerified) {
             throw new Error("Please verify your account");
