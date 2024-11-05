@@ -14,12 +14,11 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Loading from "@/app/loading";
-const page = () => {
-  const { data: session } = useSession();
+const ViewAllStudent = () => {
+  const { data: session, status } = useSession();
   const token = session?.user._accessToken;
-  // console.log(token);
   // state to manage the data of all the students
-  const [allData, setAllData] = useState([]);
+  const [students, setStudents] = useState([]);
 
   // table fields
   const tableFields = [
@@ -43,23 +42,23 @@ const page = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.studData);
-      setAllData(response.data.studData);
+      setStudents(response.data.studData);
     } catch (error) {
       console.log("error : " + error);
     }
   };
 
   useEffect(() => {
-    fetchAllStudent();
-    console.log("object");
-  }, []);
+    if (status == "authenticated") {
+      fetchAllStudent();
+    }
+  }, [status]);
   return (
     <>
-      {allData.length === 0 ? (
+      {students.length === 0 ? (
         <Loading />
       ) : (
-        <div className="min-h-screen text-white py-2">
+        <div className="min-h-screen p-2">
           <div className=" h-12 w-full flex justify-between items-center p-3">
             <h1>View All Students</h1>
             <Link href="/admin/student/add-new" className="hover:underline">
@@ -67,7 +66,7 @@ const page = () => {
             </Link>
           </div>
 
-          <div className="mx-3  border-2 border-bgtheme1 rounded-lg">
+          <div className="mx-3 border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-bgtheme2 group hover:text-bgtheme1">
@@ -79,43 +78,42 @@ const page = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {allData.map((sInfo, i) => {
+                {students.map((student, i) => {
                   return (
                     <TableRow
-                      key={sInfo._id}
+                      key={student._id}
                       className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
                     >
                       <TableCell>{i + 1}</TableCell>
                       <TableCell className="group-hover:text-bgtheme1">
                         <Image
-                          src={sInfo.photo}
+                          src={student.photo}
                           alt="student image"
                           height={220}
                           width={100}
                         />
                       </TableCell>
-                      <TableCell>{sInfo.student_name}</TableCell>
-                      <TableCell>{sInfo.father_name}</TableCell>
-                      <TableCell>{sInfo.email}</TableCell>
-                      <TableCell>{sInfo.phone}</TableCell>
-                      <TableCell>{sInfo.phone_alt}</TableCell>
-                      <TableCell>{sInfo.address}</TableCell>
-                      <TableCell>{sInfo.branch}</TableCell>
-                      <TableCell>{sInfo.course_name}</TableCell>
+                      <TableCell>{student.student_name}</TableCell>
+                      <TableCell>{student.father_name}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{student.phone}</TableCell>
+                      <TableCell>{student.phone_alt}</TableCell>
+                      <TableCell>{student.address}</TableCell>
+                      <TableCell>{student.branch}</TableCell>
+                      <TableCell>{student.course_name}</TableCell>
                       <TableCell>
-                        {new Date(sInfo.date_of_birth).toLocaleString("en-GB", {
+                        {new Date(student.date_of_birth).toLocaleString("en-GB", {
                           day: "2-digit",
-                          month: "2-digit",
+                          month: "short",
                           year: "numeric",
                         })}
                       </TableCell>
                       <TableCell>
-                        {" "}
-                        {new Date(sInfo.date_of_admission).toLocaleString(
+                        {new Date(student.date_of_admission).toLocaleString(
                           "en-GB",
                           {
                             day: "2-digit",
-                            month: "2-digit",
+                            month: "short",
                             year: "numeric",
                           }
                         )}
@@ -132,4 +130,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ViewAllStudent;

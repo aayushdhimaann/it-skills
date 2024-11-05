@@ -6,7 +6,6 @@ export async function GET() {
   try {
     await dbConnect();
     const studData = await Student.find();
-    console.log("Data is " + studData);
 
     if (studData)
       return NextResponse.json({ success: true, studData }, { status: 200 });

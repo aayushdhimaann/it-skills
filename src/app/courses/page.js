@@ -47,7 +47,7 @@ const Page = () => {
   return (
     <div className="min-h-screen py-16 px-4">
       <section id="courses" className="max-w-5xl mx-auto">
-        <h3 className="text-4xl font-semibold text-center  mb-8">
+        <h3 className="text-4xl font-semibold text-center my-8">
           Our Courses
         </h3>
 

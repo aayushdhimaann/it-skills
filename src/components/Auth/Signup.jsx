@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { AlertCircle } from "lucide-react";
 import { Eye, EyeOff } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Select,
   SelectContent,
