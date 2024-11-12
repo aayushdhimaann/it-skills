@@ -485,6 +485,6 @@ const CalendarDatePicker = forwardRef(
   }
 );
 
-// CalendarDatePicker.displayName = "CalendarDatePicker";
+CalendarDatePicker.displayName = "CalendarDatePicker";
 
 export default CalendarDatePicker;
