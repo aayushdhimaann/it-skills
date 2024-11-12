@@ -80,7 +80,7 @@ const Signup = () => {
   // getting roles
 
   const getRoles = async () => {
-    const response = await axios.get("/api/get-roles");
+    const response = await axios.get("/api/roles/get-roles");
     if (response.status == 200) {
       setRoles(response.data.roles);
     }

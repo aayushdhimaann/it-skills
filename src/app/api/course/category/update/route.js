@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 export async function POST(req) {
   try {
     const data = await req.json();
+    // console.log(data);
 
     // Validate required fields
     if (!data.id || !data.title) {

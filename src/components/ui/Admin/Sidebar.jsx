@@ -13,7 +13,7 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer"; // Import your drawer components
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const Sidebar = ({ onClose }) => {
   const router = useRouter();
@@ -46,10 +46,10 @@ const Sidebar = ({ onClose }) => {
               setOpenDrawer(openDrawer === "students" ? null : "students")
             }
           >
-            <DrawerTrigger>
-              <Button className="flex items-center justify-start w-full p-3   transition-colors duration-200 ">
+            <DrawerTrigger className="min-w-full">
+              <Button className="flex items-center justify-start w-full p-3">
                 <User className="mr-2" /> {/* Icon for Student */}
-                <span>Student</span>
+                <span>Student Management</span>
               </Button>
             </DrawerTrigger>
             <DrawerContent className="bg-gray-900 flex items-center">
@@ -105,10 +105,10 @@ const Sidebar = ({ onClose }) => {
               setOpenDrawer(openDrawer === "courses" ? null : "courses")
             }
           >
-            <DrawerTrigger>
-              <Button className="flex items-center justify-start w-full p-3 ">
+            <DrawerTrigger className="min-w-full">
+              <Button className="flex items-center justify-start w-full p-3">
                 <BookOpen className="mr-2" /> {/* Icon for Course */}
-                <span>Course</span>
+                <span>Course Management</span>
               </Button>
             </DrawerTrigger>
             <DrawerContent className="bg-gray-900 flex items-center">
@@ -159,7 +159,7 @@ const Sidebar = ({ onClose }) => {
 
         {/* Manage Enrollments */}
         <li className="group">
-          <Button className="flex items-center justify-start w-full p-3 ">
+          <Button className="flex items-center justify-start w-full p-3">
             <Users className="mr-2" /> {/* Icon for Manage Enrollments */}
             <span>Manage Enrollments</span>
           </Button>
@@ -167,7 +167,7 @@ const Sidebar = ({ onClose }) => {
       </ul>
 
       {/* Decorative Design Elements */}
-      <div className="mt-12 border-t border-gray-700 pt-6">
+      <div className="mt-5 border-t border-gray-700 pt-6">
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-lg font-bold">
             S
@@ -181,6 +181,20 @@ const Sidebar = ({ onClose }) => {
             >
               Settings
             </p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-5 border-gray-700">
+        <div className="flex items-center space-x-4">
+          <div>
+            <Button
+              className="font-semibold text-sm cursor-pointer"
+              onClick={() => {
+                signOut({ callbackUrl: "/sign-in" });
+              }}
+            >
+              Logout
+            </Button>
           </div>
         </div>
       </div>

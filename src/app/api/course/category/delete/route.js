@@ -15,7 +15,10 @@ export async function POST(req) {
     const courseExists = await Course.exists({ categoryId: id });
     if (courseExists) {
       return NextResponse.json(
-        { message: "Cannot delete this category as it is associated with a course." },
+        {
+          message:
+            "Cannot delete this category as it is associated with a course.",
+        },
         { status: 400 }
       );
     }

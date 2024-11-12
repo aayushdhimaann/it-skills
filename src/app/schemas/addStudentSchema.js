@@ -2,13 +2,17 @@ import { z } from "zod";
 
 const addStudentSchema = z.object({
   branch: z.string().min(1, "Branch is required"),
-  date_of_admission: z.string().min(1, "Date of admission is required"),
+  date_of_admission: z.preprocess((val) => new Date(val), z.date()).refine(
+    (date) => !isNaN(date.getTime()), { message: "Invalid date format for Date of Admission" }
+  ),
   course_name: z.string().min(1, "Course name is required"),
   course_duration: z.string().min(1, "Course duration is required"),
   student_name: z.string().min(1, "Student name is required"),
   father_name: z.string().min(1, "Father's name is required"),
   father_occupation: z.string().min(1, "Father's occupation is required"),
-  date_of_birth: z.string().min(1, "Date of birth is required"),
+  date_of_birth: z.preprocess((val) => new Date(val), z.date()).refine(
+    (date) => !isNaN(date.getTime()), { message: "Invalid date format for Date of Birth" }
+  ),
   education_details: z
     .array(
       z.object({
@@ -26,8 +30,9 @@ const addStudentSchema = z.object({
   email: z.string().email("Invalid email address"),
   course_fee: z.string().min(1, "Course fee is required"),
   deposited_fee: z.string().min(1, "Admission fee is required"),
-  deposited_fee: z.string().min(1, "Deposited fee is required"),
-  certi_date: z.string().min(1, "Certificate Due is required"),
+  certi_date: z.preprocess((val) => new Date(val), z.date()).refine(
+    (date) => !isNaN(date.getTime()), { message: "Invalid date format for Certificate Due Date" }
+  ),
 });
 
 export default addStudentSchema;

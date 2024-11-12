@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 // import ViewFilter from "@/components/ui/Admin/ViewFilter";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -10,15 +11,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Loading from "@/app/loading";
+import ViewFilter from "@/components/ui/Admin/ViewFilter";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 const ViewAllStudent = () => {
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
   // state to manage the data of all the students
   const [students, setStudents] = useState([]);
+  const [filterStudentData, setFilterStudentData] = useState(students);
+  const [filterVal, setFilterVal] = useState("");
+  const [progress, setProgress] = useState(10);
 
   // table fields
   const tableFields = [
@@ -43,23 +51,60 @@ const ViewAllStudent = () => {
         },
       });
       setStudents(response.data.studData);
+      setFilterStudentData(response.data.studData);
     } catch (error) {
       console.log("error : " + error);
     }
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => setProgress(70), 500);
     if (status == "authenticated") {
       fetchAllStudent();
     }
+    return () => clearTimeout(timer);
   }, [status]);
+
+  // use effect to fetch the filtered students
+  useEffect(() => {
+    const filtered = students.filter((student) =>
+      student.student_name.toLowerCase().includes(filterVal.toLowerCase())
+    );
+    setFilterStudentData(filtered);
+  }, [filterVal, students]);
   return (
-    <div className="min-h-screen p-2">
-      <div className=" h-12 w-full flex justify-between items-center p-3">
-        <h1>View All Students</h1>
-        <Link href="/admin/student/add-new" className="hover:underline">
+    <motion.div
+      className="min-h-screen p-2"
+      initial={{ opacity: 0, x: -1000 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="h-auto w-full flex flex-col sm:flex-row justify-between items-center mb-4 p-3 space-y-3 sm:space-y-0 sm:space-x-4">
+        <h1 className="text-xl sm:text-2xl font-bold">
+          <span className="border-b-4">View All Students</span>
+        </h1>
+        <Link
+          href="/admin/student/add-new"
+          className="text-base sm:text-lg font-medium hover:underline"
+        >
           Add New Student
         </Link>
+      </div>
+      <div className="h-12 mb-4 p-3 flex items-center space-x-2">
+        <Input
+          type="text"
+          placeholder="Search by Name"
+          className="w-full sm:w-80 md:w-96 h-10 px-4 text-sm border border-gray-300 focus:outline-none"
+          value={filterVal}
+          onChange={(e) => setFilterVal(e.target.value)}
+        />
+        <Button
+          type="button"
+          onClick={() => setFilterVal("")} // Clear the input
+        >
+          Clear
+        </Button>
       </div>
 
       <div className="mx-3 border rounded-lg">
@@ -73,54 +118,72 @@ const ViewAllStudent = () => {
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {students.map((student, i) => {
-              return (
-                <TableRow
-                  key={student._id}
-                  className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
-                >
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell className="group-hover:text-bgtheme1">
-                    <Image
-                      src={student.photo}
-                      alt="student image"
-                      height={220}
-                      width={100}
-                    />
+          {filterStudentData.length === 0 ? (
+            <TableBody>
+              {students.length !== 0 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={tableFields.length}
+                    className="text-center text-gray-500"
+                  >
+                    No record Found
                   </TableCell>
-                  <TableCell>{student.student_name}</TableCell>
-                  <TableCell>{student.father_name}</TableCell>
-                  <TableCell>{student.email}</TableCell>
-                  <TableCell>{student.phone}</TableCell>
-                  <TableCell>{student.phone_alt}</TableCell>
-                  <TableCell>{student.address}</TableCell>
-                  <TableCell>{student.branch}</TableCell>
-                  <TableCell>{student.course_name}</TableCell>
-                  <TableCell>
-                    {new Date(student.date_of_birth).toLocaleString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(student.date_of_admission).toLocaleString(
-                      "en-GB",
-                      {
+                </TableRow>
+              )}
+            </TableBody>
+          ) : (
+            <TableBody>
+              {filterStudentData.map((student, i) => {
+                return (
+                  <TableRow
+                    key={student._id}
+                    className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
+                  >
+                    <TableCell>{i + 1}</TableCell>
+                    <TableCell className="group-hover:text-bgtheme1">
+                      <Image
+                        src={student.photo}
+                        alt="student image"
+                        height={220}
+                        width={100}
+                      />
+                    </TableCell>
+                    <TableCell>{student.student_name}</TableCell>
+                    <TableCell>{student.father_name}</TableCell>
+                    <TableCell>{student.email}</TableCell>
+                    <TableCell>{student.phone}</TableCell>
+                    <TableCell>{student.phone_alt}</TableCell>
+                    <TableCell>{student.address}</TableCell>
+                    <TableCell>{student.branch}</TableCell>
+                    <TableCell>{student.course_name}</TableCell>
+                    <TableCell>
+                      {new Date(student.date_of_birth).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",
-                      }
-                    )}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
+                      })}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(student.date_of_admission).toLocaleString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          )}
         </Table>
       </div>
-    </div>
+      {students.length === 0 && (
+        <Progress value={progress} className="w-[50%] m-auto my-6" />
+      )}
+    </motion.div>
   );
 };
 
