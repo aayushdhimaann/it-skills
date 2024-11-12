@@ -1,6 +1,6 @@
 import AdminNavBar from "@/components/ui/Admin/NavBar";
 export const metadata = {
-  title: "ITSKILLS - ADMIN DASHBOARD",
+  title: "ITSKILLS - ADMIN",
   description: "",
 };
 export default function AdminLayout({ children }) {

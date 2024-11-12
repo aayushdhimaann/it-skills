@@ -57,6 +57,10 @@ export async function middleware(request) {
   if (url.pathname === "/login") {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
+  // Redirect /register to /sign-up
+  if (url.pathname === "/register") {
+    return NextResponse.redirect(new URL("/sign-up", request.url));
+  }
 
   return NextResponse.next();
 }
@@ -69,11 +73,13 @@ export const config = {
     "/sign-up",
     "/sign-in",
     "/login",
+    "/register",
     "/admin/:path*", // Match all routes that start with /admin
     "/api/course/add-new",
     "/api/course/category/add-new",
     "/api/course/update",
     "/api/student/view-all",
     "/api/course/category/update",
+    "/api/roles/add-new",
   ],
 };

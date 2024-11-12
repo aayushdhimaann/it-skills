@@ -49,6 +49,8 @@ const Signin = () => {
           variant: "success",
         });
         const session = await getSession();
+        // console.log(session);
+
         if (
           session.user._role === "6706bc9fff27bd499083aac2" ||
           session.user._role === "6706bd8dff27bd499083aac3"
