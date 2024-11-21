@@ -219,7 +219,7 @@ function Dashboard() {
           </Card>
 
           {/* Second Chart */}
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle>Bar Chart 2</CardTitle>
               <CardDescription>January - June 2024</CardDescription>
@@ -256,7 +256,7 @@ function Dashboard() {
                 Showing total visitors for the last 6 months
               </div>
             </CardFooter>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </motion.div>
