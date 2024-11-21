@@ -55,7 +55,7 @@ const ViewAllStudent = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.studData);
+      console.log(response.data.studData)
       setStudents(response.data.studData);
       setFilterStudentData(response.data.studData);
     } catch (error) {
