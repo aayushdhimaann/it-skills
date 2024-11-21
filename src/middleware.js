@@ -79,7 +79,9 @@ export const config = {
     "/api/course/category/add-new",
     "/api/course/update",
     "/api/student/view-all",
+    "/api/student/find-pending-fees",
     "/api/course/category/update",
     "/api/roles/add-new",
+    "/api/dashboard",
   ],
 };
