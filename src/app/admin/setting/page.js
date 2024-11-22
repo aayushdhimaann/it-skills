@@ -412,26 +412,26 @@ const Setting = () => {
               >
                 {/* Add a new Course Category or a Role */}
                 <div className=" flex justify-end items-center px-5 py-3">
-                  <div className="border-slate-50 border-2 rounded-md  py-0 px-1">
-                    <GlobalTooltip content="Add New Course Category">
-                      <Plus
-                        className="cursor-pointer w-4"
-                        onClick={() => {
-                          setModalValue({
-                            action: "add",
-                            title: "category",
-                            formVal: {
-                              category: "",
-                            },
-                            open: true,
-                            resetVal: "",
-                            submitHandle: addSubmitHandler,
-                          });
-                          setModalDisplay(true);
-                        }}
-                      />
-                    </GlobalTooltip>
-                  </div>
+                  <GlobalTooltip content="Add New Course Category">
+                    <div
+                      onClick={() => {
+                        setModalValue({
+                          action: "add",
+                          title: "category",
+                          formVal: {
+                            category: "",
+                          },
+                          open: true,
+                          resetVal: "",
+                          submitHandle: addSubmitHandler,
+                        });
+                        setModalDisplay(true);
+                      }}
+                      className="border-slate-50 border-2 rounded-md  py-0 px-1 cursor-pointer"
+                    >
+                      <Plus className="w-4" />
+                    </div>
+                  </GlobalTooltip>
                 </div>
                 <div
                   className={`${
@@ -533,26 +533,26 @@ const Setting = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className=" flex justify-end items-center px-5 py-3">
-                  <div className="border-slate-50 border-2 rounded-md  py-0 px-1">
-                    <GlobalTooltip content="Add New Role">
-                      <Plus
-                        className="cursor-pointer w-4"
-                        onClick={() => {
-                          setModalValue({
-                            action: "add",
-                            title: "Role",
-                            formVal: {
-                              role: "",
-                            },
-                            open: true,
-                            resetVal: "",
-                            submitHandle: addSubmitHandler,
-                          });
-                          setModalDisplay(true);
-                        }}
-                      />
-                    </GlobalTooltip>
-                  </div>
+                  <GlobalTooltip content="Add New Role">
+                    <div
+                      onClick={() => {
+                        setModalValue({
+                          action: "add",
+                          title: "Role",
+                          formVal: {
+                            role: "",
+                          },
+                          open: true,
+                          resetVal: "",
+                          submitHandle: addSubmitHandler,
+                        });
+                        setModalDisplay(true);
+                      }}
+                      className="cursor-pointer border-slate-50 border-2 rounded-md  py-0 px-1"
+                    >
+                      <Plus className="w-4" />
+                    </div>
+                  </GlobalTooltip>
                 </div>
                 <div
                   className={`${

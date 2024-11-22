@@ -19,6 +19,8 @@ import Loading from "@/app/loading";
 import ViewFilter from "@/components/ui/Admin/ViewFilter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Pencil, Trash } from "lucide-react";
+import GlobalTooltip from "@/components/ui/GlobalTooltip";
 const ViewAllStudent = () => {
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
@@ -40,8 +42,11 @@ const ViewAllStudent = () => {
     "Address",
     "Branch",
     "Course Name",
+    "Course Fee",
+    "Deposited Fee",
     "Date of Admission",
     "Date of Birth",
+    "Action",
   ];
   const fetchAllStudent = async () => {
     try {
@@ -156,6 +161,8 @@ const ViewAllStudent = () => {
                     <TableCell>{student.address}</TableCell>
                     <TableCell>{student.branch}</TableCell>
                     <TableCell>{student.course_name}</TableCell>
+                    <TableCell>{student.course_fee}</TableCell>
+                    <TableCell>{student.deposited_fee}</TableCell>
                     <TableCell>
                       {new Date(student.date_of_birth).toLocaleString("en-GB", {
                         day: "2-digit",
@@ -172,6 +179,14 @@ const ViewAllStudent = () => {
                           year: "numeric",
                         }
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <GlobalTooltip content="Edit">
+                        <Pencil className="w-4 cursor-pointer" />
+                      </GlobalTooltip>
+                      <GlobalTooltip content="Delete">
+                        <Trash className="w-4 cursor-pointer" />
+                      </GlobalTooltip>
                     </TableCell>
                   </TableRow>
                 );

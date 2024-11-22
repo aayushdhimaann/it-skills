@@ -164,7 +164,7 @@ function NavElement() {
           )}
           {session.data && (
             <>
-              {console.log(session.data.user)}
+              {/* {console.log(session.data.user)} */}
               <MenubarMenu>
                 <div className="text-bgtheme1 830mpx:border-l-2 border-bgtheme1 px-3 830px:hidden">
                   Hi, {session.data.user._username}
