@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { HomeIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import {
@@ -10,8 +11,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import axios from "axios";
 const Page = () => {
+  const [data, setData] = useState([]);
+  const fetchData = async () => {
+    const response = await axios.get("/api/about");
+    setData(response.data.aboutUsData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
       {/* About Us Section */}
@@ -158,15 +168,15 @@ const Page = () => {
             <CardContent className="flex flex-col items-center space-y-2">
               <div className="flex items-center space-x-2">
                 <HomeIcon className="h-12 w-10 text-white" />
-                <span>Gandhi Colony, Muzaffarnagar, Uttar Pradesh 251001</span>
+                <span>{data[0]?.address}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <EnvelopeIcon className="h-6 w-6 text-white text-left" />
-                <span>iactmzn@gmail.com</span>
+                <span>{data[0]?.email}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <PhoneIcon className="h-6 w-6 text-white" />
-                <span>(+91)9897354197</span>
+                <span>{data[0]?.phno}</span>
               </div>
             </CardContent>
           </Card>
