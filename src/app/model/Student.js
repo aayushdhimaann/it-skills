@@ -66,6 +66,11 @@ const studentSchema = new Schema({
     required: true,
     trim: true,
   },
+  deposited_fee: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   certi_date: {
     type: Date,
     required: true,
