@@ -93,5 +93,5 @@ module.exports = {
       "2xl": "1536px",
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
 };
