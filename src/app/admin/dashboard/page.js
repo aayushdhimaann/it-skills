@@ -238,7 +238,7 @@ function Dashboard() {
                   }`}
                 >
                   {data.students.map((student) => (
-                    <div className="flex items-center">
+                    <div className="flex items-center" key={student._id}>
                       <span className="relative flex shrink-0 overflow-hidden rounded-full h-9 w-9">
                         <Image
                           className="aspect-square h-full w-full"
