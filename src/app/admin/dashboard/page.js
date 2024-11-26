@@ -20,6 +20,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import Image from "next/image";
 
 function Dashboard() {
   const [data, setData] = useState({ dashboard: [], students: [] });
@@ -75,6 +76,7 @@ function Dashboard() {
         },
       });
       if (response.status === 200) {
+        console.log(response.data);
         setData((prevData) => ({ ...prevData, students: response.data || [] }));
       } else {
         console.error("Unexpected response format:", response);
@@ -137,7 +139,7 @@ function Dashboard() {
           <Card className="rounded-xl border bg-card text-card-foreground shadow">
             <CardHeader className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
               <div className="tracking-tight text-sm font-medium">
-                Total Students
+                Total Students this year
               </div>
               <User2 className="w-4" />
             </CardHeader>
@@ -219,44 +221,64 @@ function Dashboard() {
           </Card>
 
           {/* Second Chart */}
-          {/* <Card>
+          <Card>
             <CardHeader>
-              <CardTitle>Bar Chart 2</CardTitle>
-              <CardDescription>January - June 2024</CardDescription>
+              <CardTitle>Pending Fees</CardTitle>
+              <CardDescription>
+                Showing students whose fees are pending
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig}>
-                <BarChart accessibilityLayer data={chartData}>
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                  />
-                  <Bar
-                    dataKey="student"
-                    fill={chartConfig.student.color}
-                    radius={8}
-                  />
-                </BarChart>
-              </ChartContainer>
+              <div className="p-6 pt-0">
+                <div
+                  className={`space-y-8 ${
+                    data.students.length > 5
+                      ? "max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-white scrollbar-rounded-lg"
+                      : ""
+                  }`}
+                >
+                  {data.students.map((student) => (
+                    <div className="flex items-center" key={student._id}>
+                      <span className="relative flex shrink-0 overflow-hidden rounded-full h-9 w-9">
+                        <Image
+                          className="aspect-square h-full w-full"
+                          alt="Avatar"
+                          src={student.photo}
+                          width={36}
+                          height={36}
+                          loading="lazy"
+                        />
+                      </span>
+                      <div className="ml-4 space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {student.student_name}
+                        </p>
+                        <p className="text-sm font-medium leading-none">
+                          {student.course_name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {student.phone}
+                        </p>
+                      </div>
+                      <div className="ml-auto font-medium mr-5 flex">
+                        <IndianRupee className="w-3" />
+                        {student.course_fee - student.deposited_fee}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
+            {/* <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 font-medium leading-none">
-                Trending up by 5.2% this month{" "}
+                Trending up by 5.2% this month
                 <TrendingUp className="h-4 w-4" />
               </div>
               <div className="leading-none text-muted-foreground">
                 Showing total visitors for the last 6 months
               </div>
-            </CardFooter>
-          </Card> */}
+            </CardFooter> */}
+          </Card>
         </div>
       </div>
     </motion.div>
