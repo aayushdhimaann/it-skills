@@ -5,8 +5,8 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+/.env
 .env
-src/config/itskill-97671-firebase-adminsdk-n6eow-e896151908.json
 # testing
 /coverage
 
