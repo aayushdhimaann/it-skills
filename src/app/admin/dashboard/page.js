@@ -76,7 +76,7 @@ function Dashboard() {
         },
       });
       if (response.status === 200) {
-        console.log(response.data);
+        // console.log(response.data);
         setData((prevData) => ({ ...prevData, students: response.data || [] }));
       } else {
         console.error("Unexpected response format:", response);
