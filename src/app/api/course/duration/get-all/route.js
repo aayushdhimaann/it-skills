@@ -7,8 +7,8 @@ export async function GET() {
     await dbConnect();
     const courseDuration = await CourseDuration.find();
 
-    console.log("I am course Duration");
-    console.log(courseDuration);
+    // console.log("I am course Duration");
+    // console.log(courseDuration);
 
     if (courseDuration) {
       return NextResponse.json(

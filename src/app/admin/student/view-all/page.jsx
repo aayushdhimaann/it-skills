@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
 import GlobalTooltip from "@/components/ui/GlobalTooltip";
+import { Spinner } from "@/components/ui/spinner";
 const ViewAllStudent = () => {
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
@@ -196,7 +197,8 @@ const ViewAllStudent = () => {
         </Table>
       </div>
       {students.length === 0 && (
-        <Progress value={progress} className="w-[50%] m-auto my-6" />
+        // <Progress value={progress} className="w-[50%] m-auto my-6" />
+        <Spinner size="medium" />
       )}
     </motion.div>
   );

@@ -25,6 +25,10 @@ const courseSchema = new Schema({
     type: Date,
     default: Date.now, // Automatically sets the current date when a document is created
   },
+  duration: {
+    type: Number,
+    required: true,
+  },
 });
 
 // Update the `updatedAt` field before saving the document
