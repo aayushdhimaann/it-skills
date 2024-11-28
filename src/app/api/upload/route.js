@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"; // Assuming you're using Next.js
+import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { bucket } from "../../../config/firebase-admin"; // Import bucket from firebase-admin.js
 
