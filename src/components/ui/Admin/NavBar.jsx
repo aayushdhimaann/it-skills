@@ -13,14 +13,15 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { ThemeToggle } from "../ThemeToggle";
+import { usePathname } from "next/navigation";
 
 const AdminNavBar = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false); // State to manage Sheet visibility
-
+  const pathname = usePathname();
   return (
     <nav className="bg-bgtheme2 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className=" bg-bgtheme2 text-lg font-semibold text-white h-full w-full flex justify-between items-center pr-3">
+        <div className=" bg-bgtheme2 text-lg font-semibold text-white h-full w-full flex justify-start items-center pr-3">
           <Link href="/">
             <Image
               src="/asset/logo2.png"
@@ -29,9 +30,12 @@ const AdminNavBar = () => {
               alt="logo"
             ></Image>
           </Link>
-          <div className="flex justify-center items-center right-3">
-            <ThemeToggle />
-          </div>
+          <Link href="/admin/dashboard" className="ml-5 hover:underline">
+            Dashboard
+          </Link>
+        </div>
+        <div className="flex justify-end items-center right-3 mb-1">
+          <ThemeToggle />
         </div>
         <div className="flex items-center">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
