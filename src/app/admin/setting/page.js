@@ -595,7 +595,7 @@ const Setting = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className=" flex justify-end items-center px-5 py-3">
-                  <GlobalTooltip content="Add New Role">
+                  {/* <GlobalTooltip content="Add New Role">
                     <div
                       onClick={() => {
                         setModalValue({
@@ -614,7 +614,7 @@ const Setting = () => {
                     >
                       <Plus className="w-4" />
                     </div>
-                  </GlobalTooltip>
+                  </GlobalTooltip> */}
                 </div>
                 <div
                   className={`${

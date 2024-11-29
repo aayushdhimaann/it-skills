@@ -17,6 +17,12 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import React from "react";
+import {
+  ArrowRightCircle,
+  ArrowRightToLine,
+  ArrowRightToLineIcon,
+} from "lucide-react";
+import GlobalTooltip from "./GlobalTooltip";
 
 function NavElement() {
   const [isSignupDialogOpen, setSignupDialogOpen] = useState(false);
@@ -143,7 +149,7 @@ function NavElement() {
             </MenubarMenu>
           </>
         )}
-        <div className=" text-xl flex gap-1 830mpx:items-center px-3 830px:flex-col 830px:w-full 830px:text-2xl 830px:h-48 830px:justify-between 830px:items-center">
+        <div className=" text-xl flex gap-1 830mpx:items-center 830px:flex-col 830px:w-full 830px:text-2xl 830px:h-48 830px:justify-between 830px:items-center">
           {(session.data?.user?._role === "6706bc9fff27bd499083aac2" ||
             session.data?.user?._role === "6706bd8dff27bd499083aac3") && (
             <MenubarMenu>
@@ -155,7 +161,7 @@ function NavElement() {
                       ? "border-b-4 text-bgtheme1"
                       : "text-white"
                   }` +
-                  " flex items-center  px-6 py-3  hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2 "
+                  " flex items-center px-2 py-3 hover:text-bgtheme1 hover:border-bgtheme1 transition-all border-bgtheme1 830px:border-bgtheme2 "
                 }
               >
                 Admin
@@ -166,19 +172,21 @@ function NavElement() {
             <>
               {/* {console.log(session.data.user)} */}
               <MenubarMenu>
-                <div className="text-bgtheme1 830mpx:border-l-2 border-bgtheme1 px-3 830px:hidden">
+                <div className="830mpx:border-l-2 border-bgtheme1 px-3 830px:hidden">
                   Hi, {session.data.user._username}
                 </div>
               </MenubarMenu>
               <MenubarMenu>
-                <Button
-                  className=" shadow-none  text-xl text-bgtheme1 border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2"
-                  onClick={() => {
-                    signOut({ callbackUrl: "/sign-in" });
-                  }}
-                >
-                  Logout
-                </Button>
+                <GlobalTooltip content="Logout">
+                  <Button
+                    className="bg-transparent text-bgtheme1 hover:bg-transparent"
+                    onClick={() => {
+                      signOut({ callbackUrl: "/sign-in" });
+                    }}
+                  >
+                    <ArrowRightToLineIcon className="w-8 h-8" />
+                  </Button>
+                </GlobalTooltip>
               </MenubarMenu>
             </>
           )}

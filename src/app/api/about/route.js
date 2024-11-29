@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await dbConnect();
     const aboutUsData = await About.find();
-    console.log(aboutUsData);
+    // console.log(aboutUsData);
 
     if (aboutUsData) {
       return NextResponse.json(

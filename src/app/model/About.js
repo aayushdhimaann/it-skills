@@ -17,6 +17,6 @@ const aboutSchema = new Schema({
   },
 });
 
-const About = mongoose.models.About || mongoose.model("Aboutus", aboutSchema);
+const About = mongoose.models.Aboutus || mongoose.model("Aboutus", aboutSchema);
 
 module.exports = About;
