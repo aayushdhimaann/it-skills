@@ -31,7 +31,7 @@ const Page = () => {
             Welcome to IT Skills
           </h3>
           <p className="mt-4 text-center text-lg">
-            "Experience without knowledge is ignorance". We at IT Skills
+            Experience without knowledge is ignorance. We at IT Skills
             understand that and will give you a perfect combination of knowledge
             and experience at our training programmes.
           </p>
