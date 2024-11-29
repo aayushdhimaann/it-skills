@@ -21,6 +21,9 @@ import {
   ArrowRightCircle,
   ArrowRightToLine,
   ArrowRightToLineIcon,
+  LogIn,
+  LogOut,
+  UserPlus,
 } from "lucide-react";
 import GlobalTooltip from "./GlobalTooltip";
 
@@ -111,11 +114,13 @@ function NavElement() {
                     Login
                   </Button>
                 ) : (
-                  <DialogTrigger asChild>
-                    <Button className="shadow-none 830px:bg-transparent text-xl text-bgtheme1 830mpx:border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2">
-                      Login
-                    </Button>
-                  </DialogTrigger>
+                  <GlobalTooltip content="Login">
+                    <DialogTrigger asChild>
+                      <Button className="shadow-none 830px:bg-transparent text-xl 830mpx:border-2 transition-all rounded-3xl 830px:text-2xl">
+                        <LogIn />
+                      </Button>
+                    </DialogTrigger>
+                  </GlobalTooltip>
                 )}
                 <DialogContent className="sm:max-w-[425px] 500px:w-[80%]  ">
                   <DialogHeader>
@@ -130,11 +135,13 @@ function NavElement() {
                 open={isSignupDialogOpen}
                 onOpenChange={setSignupDialogOpen}
               >
-                <DialogTrigger asChild>
-                  <Button className="shadow-none  text-xl text-bgtheme1 830px:bg-transparent 830mpx:border-2 border-bgtheme1 transition-all rounded-3xl 830px:text-2xl  hover:bg-bgtheme1 hover:text-bgtheme2">
-                    Signup
-                  </Button>
-                </DialogTrigger>
+                <GlobalTooltip content="Register">
+                  <DialogTrigger asChild>
+                    <Button className="shadow-none  text-xl 830px:bg-transparent 830mpx:border-2 transition-all rounded-3xl 830px:text-2xlhover:text-bgtheme2">
+                      <UserPlus />
+                    </Button>
+                  </DialogTrigger>
+                </GlobalTooltip>
                 <DialogContent className="my-5 sm:max-w-[425px]">
                   <DialogHeader>
                     <DialogTitle>SignUp</DialogTitle>
@@ -184,7 +191,7 @@ function NavElement() {
                       signOut({ callbackUrl: "/sign-in" });
                     }}
                   >
-                    <ArrowRightToLineIcon className="w-8 h-8" />
+                    <LogOut />
                   </Button>
                 </GlobalTooltip>
               </MenubarMenu>
