@@ -34,7 +34,7 @@ const AddNewCourse = () => {
     defaultValues: {
       name: "",
       category: "",
-      duration: "",
+      duration: 0,
       description: "",
     },
   });
@@ -201,7 +201,9 @@ const AddNewCourse = () => {
                         <select
                           {...field}
                           className=" text-white bg-transparent placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
-                          onChange={(e) => field.onChange(e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                         >
                           <option value="">Select Duration</option>
                           {courseDuration.map((duration) => {
