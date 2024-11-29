@@ -4,6 +4,9 @@ import Course from "@/app/model/Course"; // Adjust the import based on your dire
 export async function POST(req) {
   const data = await req.json();
 
+  console.log(data);
+  console.log(data.duration);
+
   try {
     // Update the course by ID
     const updatedCourse = await Course.findByIdAndUpdate(
@@ -12,9 +15,12 @@ export async function POST(req) {
         name: data.name,
         categoryId: data.categoryId,
         description: data.description,
+        duration: data.duration,
       },
       { new: true, runValidators: true } // Return the updated document and run validation checks
     );
+
+    console.log(updatedCourse);
 
     // Check if the course was found and updated
     if (!updatedCourse) {

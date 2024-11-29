@@ -58,11 +58,13 @@ import {
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import EditSetting from "@/components/EditSetting";
+import { intervalToDuration } from "date-fns";
 
 const Setting = () => {
   const { data: session, status } = useSession();
   const [categories, setCategories] = useState([]);
   const [roles, setRoles] = useState([]);
+  const [duration, setDuration] = useState([]);
 
   // displaying the modal
   const [modalDisplay, setModalDisplay] = useState(false);
@@ -70,6 +72,7 @@ const Setting = () => {
   // for deletion
   const [categoryId, setCatogoryId] = useState(null);
   const [roleId, setRoleId] = useState(null);
+  const [durationId, setDurationId] = useState(null);
 
   const [singleCategory, setSingleCategory] = useState({});
   const [singleRole, setSingleRole] = useState({});
@@ -83,7 +86,7 @@ const Setting = () => {
 
   // function to add a new Category or Role
   const addSubmitHandler = async (data) => {
-    // console.table("add ", data);
+    console.table("add ", "values", data);
     // validation
     if (data.title == "") {
       toast({
@@ -121,6 +124,18 @@ const Setting = () => {
             },
           }
         );
+      } else if (data.section === "duration") {
+        response = await axios.post(
+          "/api/course/duration/add-new",
+          {
+            title: data.title,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       }
 
       // console.log(response);
@@ -134,6 +149,7 @@ const Setting = () => {
         setModalDisplay(false);
         fetchCategories();
         fetchRoles();
+        fetchCourseDuration();
       } else {
         toast({
           title: "Error",
@@ -244,6 +260,17 @@ const Setting = () => {
     }
   };
 
+  // Fetch all durations
+  const fetchCourseDuration = async () => {
+    const response = await axios.get("/api/course/duration/get-all");
+    console.log(response.data);
+
+    if (response.status === 200) {
+      setDuration(response.data.courseDuration);
+    } else {
+      setDuration([]);
+    }
+  };
   // Fetch all roles
   const fetchRoles = async () => {
     const response = await axios.get("/api/roles/get-roles");
@@ -315,6 +342,37 @@ const Setting = () => {
     }
   };
 
+  // Handle delete Duration
+  const handleDurationDelete = async () => {
+    try {
+      const response = await axios.post("/api/course/duration/delete", {
+        id: durationId,
+      });
+
+      if (response.status == 200) {
+        toast({
+          title: "Success",
+          description: response.data.message,
+          variant: "success",
+        });
+        fetchCourseDuration();
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
+
   // handle category edit
   const editCategory = (id) => {
     const category = categories.find((item) => item._id == id);
@@ -357,6 +415,7 @@ const Setting = () => {
     if (status === "authenticated") {
       fetchCategories();
       fetchRoles();
+      fetchCourseDuration();
     }
   }, [status]);
 
@@ -376,7 +435,9 @@ const Setting = () => {
           <AlertCircle className="h-5 w-5 mr-2" />
           <AlertTitle className="font-semibold">Info</AlertTitle>
           <AlertDescription>
-            Manage course categories, roles, and much more!
+            {activeTab === "course-duration"
+              ? "Specify the Course Duration in months"
+              : "Manage course categories, roles, and much more!"}
           </AlertDescription>
         </Alert>
 
@@ -396,9 +457,10 @@ const Setting = () => {
             className="min-w-full"
             onValueChange={(value) => setActiveTab(value)} // Set active tab
           >
-            <TabsList className="relative grid w-full grid-cols-2">
+            <TabsList className="relative grid w-full grid-cols-3">
               <TabsTrigger value="course-category">Course Category</TabsTrigger>
               <TabsTrigger value="role">Role</TabsTrigger>
+              <TabsTrigger value="course-duration">Course Duration</TabsTrigger>
             </TabsList>
 
             {/* Animated Tab Content */}
@@ -629,6 +691,125 @@ const Setting = () => {
                                         onClick={() => {
                                           handleRoleDelete();
                                           setRoleId(null);
+                                        }}
+                                      >
+                                        Delete
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </div>
+              </motion.div>
+            </TabsContent>
+
+            {/* for course Duration */}
+            <TabsContent value="course-duration">
+              <motion.div
+                key="course-duration"
+                initial={{ opacity: 0, x: -1000 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className=" flex justify-end items-center px-5 py-3">
+                  <GlobalTooltip content="Add New Course Duration">
+                    <div
+                      onClick={() => {
+                        setModalValue({
+                          action: "add",
+                          title: "duration",
+                          formVal: {
+                            duration: "",
+                          },
+                          open: true,
+                          resetVal: "",
+                          submitHandle: addSubmitHandler,
+                        });
+                        setModalDisplay(true);
+                      }}
+                      className="cursor-pointer border-slate-50 border-2 rounded-md  py-0 px-1"
+                    >
+                      <Plus className="w-4" />
+                    </div>
+                  </GlobalTooltip>
+                </div>
+                <div
+                  className={`${
+                    duration.length === 0
+                      ? "border-none"
+                      : "border rounded-sm overflow-hidden "
+                  }`}
+                >
+                  {duration.length === 0 ? (
+                    <Spinner size="medium" />
+                  ) : (
+                    <Table className="w-full border-collapse">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[100px] text-center p-3">
+                            S. No.
+                          </TableHead>
+                          <TableHead className="text-center p-3">
+                            Course-Duration
+                          </TableHead>
+                          <TableHead className="text-center p-3">
+                            Action
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {duration.map((item, index) => (
+                          <TableRow
+                            className="text-center border-b"
+                            key={item._id}
+                          >
+                            <TableCell className="p-3 font-medium">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell className="p-3">
+                              {item.title} months
+                            </TableCell>
+                            <TableCell className="p-3">
+                              <div className="flex justify-center space-x-2">
+                                <AlertDialog>
+                                  <AlertDialogTrigger>
+                                    <GlobalTooltip content="Delete">
+                                      <Trash
+                                        className="cursor-pointer w-4"
+                                        onClick={() => setDurationId(item._id)}
+                                      />
+                                    </GlobalTooltip>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>
+                                        Delete
+                                      </AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Do you really want to delete this Course
+                                        Duration ?
+                                        <br />
+                                        Note : Course associated with this
+                                        duration will not be changed
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel
+                                        onClick={() => setDurationId(null)}
+                                      >
+                                        Cancel
+                                      </AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => {
+                                          handleDurationDelete();
+                                          setDurationId(null);
                                         }}
                                       >
                                         Delete

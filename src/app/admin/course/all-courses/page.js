@@ -59,12 +59,15 @@ const ViewCourse = () => {
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
   const { toast } = useToast();
+  const [duration, setDuration] = useState([]);
+
   const [deleteCourseId, setDeleteCourseId] = useState(null); // State to store the course ID to delete
 
   const form = useForm({
     resolver: zodResolver(addCourseSchema),
     defaultValues: {
       name: "",
+      duration: 0,
       category: "",
       description: "",
     },
@@ -88,6 +91,7 @@ const ViewCourse = () => {
           return {
             id: course._id, // Add course ID
             name: course.name,
+            duration: course.duration,
             description: course.description,
             categoryId: course.categoryId._id,
             categoryName: course.categoryId.title,
@@ -135,6 +139,18 @@ const ViewCourse = () => {
     }
   };
 
+  // Fetch all durations
+  const fetchCourseDuration = async () => {
+    const response = await axios.get("/api/course/duration/get-all");
+    // console.log(response.data);
+
+    if (response.status === 200) {
+      setDuration(response.data.courseDuration);
+    } else {
+      setDuration([]);
+    }
+  };
+
   // deleting course
   const handleDeleteCourse = async () => {
     try {
@@ -177,8 +193,11 @@ const ViewCourse = () => {
     const editableCourse = course.find((item) => item.id === courseId);
     setSingleCourse(editableCourse);
     setEditDialogOpen(true);
+    console.log(editableCourse.duration);
+
     reset({
       name: editableCourse.name, // Set course name
+      duration: editableCourse.duration, // set the course duration
       category: editableCourse.categoryId, // Set course category
       description: editableCourse.description, // Set course description
     });
@@ -186,6 +205,8 @@ const ViewCourse = () => {
 
   // update course
   const onSubmit = async (data) => {
+    console.log(data);
+
     setIsLoading(true);
     try {
       // Include the course ID in the request payload
@@ -226,6 +247,7 @@ const ViewCourse = () => {
     if (status === "authenticated") {
       fetchAllCourse();
       getCourseCategories();
+      fetchCourseDuration();
     }
   }, [status]);
 
@@ -281,6 +303,54 @@ const ViewCourse = () => {
                               {courseCategories.map((category) => (
                                 <option key={category._id} value={category._id}>
                                   {category.title}
+                                </option>
+                              ))}
+                            </select>
+                            <div className="absolute top-0 right-0 mt-3 mr-3 pointer-events-none">
+                              <svg
+                                className="h-5 w-5 text-gray-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M7 10l5 5 5-5"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* course duration */}
+                  <FormField
+                    control={control}
+                    name="duration"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Course Duration</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <select
+                              {...field}
+                              className="placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover: cursor-pointer"
+                              onChange={(e) =>
+                                field.onChange(Number(e.target.value))
+                              }
+                            >
+                              <option value="">Select Duration</option>
+                              {duration.map((month) => (
+                                <option
+                                  key={month._id}
+                                  value={Number(month.title)}
+                                >
+                                  {month.title}
                                 </option>
                               ))}
                             </select>
