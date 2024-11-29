@@ -8,6 +8,8 @@ export async function POST(req) {
     await dbConnect();
     const body = await req.json();
     const parsedData = addCourseSchema.safeParse(body);
+    console.log(parsedData);
+
     if (!parsedData.success) {
       return NextResponse.json({
         status: 400,
@@ -16,10 +18,11 @@ export async function POST(req) {
         errors: parsedData.error.errors, // Return validation errors
       });
     }
-    const { name, description, category } = parsedData.data;
+    const { name, description, category, duration } = parsedData.data;
     const newCourse = new Course({
       name,
       description,
+      duration,
       categoryId: category,
     });
     await newCourse.save();

@@ -24,6 +24,7 @@ const AddNewCourse = () => {
   // Loading state
   const [isLoading, setIsLoading] = useState(false);
   const [courseCategories, setCourseCategories] = useState([]);
+  const [courseDuration, setCourseDuration] = useState([]);
   const { toast } = useToast();
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
@@ -33,6 +34,7 @@ const AddNewCourse = () => {
     defaultValues: {
       name: "",
       category: "",
+      duration: "",
       description: "",
     },
   });
@@ -48,7 +50,6 @@ const AddNewCourse = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response);
       if (response.status == 201) {
         toast({
           title: "Success",
@@ -88,9 +89,25 @@ const AddNewCourse = () => {
     }
   };
 
+  // fetching all the course durations from the table
+  const getCourseDuration = async () => {
+    const response = await axios.get("/api/course/duration/get-all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      // console.log(response.data.courseDuration);
+
+      setCourseDuration(response.data.courseDuration);
+    } else {
+      setCourseDuration([]);
+    }
+  };
   useEffect(() => {
     if (status == "authenticated") {
       getCourseCategories();
+      getCourseDuration();
     }
   }, [status]);
 
@@ -150,6 +167,50 @@ const AddNewCourse = () => {
                               {category.title}
                             </option>
                           ))}
+                        </select>
+                        <div className="absolute top-0 right-0 mt-3 mr-3 pointer-events-none">
+                          <svg
+                            className="h-5 w-5 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M7 10l5 5 5-5"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Course Duration */}
+              <FormField
+                control={control}
+                name="duration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Course Duration</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <select
+                          {...field}
+                          className=" text-white bg-transparent placeholder-gray-400 border rounded-md w-full py-2 px-3 appearance-none focus:outline-none focus:border-white focus:ring focus:ring-white transition duration-200 ease-in-out hover:bg-gray-700 hover:text-white cursor-pointer"
+                          onChange={(e) => field.onChange(e.target.value)}
+                        >
+                          <option value="">Select Duration</option>
+                          {courseDuration.map((duration) => {
+                            return (
+                              <option key={duration._id} value={duration.title}>
+                                {duration.title}
+                              </option>
+                            );
+                          })}
                         </select>
                         <div className="absolute top-0 right-0 mt-3 mr-3 pointer-events-none">
                           <svg
