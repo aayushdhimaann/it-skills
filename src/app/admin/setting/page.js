@@ -724,7 +724,7 @@ const Setting = () => {
                       onClick={() => {
                         setModalValue({
                           action: "add",
-                          title: "duration",
+                          title: "Course Duration",
                           formVal: {
                             duration: "",
                           },
@@ -757,7 +757,7 @@ const Setting = () => {
                             S. No.
                           </TableHead>
                           <TableHead className="text-center p-3">
-                            Course-Duration
+                            Course Duration
                           </TableHead>
                           <TableHead className="text-center p-3">
                             Action
