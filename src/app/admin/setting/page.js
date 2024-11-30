@@ -66,6 +66,9 @@ const Setting = () => {
   const [roles, setRoles] = useState([]);
   const [duration, setDuration] = useState([]);
 
+  // about page
+  const [aboutField, setAboutField] = useState({});
+
   // displaying the modal
   const [modalDisplay, setModalDisplay] = useState(false);
 
@@ -73,6 +76,7 @@ const Setting = () => {
   const [categoryId, setCatogoryId] = useState(null);
   const [roleId, setRoleId] = useState(null);
   const [durationId, setDurationId] = useState(null);
+  const [aboutId, setAboutId] = useState(null);
 
   const [singleCategory, setSingleCategory] = useState({});
   const [singleRole, setSingleRole] = useState({});
@@ -82,7 +86,7 @@ const Setting = () => {
   const token = session?.user._accessToken;
 
   // making an object for sending fields to modal
-  const [modalValue, setModalValue] = useState({});
+  const [modalValue, setModalValue] = useState([]);
 
   // function to add a new Category or Role
   const addSubmitHandler = async (data) => {
@@ -100,7 +104,7 @@ const Setting = () => {
     let response;
     try {
       if (data.section === "category") {
-        // console.log("category");
+        // //////console.log("category");
         response = await axios.post(
           "/api/course/category/add-new",
           {
@@ -109,6 +113,7 @@ const Setting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              cache: "no-store",
             },
           }
         );
@@ -121,10 +126,13 @@ const Setting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              cache: "no-store",
             },
           }
         );
-      } else if (data.section === "duration") {
+      } else if (data.section === "Course Duration") {
+        //////console.log(data);
+
         response = await axios.post(
           "/api/course/duration/add-new",
           {
@@ -133,12 +141,29 @@ const Setting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              cache: "no-store",
+            },
+          }
+        );
+      } else if (data.section === "About Fields") {
+        console.log(data);
+
+        response = await axios.post(
+          "/api/about/add",
+          {
+            field: data.title,
+            value: data.value,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              cache: "no-store",
             },
           }
         );
       }
 
-      // console.log(response);
+      // //////console.log(response);
 
       if (response.status == 200 || response.status == 201) {
         toast({
@@ -149,6 +174,7 @@ const Setting = () => {
         setModalDisplay(false);
         fetchCategories();
         fetchRoles();
+        fetchAbout();
         fetchCourseDuration();
       } else {
         toast({
@@ -179,7 +205,7 @@ const Setting = () => {
 
   // function to handle the submit method
   const editSubmitHandler = async (data) => {
-    // console.log("i am submit handler from page jsx ", data);
+    console.log("i am submit handler from page jsx ", data);
     // validation
     if (data.title == "") {
       toast({
@@ -202,13 +228,14 @@ const Setting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              cache: "no-store",
             },
           }
         );
         // console.clear();
-        // console.log("response of edit Category", response);
+        // //////console.log("response of edit Category", response);
       } else if (data.section === "Roles") {
-        // console.log(data);
+        // //////console.log(data);
 
         response = await axios.post(
           "/api/roles/update",
@@ -219,6 +246,23 @@ const Setting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              cache: "no-store",
+            },
+          }
+        );
+      } else if (data.section === "About Fields") {
+        console.log("Data is  : ", data);
+
+        response = await axios.post(
+          "/api/about/update",
+          {
+            field: data.title,
+            value: data.value,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              cache: "no-store",
             },
           }
         );
@@ -230,7 +274,9 @@ const Setting = () => {
           variant: "success",
         });
         setModalDisplay(false);
-        data.section === "Category" ? fetchCategories() : fetchRoles();
+        fetchCategories();
+        fetchRoles();
+        fetchAbout();
       } else {
         toast({
           title: "Error",
@@ -252,7 +298,11 @@ const Setting = () => {
 
   // Fetch all categories
   const fetchCategories = async () => {
-    const response = await axios.get("/api/course/category/get-all");
+    const response = await axios.get("/api/course/category/get-all", {
+      headers: {
+        cache: "no-store",
+      },
+    });
     if (response.status === 200) {
       setCategories(response.data.courseCategories);
     } else {
@@ -262,8 +312,12 @@ const Setting = () => {
 
   // Fetch all durations
   const fetchCourseDuration = async () => {
-    const response = await axios.get("/api/course/duration/get-all");
-    console.log(response.data);
+    const response = await axios.get("/api/course/duration/get-all", {
+      headers: {
+        cache: "no-store",
+      },
+    });
+    //////console.log(response.data);
 
     if (response.status === 200) {
       setDuration(response.data.courseDuration);
@@ -273,7 +327,11 @@ const Setting = () => {
   };
   // Fetch all roles
   const fetchRoles = async () => {
-    const response = await axios.get("/api/roles/get-roles");
+    const response = await axios.get("/api/roles/get-roles", {
+      headers: {
+        cache: "no-store",
+      },
+    });
     if (response.status === 200) {
       setRoles(response.data.roles);
     } else {
@@ -281,12 +339,33 @@ const Setting = () => {
     }
   };
 
+  // fetch the details of about us page
+  const fetchAbout = async () => {
+    const response = await axios.get("/api/about/get-all", {
+      headers: {
+        cache: "no-store",
+      },
+    });
+
+    console.log(response);
+
+    if (response.status === 200) {
+      setAboutField(response.data.aboutUsData);
+    } else {
+      setAboutField([]);
+    }
+  };
+
   // Handle delete category
   const handleCategoryDelete = async () => {
-    // console.log(categoryId);
+    // //////console.log(categoryId);
     try {
       const response = await axios.post("/api/course/category/delete", {
         id: categoryId,
+
+        headers: {
+          cache: "no-store",
+        },
       });
       if (response.status == 200) {
         toast({
@@ -317,6 +396,9 @@ const Setting = () => {
     try {
       const response = await axios.post("/api/roles/delete", {
         id: roleId,
+        headers: {
+          cache: "no-store",
+        },
       });
       if (response.status == 200) {
         toast({
@@ -342,11 +424,47 @@ const Setting = () => {
     }
   };
 
+  // Handle about delete
+  const handleAboutDelete = async () => {
+    try {
+      const response = await axios.post("/api/about/delete", {
+        id: aboutId,
+        headers: {
+          cache: "no-store",
+        },
+      });
+      if (response.status == 200) {
+        toast({
+          title: "Success",
+          description: response.data.message,
+          variant: "success",
+        });
+        fetchAbout();
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
+
   // Handle delete Duration
   const handleDurationDelete = async () => {
     try {
       const response = await axios.post("/api/course/duration/delete", {
         id: durationId,
+        headers: {
+          cache: "no-store",
+        },
       });
 
       if (response.status == 200) {
@@ -376,7 +494,7 @@ const Setting = () => {
   // handle category edit
   const editCategory = (id) => {
     const category = categories.find((item) => item._id == id);
-    // console.log(category);
+    // //////console.log(category);
 
     setSingleCategory(category);
 
@@ -415,6 +533,7 @@ const Setting = () => {
     if (status === "authenticated") {
       fetchCategories();
       fetchRoles();
+      fetchAbout();
       fetchCourseDuration();
     }
   }, [status]);
@@ -457,10 +576,19 @@ const Setting = () => {
             className="min-w-full"
             onValueChange={(value) => setActiveTab(value)} // Set active tab
           >
-            <TabsList className="relative grid w-full grid-cols-3">
-              <TabsTrigger value="course-category">Course Category</TabsTrigger>
-              <TabsTrigger value="role">Role</TabsTrigger>
-              <TabsTrigger value="course-duration">Course Duration</TabsTrigger>
+            <TabsList className="relative flex justify-around w-full gap-4 overflow-x-auto">
+              <TabsTrigger value="course-category" className="flex-shrink-0">
+                Course Category
+              </TabsTrigger>
+              <TabsTrigger value="role" className="flex-shrink-0">
+                Role
+              </TabsTrigger>
+              <TabsTrigger value="course-duration" className="flex-shrink-0">
+                Course Duration
+              </TabsTrigger>
+              <TabsTrigger value="about" className="flex-shrink-0">
+                About
+              </TabsTrigger>
             </TabsList>
 
             {/* Animated Tab Content */}
@@ -821,6 +949,259 @@ const Setting = () => {
                             </TableCell>
                           </TableRow>
                         ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </div>
+              </motion.div>
+            </TabsContent>
+
+            {/* for about page */}
+            <TabsContent value="about">
+              <motion.div
+                key="about"
+                initial={{ opacity: 0, x: -1000 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className=" flex justify-end items-center px-5 py-3">
+                  <GlobalTooltip content="Add content on about page">
+                    <div
+                      onClick={() => {
+                        setModalValue({
+                          action: "add",
+                          title: "About Fields",
+                          formVal: {
+                            aboutField: "",
+                            aboutValue: "",
+                          },
+                          open: true,
+                          resetVal: "",
+                          submitHandle: addSubmitHandler,
+                        });
+                        setModalDisplay(true);
+                      }}
+                      className="cursor-pointer border-slate-50 border-2 rounded-md  py-0 px-1"
+                    >
+                      <Plus className="w-4" />
+                    </div>
+                  </GlobalTooltip>
+                </div>
+                <div
+                  className={`${
+                    aboutField[0] === null
+                      ? "border-none"
+                      : "border rounded-sm overflow-hidden "
+                  }`}
+                >
+                  {aboutField[0] === null ? (
+                    <Spinner size="medium" />
+                  ) : (
+                    <Table className="w-full border-collapse">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[100px] text-center p-3">
+                            S. No.
+                          </TableHead>
+                          <TableHead className="text-center p-3">
+                            Fields
+                          </TableHead>
+                          <TableHead className="text-center p-3">
+                            Fields Values
+                          </TableHead>
+                          <TableHead className="text-center p-3">
+                            Action
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {aboutField[0] &&
+                          Object.keys(aboutField[0])
+                            .filter((val) => val !== "_id") // Filter out _id
+                            .map((key, ind) => {
+                              console.log(Object.keys(aboutField[0])); // Debugging log
+
+                              return key !== "data" ? (
+                                <TableRow
+                                  key={ind}
+                                  className="text-center border-b"
+                                >
+                                  <TableCell>{ind + 1}</TableCell>
+                                  <TableCell>{key}</TableCell>
+                                  <TableCell>{aboutField[0][key]}</TableCell>
+
+                                  <TableCell>
+                                    <div className="flex justify-center space-x-2">
+                                      <GlobalTooltip content="edit">
+                                        <Pencil
+                                          className="cursor-pointer w-4"
+                                          onClick={() => {
+                                            setModalValue({
+                                              title: "About Fields",
+                                              key: key,
+                                              formVal: {
+                                                aboutField: "",
+                                                aboutValue: "",
+                                              },
+                                              resetVal: [
+                                                key,
+                                                aboutField[0][key],
+                                              ],
+                                              open: true,
+                                              submitHandle: editSubmitHandler,
+                                            });
+                                            setModalDisplay(true);
+                                          }}
+                                        />
+                                      </GlobalTooltip>
+                                      {/* {aboutField[0]["data"] &&
+                                        Object.keys(aboutField[0]["data"])
+                                          .length > 0 && (
+                                          <AlertDialog>
+                                            <AlertDialogTrigger>
+                                              <GlobalTooltip content="delete">
+                                                <Trash
+                                                  className="cursor-pointer w-4"
+                                                  onClick={() => {
+                                                    // Handle delete action
+                                                  }}
+                                                />
+                                              </GlobalTooltip>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                              <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                  Delete
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                  Do you want to delete this
+                                                  field?
+                                                </AlertDialogDescription>
+                                              </AlertDialogHeader>
+                                              <AlertDialogFooter>
+                                                <AlertDialogCancel
+                                                  onClick={() => {
+                                                    // Handle cancel
+                                                  }}
+                                                >
+                                                  Cancel
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                  onClick={() => {
+                                                    // Handle delete action
+                                                  }}
+                                                >
+                                                  Delete
+                                                </AlertDialogAction>
+                                              </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                          </AlertDialog>
+                                        )} */}
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+                              ) : (
+                                <>
+                                  {console.log(Object.keys(key), key)}
+                                  {key &&
+                                    Object.keys(aboutField[0][key]).map(
+                                      (val, subInd) => {
+                                        return (
+                                          <TableRow
+                                            key={
+                                              ind +
+                                              Math.floor(Math.random() * 1000)
+                                            }
+                                            className="text-center border-b"
+                                          >
+                                            <TableCell>
+                                              {ind + subInd + 1}
+                                            </TableCell>
+                                            <TableCell>{val}</TableCell>
+                                            <TableCell>
+                                              {aboutField[0][key][val]}
+                                            </TableCell>
+
+                                            <TableCell>
+                                              <div className="flex justify-center space-x-2">
+                                                <GlobalTooltip content="edit">
+                                                  <Pencil
+                                                    className="cursor-pointer w-4"
+                                                    onClick={() => {
+                                                      setModalValue({
+                                                        title: "About Fields",
+                                                        action: "Edit",
+                                                        key: key,
+                                                        formVal: {
+                                                          aboutField: "",
+                                                          aboutValue: "",
+                                                        },
+                                                        resetVal: [
+                                                          val,
+                                                          aboutField[0][key][
+                                                            val
+                                                          ],
+                                                        ],
+                                                        open: true,
+                                                        submitHandle:
+                                                          editSubmitHandler,
+                                                      });
+                                                      setModalDisplay(true);
+                                                    }}
+                                                  />
+                                                </GlobalTooltip>
+                                                <AlertDialog open={!!aboutId}>
+                                                  <AlertDialogTrigger>
+                                                    <GlobalTooltip content="delete">
+                                                      <Trash
+                                                        className="cursor-pointer w-4"
+                                                        onClick={() => {
+                                                          // Handle delete action
+                                                          setAboutId(val);
+                                                        }}
+                                                      />
+                                                    </GlobalTooltip>
+                                                  </AlertDialogTrigger>
+                                                  <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                      <AlertDialogTitle>
+                                                        Delete
+                                                      </AlertDialogTitle>
+                                                      <AlertDialogDescription>
+                                                        Do you want to delete
+                                                        this field?
+                                                      </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                      <AlertDialogCancel
+                                                        onClick={() => {
+                                                          setAboutId(null);
+                                                        }}
+                                                      >
+                                                        Cancel
+                                                      </AlertDialogCancel>
+                                                      <AlertDialogAction
+                                                        onClick={() => {
+                                                          // Handle delete action
+                                                          handleAboutDelete();
+                                                          setAboutId(null);
+                                                        }}
+                                                      >
+                                                        Delete
+                                                      </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                  </AlertDialogContent>
+                                                </AlertDialog>
+                                              </div>
+                                            </TableCell>
+                                          </TableRow>
+                                        );
+                                      }
+                                    )}
+                                </>
+                              );
+                            })}
                       </TableBody>
                     </Table>
                   )}

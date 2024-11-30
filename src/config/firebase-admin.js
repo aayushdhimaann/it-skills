@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-const serviceacc = require("./itskill-97671-firebase-adminsdk-n6eow-e896151908.json");
+const serviceacc = require("./itskill-97671-firebase-adminsdk-n6eow-68c4edf0d4.json");
 
 // Initialize Firebase Admin SDK
 if (!admin.apps.length) {

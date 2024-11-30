@@ -23,7 +23,7 @@ export async function POST(req) {
     const { title } = parsedData.data;
 
     const existingRole = await Role.findOne({ roleTitle: title });
-    console.log("existing role is : ", existingRole);
+    // console.log("existing role is : ", existingRole);
     if (existingRole) {
       return NextResponse.json(
         { success: false, message: "Role already exists" },
@@ -44,7 +44,7 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       {
         status: 500,

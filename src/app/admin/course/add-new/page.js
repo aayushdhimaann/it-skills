@@ -48,6 +48,7 @@ const AddNewCourse = () => {
       const response = await axios.post("/api/course/add-new", data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          cache: "no-store",
         },
       });
       if (response.status == 201) {
@@ -80,6 +81,7 @@ const AddNewCourse = () => {
     const response = await axios.get("/api/course/category/get-all", {
       headers: {
         Authorization: `Bearer ${token}`,
+        cache: "no-store",
       },
     });
     if (response.status === 200) {
@@ -94,10 +96,11 @@ const AddNewCourse = () => {
     const response = await axios.get("/api/course/duration/get-all", {
       headers: {
         Authorization: `Bearer ${token}`,
+        cache: "no-store",
       },
     });
     if (response.status === 200) {
-      // console.log(response.data.courseDuration);
+      // //console.log(response.data.courseDuration);
 
       setCourseDuration(response.data.courseDuration);
     } else {

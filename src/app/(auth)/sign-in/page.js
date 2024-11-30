@@ -49,7 +49,7 @@ const Signin = () => {
           variant: "success",
         });
         const session = await getSession();
-        // console.log(session);
+        // //console.log(session);
 
         if (
           session.user._role === "6706bc9fff27bd499083aac2" ||
@@ -72,7 +72,7 @@ const Signin = () => {
         description: "Error in Login",
         variant: "destructive",
       });
-      console.log(error + " error in login");
+      //console.log(error + " error in login");
     } finally {
       setIsLoading(false);
     }

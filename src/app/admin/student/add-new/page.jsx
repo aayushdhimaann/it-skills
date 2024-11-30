@@ -66,7 +66,7 @@ import { useTheme } from "next-themes";
 import { CssBaseline } from "@mui/material";
 const AddNewStudent = () => {
   const { theme, resolvedTheme, setTheme } = useTheme();
-  console.log(theme);
+  ////console.log(theme);
   const currentTheme = theme || resolvedTheme;
   const [muiTheme, setMuiTheme] = useState(createTheme());
 
@@ -157,9 +157,10 @@ const AddNewStudent = () => {
     const response = await axios.get("/api/course/get-all", {
       headers: {
         Authorization: `Bearer ${token}`,
+        cache: "no-store",
       },
     });
-    console.log(response);
+    ////console.log(response);
     if (response.status === 200) {
       setCourses(response.data.courses);
     } else {
@@ -169,7 +170,7 @@ const AddNewStudent = () => {
 
   // Handle form submission
   const onSubmit = async (data) => {
-    console.log(data);
+    ////console.log(data);
     if (photo == "") {
       toast({
         title: "Error",
@@ -187,10 +188,11 @@ const AddNewStudent = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            cache: "no-store",
           },
         }
       );
-      // console.log(response);
+      // ////console.log(response);
       if (response.status == 200) {
         toast({
           title: "Success",
@@ -245,6 +247,7 @@ const AddNewStudent = () => {
       const response = await axios.post("/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          cache: "no-store",
           // Add additional headers if needed, like Authorization
         },
       });
@@ -365,7 +368,7 @@ const AddNewStudent = () => {
                               label="Pick a Date"
                               value={field.value ? dayjs(field.value) : null} // Ensure Day.js format
                               onChange={(newValue) => {
-                                console.log(newValue["$d"]);
+                                ////console.log(newValue["$d"]);
                                 field.onChange(
                                   newValue["$d"] ? newValue["$d"] : null
                                 );
@@ -514,7 +517,7 @@ const AddNewStudent = () => {
                             readOnly
                           />
                         </FormControl>{" "}
-                        {errors && console.log(errors)}
+                        {/* {errors && ////console.log(errors)} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -590,7 +593,7 @@ const AddNewStudent = () => {
                               label="Pick a Date"
                               value={field.value ? dayjs(field.value) : null} // Ensure Day.js format
                               onChange={(newValue) => {
-                                console.log(newValue["$d"]);
+                                ////console.log(newValue["$d"]);
                                 field.onChange(
                                   newValue["$d"] ? newValue["$d"] : null
                                 );
@@ -1033,7 +1036,7 @@ const AddNewStudent = () => {
                               label="Pick a Date"
                               value={field.value ? dayjs(field.value) : null} // Ensure Day.js format
                               onChange={(newValue) => {
-                                console.log(newValue["$d"]);
+                                ////console.log(newValue["$d"]);
                                 field.onChange(
                                   newValue["$d"] ? newValue["$d"] : null
                                 );

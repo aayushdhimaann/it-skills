@@ -49,9 +49,15 @@ function EditSetting({ data }) {
   });
   const { control, handleSubmit, reset } = form;
   useEffect(() => {
-    reset({
-      title: data.resetVal,
-    });
+    if (data.title != "About Fields")
+      reset({
+        title: data.resetVal,
+      });
+    else
+      reset({
+        title: data.resetVal[0],
+        value: data.resetVal[1],
+      });
   }, [data.resetVal]);
   useEffect(() => {
     setEditDialogOpen(data.open);
@@ -70,7 +76,7 @@ function EditSetting({ data }) {
             <Form {...form}>
               <form
                 onSubmit={handleSubmit((updatedData) => {
-                  console.log(updatedData);
+                  // console.log(updatedData);
                   data?.action === "add"
                     ? data.submitHandle({
                         section: data.title,
@@ -93,6 +99,7 @@ function EditSetting({ data }) {
                       <FormLabel>{data.title} Title</FormLabel>
                       <FormControl>
                         <Input
+                          readOnly={data.action === "Edit" ? true : false}
                           placeholder={`Enter ${data.title} Title`}
                           {...field}
                           className="text-white placeholder-gray-500 transition duration-150 ease-in-out focus:ring focus:ring-opacity-50"
@@ -102,6 +109,25 @@ function EditSetting({ data }) {
                     </FormItem>
                   )}
                 />
+                {data.title === "About Fields" && (
+                  <FormField
+                    control={control}
+                    name="value"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{data.title} Value</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={`Enter ${data.title} Value`}
+                            {...field}
+                            className="text-white placeholder-gray-500 transition duration-150 ease-in-out focus:ring focus:ring-opacity-50"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
                 <div className="flex justify-center mt-4">
                   <Button

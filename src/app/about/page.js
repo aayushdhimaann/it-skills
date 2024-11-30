@@ -15,7 +15,11 @@ import axios from "axios";
 const Page = () => {
   const [data, setData] = useState([]);
   const fetchData = async () => {
-    const response = await axios.get("/api/about");
+    const response = await axios.get("/api/about/get-all", {
+      headers: {
+        cache: "no-store",
+      },
+    });
     setData(response.data.aboutUsData);
   };
 

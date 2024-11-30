@@ -53,6 +53,7 @@ export async function POST(request) {
     // Get the public URL of the uploaded file
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 
+    console.log(publicUrl);
     // Send a success response with the file URL
     return NextResponse.json({
       message: "File uploaded successfully",

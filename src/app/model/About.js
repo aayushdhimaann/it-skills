@@ -15,8 +15,13 @@ const aboutSchema = new Schema({
     type: String,
     required: true,
   },
+  data: {
+    type: Schema.Types.Mixed, // Allow any type of data (dynamic key-value pairs)
+    default: {},
+  },
 });
 
-const About = mongoose.models.About || mongoose.model("Aboutus", aboutSchema);
+const Aboutus =
+  mongoose.models.Aboutus || mongoose.model("Aboutus", aboutSchema);
 
-module.exports = About;
+module.exports = Aboutus;

@@ -84,6 +84,7 @@ const ViewCourse = () => {
       const response = await axios.get("/api/course/get-all", {
         headers: {
           Authorization: `Bearer ${token}`,
+          cache: "no-store",
         },
       });
       if (response.status === 200) {
@@ -122,6 +123,7 @@ const ViewCourse = () => {
       const response = await axios.get("/api/course/category/get-all", {
         headers: {
           Authorization: `Bearer ${token}`,
+          cache: "no-store",
         },
       });
       if (response.status === 200) {
@@ -141,8 +143,12 @@ const ViewCourse = () => {
 
   // Fetch all durations
   const fetchCourseDuration = async () => {
-    const response = await axios.get("/api/course/duration/get-all");
-    // console.log(response.data);
+    const response = await axios.get("/api/course/duration/get-all", {
+      headers: {
+        cache: "no-store",
+      },
+    });
+    // //////console.log(response.data);
 
     if (response.status === 200) {
       setDuration(response.data.courseDuration);
@@ -160,6 +166,7 @@ const ViewCourse = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            cache: "no-store",
           },
         }
       );
@@ -193,7 +200,7 @@ const ViewCourse = () => {
     const editableCourse = course.find((item) => item.id === courseId);
     setSingleCourse(editableCourse);
     setEditDialogOpen(true);
-    console.log(editableCourse.duration);
+    //////console.log(editableCourse.duration);
 
     reset({
       name: editableCourse.name, // Set course name
@@ -205,7 +212,7 @@ const ViewCourse = () => {
 
   // update course
   const onSubmit = async (data) => {
-    console.log(data);
+    //////console.log(data);
 
     setIsLoading(true);
     try {
@@ -219,6 +226,7 @@ const ViewCourse = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            cache: "no-store",
           },
         }
       );

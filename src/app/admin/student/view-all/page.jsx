@@ -54,12 +54,13 @@ const ViewAllStudent = () => {
       const response = await axios.get("/api/student/view-all", {
         headers: {
           Authorization: `Bearer ${token}`,
+          cache: "no-store",
         },
       });
       setStudents(response.data.studData);
       setFilterStudentData(response.data.studData);
     } catch (error) {
-      console.log("error : " + error);
+      //console.log("error : " + error);
     }
   };
 

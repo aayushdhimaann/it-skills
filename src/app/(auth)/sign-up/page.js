@@ -71,7 +71,7 @@ const Signup = () => {
         description: "Error in Signup",
         variant: "destructive",
       });
-      console.log(error + " error in signup");
+      //console.log(error + " error in signup");
     } finally {
       setIsLoading(false);
     }

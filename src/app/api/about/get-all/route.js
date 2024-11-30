@@ -1,11 +1,11 @@
-import About from "@/app/model/About";
+import Aboutus from "@/app/model/About";
 import dbConnect from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     await dbConnect();
-    const aboutUsData = await About.find();
+    const aboutUsData = await Aboutus.find();
     console.log(aboutUsData);
 
     if (aboutUsData) {
@@ -25,8 +25,9 @@ export async function GET() {
       );
     }
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch " },
+      { success: false, message: error },
       { status: 500 }
     );
   }
