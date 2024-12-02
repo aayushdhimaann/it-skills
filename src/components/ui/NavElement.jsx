@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button"; // Adjust import according to y
 import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
 import Link from "next/link";
-import { Menubar, MenubarMenu } from "@/components/ui/menubar";
-import { FiMenu, FiArrowLeft } from "react-icons/fi";
+import { MenubarMenu } from "@/components/ui/menubar";
 import {
   Dialog,
   DialogContent,
@@ -18,9 +17,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import React from "react";
 import {
-  ArrowRightCircle,
-  ArrowRightToLine,
-  ArrowRightToLineIcon,
   LogIn,
   LogOut,
   UserPlus,
