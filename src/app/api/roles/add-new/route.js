@@ -44,7 +44,11 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (error) {
+<<<<<<< HEAD
     // console.log(error);
+=======
+    console.log(error);
+>>>>>>> 110ebfb3d2a6312cc2a8bc8b89fd347b3e11cee5
     return NextResponse.json(
       {
         status: 500,

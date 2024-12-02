@@ -66,7 +66,11 @@ import { useTheme } from "next-themes";
 import { CssBaseline } from "@mui/material";
 const AddNewStudent = () => {
   const { theme, resolvedTheme, setTheme } = useTheme();
+<<<<<<< HEAD
   ////console.log(theme);
+=======
+  console.log(theme);
+>>>>>>> 110ebfb3d2a6312cc2a8bc8b89fd347b3e11cee5
   const currentTheme = theme || resolvedTheme;
   const [muiTheme, setMuiTheme] = useState(createTheme());
 

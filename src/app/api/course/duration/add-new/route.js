@@ -7,10 +7,8 @@ export async function POST(req) {
   try {
     await dbConnect();
     const body = await req.json();
-    //console.log(body);
-
     const parsedData = addCourseDurationSchema.safeParse(body);
-    //console.log(parsedData);
+    // console.log(parsedData);
 
     if (!parsedData) {
       return NextResponse.json(

@@ -205,7 +205,7 @@ const Setting = () => {
 
   // function to handle the submit method
   const editSubmitHandler = async (data) => {
-    console.log("i am submit handler from page jsx ", data);
+    // console.log("i am submit handler from page jsx ", data);
     // validation
     if (data.title == "") {
       toast({
