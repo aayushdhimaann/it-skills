@@ -21,6 +21,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import Image from "next/image";
+import Loading from "@/app/loading";
 
 function Dashboard() {
   const [data, setData] = useState({ dashboard: [], students: [] });
@@ -136,142 +137,145 @@ function Dashboard() {
         <h1 className="text-2xl font-bold mb-4">
           <span className="border-b-4">Dashboard</span>
         </h1>
+        {data.dashboard.length === 0 && data.students.length === 0 ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="rounded-xl border bg-card text-card-foreground shadow">
+                <CardHeader className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                  <div className="tracking-tight text-sm font-medium">
+                    Total Students this year
+                  </div>
+                  <User2 className="w-4" />
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <CardTitle className="text-2xl font-bold">
+                    {data.dashboard.length > 0
+                      ? data.dashboard.reduce(
+                          (prev, curr) => prev + curr.Student,
+                          0
+                        )
+                      : 0}
+                  </CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground">
+                    {trendDirection === "up" ? "+" : "-"}
+                    {Math.abs(trendingPercentage).toFixed(1)}% this month
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              <Card className="rounded-xl border bg-card text-card-foreground shadow">
+                <CardHeader className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+                  <div className="tracking-tight text-sm font-medium">
+                    Pending Fee Students
+                  </div>
+                  <IndianRupee className="w-4" />
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <CardTitle className="text-2xl font-bold">
+                    {data.students.length}
+                  </CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground">
+                    Showing number of students whose fees are pending
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="rounded-xl border bg-card text-card-foreground shadow">
-            <CardHeader className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="tracking-tight text-sm font-medium">
-                Total Students this year
-              </div>
-              <User2 className="w-4" />
-            </CardHeader>
-            <CardContent className="p-6 pt-0">
-              <CardTitle className="text-2xl font-bold">
-                {data.dashboard.length > 0
-                  ? data.dashboard.reduce(
-                      (prev, curr) => prev + curr.Student,
-                      0
-                    )
-                  : 0}
-              </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">
-                {trendDirection === "up" ? "+" : "-"}
-                {Math.abs(trendingPercentage).toFixed(1)}% this month
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card className="rounded-xl border bg-card text-card-foreground shadow">
-            <CardHeader className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="tracking-tight text-sm font-medium">
-                Pending Fee Students
-              </div>
-              <IndianRupee className="w-4" />
-            </CardHeader>
-            <CardContent className="p-6 pt-0">
-              <CardTitle className="text-2xl font-bold">
-                {data.students.length}
-              </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">
-                Showing number of students whose fees are pending
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
+            <div className="grid gap-4 md:grid-cols-2 mt-5">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Student Chart</CardTitle>
+                  <CardDescription>
+                    {data.dashboard[0]?.monthName} -{" "}
+                    {data.dashboard[11]?.monthName}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer config={chartConfig}>
+                    <BarChart accessibilityLayer data={data.dashboard}>
+                      <CartesianGrid vertical={false} />
+                      <XAxis
+                        dataKey="monthName"
+                        tickLine={false}
+                        tickMargin={10}
+                        axisLine={false}
+                        tickFormatter={(value) => value.slice(0, 3)}
+                      />
+                      <ChartTooltip
+                        cursor={false}
+                        content={<ChartTooltipContent indicator="dashed" />}
+                      />
+                      <Bar
+                        dataKey="Student"
+                        fill={chartConfig.student.color}
+                        radius={8}
+                      />
+                    </BarChart>
+                  </ChartContainer>
+                </CardContent>
+                <CardFooter className="flex-col items-start gap-2 text-sm">
+                  <div className="flex gap-2 font-medium leading-none">
+                    Trending {trendDirection} by{" "}
+                    {Math.abs(trendingPercentage).toFixed(1)}% this month
+                    <TrendingUp className="h-4 w-4" />
+                  </div>
+                  <div className="leading-none text-muted-foreground">
+                    Showing students for the current year
+                  </div>
+                </CardFooter>
+              </Card>
 
-        {/* Charts Section */}
-        <div className="grid gap-4 md:grid-cols-2 mt-5">
-          <Card>
-            <CardHeader>
-              <CardTitle>Student Chart</CardTitle>
-              <CardDescription>
-                {data.dashboard[0]?.monthName} - {data.dashboard[11]?.monthName}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig}>
-                <BarChart accessibilityLayer data={data.dashboard}>
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="monthName"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dashed" />}
-                  />
-                  <Bar
-                    dataKey="Student"
-                    fill={chartConfig.student.color}
-                    radius={8}
-                  />
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="flex gap-2 font-medium leading-none">
-                Trending {trendDirection} by{" "}
-                {Math.abs(trendingPercentage).toFixed(1)}% this month
-                <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="leading-none text-muted-foreground">
-                Showing students for the current year
-              </div>
-            </CardFooter>
-          </Card>
-
-          {/* Second Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Pending Fees</CardTitle>
-              <CardDescription>
-                Showing students whose fees are pending
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="p-6 pt-0">
-                <div
-                  className={`space-y-8 ${
-                    data.students.length > 5
-                      ? "max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-white scrollbar-rounded-lg"
-                      : ""
-                  }`}
-                >
-                  {data.students.map((student) => (
-                    <div className="flex items-center" key={student._id}>
-                      <span className="relative flex shrink-0 overflow-hidden rounded-full h-9 w-9">
-                        <Image
-                          className="aspect-square h-full w-full"
-                          alt="Avatar"
-                          src={student.photo}
-                          width={36}
-                          height={36}
-                          loading="lazy"
-                        />
-                      </span>
-                      <div className="ml-4 space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          {student.student_name}
-                        </p>
-                        <p className="text-sm font-medium leading-none">
-                          {student.course_name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {student.phone}
-                        </p>
-                      </div>
-                      <div className="ml-auto font-medium mr-5 flex">
-                        <IndianRupee className="w-3" />
-                        {student.course_fee - student.deposited_fee}
-                      </div>
+              {/* Second Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pending Fees</CardTitle>
+                  <CardDescription>
+                    Showing students whose fees are pending
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="p-6 pt-0">
+                    <div
+                      className={`space-y-8 ${
+                        data.students.length > 5
+                          ? "max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-white scrollbar-rounded-lg"
+                          : ""
+                      }`}
+                    >
+                      {data.students.map((student) => (
+                        <div className="flex items-center" key={student._id}>
+                          <span className="relative flex shrink-0 overflow-hidden rounded-full h-9 w-9">
+                            <Image
+                              className="aspect-square h-full w-full"
+                              alt="Avatar"
+                              src={student.photo}
+                              width={36}
+                              height={36}
+                              loading="lazy"
+                            />
+                          </span>
+                          <div className="ml-4 space-y-1">
+                            <p className="text-sm font-medium leading-none">
+                              {student.student_name}
+                            </p>
+                            <p className="text-sm font-medium leading-none">
+                              {student.course_name}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {student.phone}
+                            </p>
+                          </div>
+                          <div className="ml-auto font-medium mr-5 flex">
+                            <IndianRupee className="w-3" />
+                            {student.course_fee - student.deposited_fee}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            {/* <CardFooter className="flex-col items-start gap-2 text-sm">
+                  </div>
+                </CardContent>
+                {/* <CardFooter className="flex-col items-start gap-2 text-sm">
               <div className="flex gap-2 font-medium leading-none">
                 Trending up by 5.2% this month
                 <TrendingUp className="h-4 w-4" />
@@ -280,8 +284,10 @@ function Dashboard() {
                 Showing total visitors for the last 6 months
               </div>
             </CardFooter> */}
-          </Card>
-        </div>
+              </Card>
+            </div>
+          </>
+        )}
       </div>
     </motion.div>
   );

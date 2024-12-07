@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import {
   Image,
   Loader2,
@@ -117,6 +119,7 @@ const AddNewStudent = () => {
       course_name: "",
       course_duration: "",
       student_name: "",
+      gender: "",
       father_name: "",
       father_occupation: "",
       date_of_birth: "",
@@ -131,6 +134,7 @@ const AddNewStudent = () => {
       ], // Default education_details entry
       address: "",
       phone: "",
+      status: true,
       phone_alt: "",
       email: "",
       course_fee: "",
@@ -170,7 +174,7 @@ const AddNewStudent = () => {
 
   // Handle form submission
   const onSubmit = async (data) => {
-    ////console.log(data);
+    console.log(data);
     if (photo == "") {
       toast({
         title: "Error",
@@ -537,6 +541,43 @@ const AddNewStudent = () => {
                             className="  placeholder-gray-400 transition-colors duration-200 ease-in-out hover:hover:"
                           />
                         </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Student's Gender */}
+                  <FormField
+                    control={control}
+                    name="gender"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student's gender</FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex justify-evenly pt-2"
+                          >
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="m" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                male
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="f" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                female
+                              </FormLabel>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+
                         <FormMessage />
                       </FormItem>
                     )}

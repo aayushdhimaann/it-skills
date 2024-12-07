@@ -10,6 +10,9 @@ const addStudentSchema = z.object({
   course_name: z.string().min(1, "Course name is required"),
   course_duration: z.number().min(1, "Course duration is required"),
   student_name: z.string().min(1, "Student name is required"),
+  gender: z.enum(["m", "f"], {
+    required_error: "you are needed to select the gender",
+  }),
   father_name: z.string().min(1, "Father's name is required"),
   father_occupation: z.string().min(1, "Father's occupation is required"),
   date_of_birth: z
@@ -30,6 +33,7 @@ const addStudentSchema = z.object({
     .min(1, "At least one education detail is required"),
   address: z.string().min(1, "Address is required"),
   phone: z.string().min(1, "Contact number is required"),
+  status: z.boolean().optional(),
   phone_alt: z.string().optional(),
   email: z.string().email("Invalid email address"),
   course_fee: z.string().min(1, "Course fee is required"),

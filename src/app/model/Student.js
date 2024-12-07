@@ -26,6 +26,11 @@ const studentSchema = new Schema({
     required: true,
     trim: true,
   },
+  gender: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   father_name: {
     type: String,
     required: true,
@@ -77,6 +82,10 @@ const studentSchema = new Schema({
   },
   photo: {
     type: String,
+    required: true,
+  },
+  status: {
+    type: Boolean,
     required: true,
   },
   createdAt: {

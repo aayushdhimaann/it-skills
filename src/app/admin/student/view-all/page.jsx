@@ -19,9 +19,19 @@ import Loading from "@/app/loading";
 import ViewFilter from "@/components/ui/Admin/ViewFilter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash } from "lucide-react";
+import {
+  Pencil,
+  Trash,
+  User,
+  UserCheck,
+  UserCheck2,
+  UserMinus2,
+  UserRoundPen,
+  UserX,
+} from "lucide-react";
 import GlobalTooltip from "@/components/ui/GlobalTooltip";
 import { Spinner } from "@/components/ui/spinner";
+import { useTheme } from "next-themes";
 const ViewAllStudent = () => {
   const { data: session, status } = useSession();
   const token = session?.user._accessToken;
@@ -30,12 +40,19 @@ const ViewAllStudent = () => {
   const [filterStudentData, setFilterStudentData] = useState(students);
   const [filterVal, setFilterVal] = useState("");
   const [progress, setProgress] = useState(10);
+  const [active, setActive] = useState(2);
+  //  0 = active
+  // 1 = inactive
+  //  2 = all
 
+  // getting the theme
+  const { theme } = useTheme();
   // table fields
   const tableFields = [
     "S. no",
     "Photo",
     "Student Name",
+    "gender",
     "Father Name",
     "Email",
     "Phone Number",
@@ -45,8 +62,9 @@ const ViewAllStudent = () => {
     "Course Name",
     "Course Fee",
     "Deposited Fee",
-    "Date of Admission",
     "Date of Birth",
+    "Date of Admission",
+    "status",
     "Action",
   ];
   const fetchAllStudent = async () => {
@@ -72,11 +90,36 @@ const ViewAllStudent = () => {
     return () => clearTimeout(timer);
   }, [status]);
 
+  // handle active students
+  const handleActive = () => {
+    const filtered = students.filter((student) => {
+      return student.status === true;
+    });
+    setActive(0);
+    setFilterStudentData(filtered);
+  };
+
+  // handle active students
+  const handleInactive = () => {
+    const filtered = students.filter((student) => {
+      return student.status === false || student.status === undefined;
+    });
+    setActive(1);
+    setFilterStudentData(filtered);
+  };
+
+  // handle All students
+  const handleAll = () => {
+    setActive(2);
+    setFilterStudentData(students);
+  };
+
   // use effect to fetch the filtered students
   useEffect(() => {
-    const filtered = students.filter((student) =>
+    let filtered = students.filter((student) =>
       student.student_name.toLowerCase().includes(filterVal.toLowerCase())
     );
+
     setFilterStudentData(filtered);
   }, [filterVal, students]);
   return (
@@ -112,6 +155,51 @@ const ViewAllStudent = () => {
         >
           Clear
         </Button>
+
+        <GlobalTooltip content="Active Students">
+          <div
+            className={` py-2 border-2 rounded-md  px-1 cursor-pointer hover:border-slate-50 ${
+              active === 0 ? "border-slate-50" : "border-slate-500"
+            }`}
+            onClick={handleActive}
+          >
+            <UserCheck2
+              className={`w-10 cursor-pointer   hover:text-slate-50 ${
+                active === 0 ? "text-slate-50" : "text-slate-500"
+              }`}
+            />
+          </div>
+        </GlobalTooltip>
+
+        <GlobalTooltip content="Inactive Students">
+          <div
+            className={` py-2 border-2 rounded-md  px-1 cursor-pointer hover:border-slate-50 ${
+              active === 1 ? "border-slate-50" : "border-slate-500"
+            }`}
+            onClick={handleInactive}
+          >
+            <UserMinus2
+              className={`w-10 cursor-pointer   hover:text-slate-50 ${
+                active === 1 ? "text-slate-50" : "text-slate-500"
+              }`}
+            />
+          </div>
+        </GlobalTooltip>
+
+        <GlobalTooltip content="All Students">
+          <div
+            className={` py-2 border-2 rounded-md  px-1 cursor-pointer hover:border-slate-50 ${
+              active === 2 ? "border-slate-50" : "border-slate-500"
+            }`}
+            onClick={handleAll}
+          >
+            <User
+              className={`w-10 cursor-pointer   hover:text-slate-50 ${
+                active === 2 ? "text-slate-50" : "text-slate-500"
+              }`}
+            />
+          </div>
+        </GlobalTooltip>
       </div>
 
       <div className="mx-3 border rounded-lg">
@@ -144,7 +232,15 @@ const ViewAllStudent = () => {
                 return (
                   <TableRow
                     key={student._id}
-                    className="hover:bg-bgtheme2 group hover:text-bgtheme1 text-slate-400"
+                    className={`hover:bg-bgtheme2 group hover:text-bgtheme1  ${
+                      theme === "dark"
+                        ? student.status
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                        : student.status
+                        ? "text-slate-900"
+                        : "text-slate-400"
+                    } `}
                   >
                     <TableCell>{i + 1}</TableCell>
                     <TableCell className="group-hover:text-bgtheme1">
@@ -156,6 +252,9 @@ const ViewAllStudent = () => {
                       />
                     </TableCell>
                     <TableCell>{student.student_name}</TableCell>
+                    <TableCell>
+                      {student.gender == "f" ? "female" : "male"}
+                    </TableCell>
                     <TableCell>{student.father_name}</TableCell>
                     <TableCell>{student.email}</TableCell>
                     <TableCell>{student.phone}</TableCell>
@@ -183,12 +282,24 @@ const ViewAllStudent = () => {
                       )}
                     </TableCell>
                     <TableCell>
+                      {student.status ? (
+                        <GlobalTooltip content="active">
+                          <UserCheck2 />
+                        </GlobalTooltip>
+                      ) : (
+                        <GlobalTooltip content="inactive">
+                          <UserMinus2 />
+                        </GlobalTooltip>
+                      )}
+                    </TableCell>
+
+                    <TableCell>
                       <GlobalTooltip content="Edit">
                         <Pencil className="w-4 cursor-pointer" />
                       </GlobalTooltip>
-                      <GlobalTooltip content="Delete">
-                        <Trash className="w-4 cursor-pointer" />
-                      </GlobalTooltip>
+                      {/* <GlobalTooltip content="Change Status">
+                        <UserRoundPen className="w-4 cursor-pointer" />
+                      </GlobalTooltip> */}
                     </TableCell>
                   </TableRow>
                 );
@@ -197,10 +308,7 @@ const ViewAllStudent = () => {
           )}
         </Table>
       </div>
-      {students.length === 0 && (
-        // <Progress value={progress} className="w-[50%] m-auto my-6" />
-        <Spinner size="medium" />
-      )}
+      {students.length === 0 && <Spinner size="medium" />}
     </motion.div>
   );
 };
