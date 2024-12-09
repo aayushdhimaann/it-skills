@@ -32,7 +32,7 @@ function NavElement() {
   const session = useSession();
   return (
     <>
-      <div className=" w-full 830mpx:flex 830px:mb-10">
+      <div className=" w-full 830mpx:flex 830px:mb-10 ">
         <MenubarMenu>
           <Link
             href={"/"}
